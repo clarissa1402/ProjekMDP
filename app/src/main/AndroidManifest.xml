@@ -11,19 +11,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ProjekMDP">
-
         <activity
-            android:name=".MainActivity"
-            android:theme="@style/Theme.ProjekMDP.NoActionBar"
-            android:exported="true"/>
-        <activity
-            android:name=".RegisterActivity"
-            android:theme="@style/Theme.ProjekMDP.NoActionBar"
+            android:name=".admin.HomeAdmin"
             android:exported="true" />
         <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:theme="@style/Theme.ProjekMDP.NoActionBar" />
+        <activity
+            android:name=".RegisterActivity"
+            android:exported="true"
+            android:theme="@style/Theme.ProjekMDP.NoActionBar" />
+        <activity
             android:name=".Start_page"
-            android:theme="@style/Theme.ProjekMDP.NoActionBar"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/Theme.ProjekMDP.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
