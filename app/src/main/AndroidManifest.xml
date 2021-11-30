@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="id.ac.projekmdp">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/felix_"
+        android:label="BABOWE"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.ProjekMDP">
+
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/Theme.ProjekMDP.NoActionBar"
+            android:exported="true"/>
+        <activity
+            android:name=".RegisterActivity"
+            android:theme="@style/Theme.ProjekMDP.NoActionBar"
+            android:exported="true" />
+        <activity
+            android:name=".Start_page"
+            android:theme="@style/Theme.ProjekMDP.NoActionBar"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
