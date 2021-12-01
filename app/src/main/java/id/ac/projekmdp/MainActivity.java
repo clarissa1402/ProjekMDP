@@ -1,5 +1,7 @@
 package id.ac.projekmdp;
 
+import static com.google.firebase.database.FirebaseDatabase.getInstance;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ActionBar;
@@ -12,6 +14,9 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import id.ac.projekmdp.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
@@ -22,13 +27,21 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot()); //binding.getRoot() -> mengembalikan View
-    }
-    void btnklik(View v){
-        if(v.getId() == binding.button2.getId()){
-            Intent i = new Intent(getBaseContext(), RegisterActivity.class);
-            startActivity(i);
-        }
+        setContentView(binding.getRoot());
+        binding.btnLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String email = binding.etEmail.getText().toString();
+                //root.setValue(email);
+            }
+        });
+        binding.button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getBaseContext(), RegisterActivity.class);
+                startActivity(i);
+            }
+        });
     }
 }
 

@@ -22,8 +22,6 @@ public class Start_page extends AppCompatActivity {
         setContentView(R.layout.activity_start_page);
         binding = ActivityStartPageBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        binding.videoView.setVideoURI(Uri.parse("android.resource://" + getPackageName() + "/" ));
-        binding.videoView.start();
         Thread welcomeThread = new Thread() {
 
             @Override
