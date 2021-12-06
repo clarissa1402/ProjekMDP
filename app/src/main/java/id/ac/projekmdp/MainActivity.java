@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import id.ac.projekmdp.admin.HomeAdmin;
 import id.ac.projekmdp.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
@@ -32,6 +33,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String email = binding.etEmail.getText().toString();
+                String pass = binding.etPassword.getText().toString();
+
+                if(email.equals("admin@gmail.com") && pass.equals("admin")){
+                    Intent i = new Intent(getBaseContext(), HomeAdmin.class);
+                    startActivity(i);
+                }
                 //root.setValue(email);
             }
         });

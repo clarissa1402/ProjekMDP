@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/addKategori"
+        android:title="Add Kategori" />
+    <item
+        android:id="@+id/addBarang"
+        android:title="Add Barang" />
+    <item
+        android:id="@+id/addPegawai"
+        android:title="Add Pegawai" />
+    <item
+        android:id="@+id/addVoucher"
+        android:title="Add Voucher" />
+</menu>

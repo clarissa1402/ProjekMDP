@@ -6,13 +6,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -36,7 +41,7 @@ public class RegisterActivity extends AppCompatActivity {
                 FirebaseDatabase db = FirebaseDatabase.getInstance();
                 DatabaseReference root = db.getReference();
 
-                FirebaseAuth fAuth;
+                FirebaseAuth fAuth = null;
 
                 String nama = binding.etNamaRegis.getText().toString();
                 String email = binding.etEmailRegis.getText().toString();
@@ -65,7 +70,9 @@ public class RegisterActivity extends AppCompatActivity {
                 }
                 else if(nama.length()>0 && email.length()>0 && alamat.length()>0 && telp.length()>0 && password.length()>0 && confirm.length()>0 && password.equals(confirm)){
 
-                    root.child("User").push().setValue(new User(email,nama,telp,alamat,password)).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    //fAuth.createUserWithEmailAndPassword(email,password);
+
+                    root.child("Users").push().setValue(new User(email,nama,telp,alamat,password)).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void unused) {
                             Toast.makeText(getBaseContext(),"Registered",Toast.LENGTH_SHORT).show();
@@ -91,7 +98,7 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
     private void input(EditText txt, String s){
-        txt.setError(s+" Tidak boleh kosong!");
+        txt.setError("Field "+s+" Tidak boleh kosong!");
         txt.requestFocus();
     }
     private void reset(){

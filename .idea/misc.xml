@@ -3,10 +3,22 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/My Document/Gigi/semester5/projekMDP/ProjekMDP/app/src/main/res/layout/activity_add_edit_barang.xml" value="0.1" />
+        <entry key="..\:/My Document/Gigi/semester5/projekMDP/ProjekMDP/app/src/main/res/layout/activity_add_edit_kategori.xml" value="0.4" />
+        <entry key="..\:/My Document/Gigi/semester5/projekMDP/ProjekMDP/app/src/main/res/layout/activity_add_edit_pegawai.xml" value="0.264" />
+        <entry key="..\:/My Document/Gigi/semester5/projekMDP/ProjekMDP/app/src/main/res/layout/activity_add_edit_voucher.xml" value="0.1" />
         <entry key="..\:/My Document/Gigi/semester5/projekMDP/ProjekMDP/app/src/main/res/layout/activity_home_admin.xml" value="0.24010416666666667" />
         <entry key="..\:/My Document/Gigi/semester5/projekMDP/ProjekMDP/app/src/main/res/layout/activity_main.xml" value="0.25416666666666665" />
+        <entry key="..\:/My Document/Gigi/semester5/projekMDP/ProjekMDP/app/src/main/res/layout/activity_master_admin.xml" value="0.2" />
         <entry key="..\:/My Document/Gigi/semester5/projekMDP/ProjekMDP/app/src/main/res/layout/activity_register.xml" value="0.2982456140350877" />
         <entry key="..\:/My Document/Gigi/semester5/projekMDP/ProjekMDP/app/src/main/res/layout/activity_start_page.xml" value="0.13020833333333334" />
+        <entry key="..\:/My Document/Gigi/semester5/projekMDP/ProjekMDP/app/src/main/res/layout/fragment_master.xml" value="0.2" />
+        <entry key="..\:/My Document/Gigi/semester5/projekMDP/ProjekMDP/app/src/main/res/layout/rvlistbarang.xml" value="0.2" />
+        <entry key="..\:/My Document/Gigi/semester5/projekMDP/ProjekMDP/app/src/main/res/layout/rvlistkategori.xml" value="0.536" />
+        <entry key="..\:/My Document/Gigi/semester5/projekMDP/ProjekMDP/app/src/main/res/layout/rvlistpegawai.xml" value="0.12916666666666668" />
+        <entry key="..\:/My Document/Gigi/semester5/projekMDP/ProjekMDP/app/src/main/res/layout/rvlistvoucher.xml" value="0.12916666666666668" />
+        <entry key="..\:/My Document/Gigi/semester5/projekMDP/ProjekMDP/app/src/main/res/menu/bottomnav_admin.xml" value="0.2" />
+        <entry key="..\:/My Document/Gigi/semester5/projekMDP/ProjekMDP/app/src/main/res/menu/optionmenuadmin.xml" value="0.12916666666666668" />
       </map>
     </option>
   </component>

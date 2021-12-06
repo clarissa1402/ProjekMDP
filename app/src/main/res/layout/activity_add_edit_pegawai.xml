@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".admin.AddEditPegawai">
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="16dp"
+        android:text="Pegawai"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/etnik"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:ems="10"
+        android:hint="NIK Pegawai"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.459"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+    <EditText
+        android:id="@+id/etEmailPegawai"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="E-Mail"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etnik" />
+
+    <EditText
+        android:id="@+id/etNamaPegawai"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Nama"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etEmailPegawai" />
+
+    <EditText
+        android:id="@+id/etTelp"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Nomor Telepon"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etNamaPegawai" />
+
+    <EditText
+        android:id="@+id/etAlamat"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Alamat"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etTelp" />
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"
+        android:entries="@array/list_jenis"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etAlamat"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <EditText
+        android:id="@+id/etPasswordPegawai"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Password"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinner" />
+
+    <EditText
+        android:id="@+id/etConfirmPassPegawai"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Confirm Password"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etPasswordPegawai" />
+
+    <Button
+        android:id="@+id/btnSavePegawai"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="56dp"
+        android:text="Save"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.459"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etConfirmPassPegawai" />
+
+    <Button
+        android:id="@+id/btnBackPegawai"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:text="Back To Home"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnSavePegawai" />
+</androidx.constraintlayout.widget.ConstraintLayout>
