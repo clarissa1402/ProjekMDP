@@ -3,10 +3,20 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+<<<<<<< Updated upstream
         <entry key="..\:/My Document/Gigi/semester5/projekMDP/ProjekMDP/app/src/main/res/layout/activity_add_edit_barang.xml" value="0.1" />
         <entry key="..\:/My Document/Gigi/semester5/projekMDP/ProjekMDP/app/src/main/res/layout/activity_add_edit_kategori.xml" value="0.4" />
         <entry key="..\:/My Document/Gigi/semester5/projekMDP/ProjekMDP/app/src/main/res/layout/activity_add_edit_pegawai.xml" value="0.264" />
         <entry key="..\:/My Document/Gigi/semester5/projekMDP/ProjekMDP/app/src/main/res/layout/activity_add_edit_voucher.xml" value="0.1" />
+=======
+        <entry key="..\:/GitHub_Repost/ProjekMDP/app/src/main/res/layout/activity_admin_home.xml" value="0.25416666666666665" />
+        <entry key="..\:/GitHub_Repost/ProjekMDP/app/src/main/res/layout/app_bar_admin_home.xml" value="0.25416666666666665" />
+        <entry key="..\:/GitHub_Repost/ProjekMDP/app/src/main/res/layout/content_admin_home.xml" value="0.1793478260869565" />
+        <entry key="..\:/GitHub_Repost/ProjekMDP/app/src/main/res/layout/fragment_gallery.xml" value="0.25416666666666665" />
+        <entry key="..\:/GitHub_Repost/ProjekMDP/app/src/main/res/layout/nav_header_admin_home.xml" value="0.25416666666666665" />
+        <entry key="..\:/GitHub_Repost/ProjekMDP/app/src/main/res/menu/activity_main_drawer.xml" value="0.25416666666666665" />
+        <entry key="..\:/GitHub_Repost/ProjekMDP/app/src/main/res/menu/admin_home.xml" value="0.25416666666666665" />
+>>>>>>> Stashed changes
         <entry key="..\:/My Document/Gigi/semester5/projekMDP/ProjekMDP/app/src/main/res/layout/activity_home_admin.xml" value="0.24010416666666667" />
         <entry key="..\:/My Document/Gigi/semester5/projekMDP/ProjekMDP/app/src/main/res/layout/activity_main.xml" value="0.25416666666666665" />
         <entry key="..\:/My Document/Gigi/semester5/projekMDP/ProjekMDP/app/src/main/res/layout/activity_master_admin.xml" value="0.2" />

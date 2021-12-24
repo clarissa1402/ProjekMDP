@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="id.ac.projekmdp">
+    package="id.ac.projekmdp" >
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -10,7 +10,7 @@
         android:label="BABOWE"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.ProjekMDP">
+        android:theme="@style/Theme.ProjekMDP" >
         <activity
             android:name=".admin.AddEditVoucher"
             android:exported="true" />
@@ -37,7 +37,7 @@
         <activity
             android:name=".Start_page"
             android:exported="true"
-            android:theme="@style/Theme.ProjekMDP.NoActionBar">
+            android:theme="@style/Theme.ProjekMDP.NoActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
