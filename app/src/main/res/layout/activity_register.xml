@@ -106,10 +106,10 @@
       android:id="@+id/btnRegister"
       android:layout_width="350dp"
       android:layout_height="wrap_content"
-      android:layout_marginTop="20dp"
+      android:layout_marginTop="32dp"
       android:text="Register"
       app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintHorizontal_bias="0.498"
+      app:layout_constraintHorizontal_bias="0.508"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toBottomOf="@+id/etConfirmRegis" />
 
@@ -117,14 +117,14 @@
       android:id="@+id/btnToLogin"
       android:layout_width="350dp"
       android:layout_height="wrap_content"
-      android:layout_marginTop="76dp"
+      android:layout_marginTop="20dp"
       android:background="#00000000"
       android:backgroundTint="#40FFFFFF"
       android:text="Go To Login"
       android:textColor="#FFA500"
       app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintHorizontal_bias="0.491"
+      app:layout_constraintHorizontal_bias="0.524"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/etConfirmRegis" />
+      app:layout_constraintTop_toBottomOf="@+id/btnRegister" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

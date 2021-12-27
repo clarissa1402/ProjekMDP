@@ -17,6 +17,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -28,6 +30,7 @@ import java.util.ArrayList;
 
 import id.ac.projekmdp.admin.HomeAdmin;
 import id.ac.projekmdp.databinding.ActivityMainBinding;
+import id.ac.projekmdp.kelas.Pegawai;
 import id.ac.projekmdp.kelas.User;
 
 public class MainActivity extends AppCompatActivity {
@@ -35,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
 //    FirebaseDatabase db = FirebaseDatabase.getInstance();
 //    DatabaseReference root = db.getReference();
     ArrayList<User> datauser=new ArrayList<>();
+    ArrayList<Pegawai> datapegawai=new ArrayList<>();
     DatabaseReference root;
 
     @Override
@@ -43,7 +47,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        root=FirebaseDatabase.getInstance().getReference("Users");
+        root=FirebaseDatabase.getInstance().getReference();
+        load_data();
         //root.child(email).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
 //        root.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
 //            @Override
@@ -62,22 +67,7 @@ public class MainActivity extends AppCompatActivity {
 //                }
 //            }
 //        });
-        root.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
-//                    User user=dataSnapshot.getValue(User.class);
-//                    datauser.add(user);
-                    datauser.add(new User(String.valueOf(dataSnapshot.child("email").getValue()),String.valueOf(dataSnapshot.child("nama").getValue()),String.valueOf(dataSnapshot.child("telepon").getValue()),String.valueOf(dataSnapshot.child("alamat").getValue()),String.valueOf(dataSnapshot.child("password").getValue())));
-                    //System.out.println(String.valueOf(dataSnapshot.child("email").getValue()));
-                }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
 
         binding.btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,14 +80,30 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(i);
                 }
                 else{
-                    boolean ada=false;
+                    String tipe="";
+                    String temp_email="";
                     for (int i = 0; i < datauser.size(); i++) {
                         if (datauser.get(i).getEmail().equals(email)&&datauser.get(i).getPassword().equals(pass)){
-                            ada=true;
+                            tipe="user";
+                            temp_email=datauser.get(i).getEmail();
                         }
                     }
-                    if(ada){
-                        Toast.makeText(MainActivity.this, "berhasil login", Toast.LENGTH_SHORT).show();
+                    if(tipe==""){
+                        for (int i = 0; i < datapegawai.size(); i++) {
+                            if (datapegawai.get(i).getEmail().equals(email)&&datapegawai.get(i).getPassword().equals(pass)){
+                                tipe="pegawai";
+                                temp_email=datapegawai.get(i).getEmail();
+                            }
+                        }
+                    }
+                    if(tipe.equals("user")){
+                        //Toast.makeText(MainActivity.this, "Berhasil login", Toast.LENGTH_SHORT).show();
+                        Intent i=new Intent(MainActivity.this,User_page.class);
+                        i.putExtra("email",temp_email);
+                        startActivity(i);
+                    }
+                    else if(tipe.equals("pegawai")){
+
                     }
 
                     //root.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
@@ -143,6 +149,61 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+    }
+    public void load_data(){
+        root.child("Users").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    datauser.add(new User(
+                        Integer.parseInt(String.valueOf(dataSnapshot.child("id").getValue())),
+                        String.valueOf(dataSnapshot.child("email").getValue()),
+                        String.valueOf(dataSnapshot.child("nama").getValue()),
+                        String.valueOf(dataSnapshot.child("telepon").getValue()),
+                        String.valueOf(dataSnapshot.child("alamat").getValue()),
+                        String.valueOf(dataSnapshot.child("password").getValue())));
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        root.child("Pegawai").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    datapegawai.add(new Pegawai(
+                            String.valueOf(dataSnapshot.child("nik").getValue()),
+                            String.valueOf(dataSnapshot.child("email").getValue()),
+                            String.valueOf(dataSnapshot.child("nama").getValue()),
+                            String.valueOf(dataSnapshot.child("telepon").getValue()),
+                            String.valueOf(dataSnapshot.child("alamat").getValue()),
+                            String.valueOf(dataSnapshot.child("password").getValue()),
+                            String.valueOf(dataSnapshot.child("jasa").getValue()),
+                            String.valueOf(dataSnapshot.child("deskripsi").getValue())
+                    ));
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+//        root.child("Pegawai").push().setValue(new Pegawai("46718236487628734", "pegawai@a.com", "pegawai", "412364612374682", "ngagel_jaya", "123", "Cleaning", "deskripsi")).addOnSuccessListener(new OnSuccessListener<Void>() {
+//            @Override
+//            public void onSuccess(Void unused) {
+//                Toast.makeText(getBaseContext(),"Registered",Toast.LENGTH_SHORT).show();
+//
+//            }
+//        }).addOnFailureListener(new OnFailureListener() {
+//            @Override
+//            public void onFailure(@NonNull Exception e) {
+//                Toast.makeText(getBaseContext(),"Not Registered",Toast.LENGTH_SHORT).show();
+//            }
+//        });
     }
 }
 

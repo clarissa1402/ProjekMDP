@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menuhome"
+        android:icon="@drawable/ic_baseline_home_24"
+        android:title="Home" />
+    <item
+        android:id="@+id/menutopup"
+        android:icon="@drawable/ic_baseline_attach_money_24"
+        android:title="TopUp" />
+    <item
+        android:id="@+id/menutransaksi"
+        android:icon="@drawable/ic_baseline_sticky_note_2_24"
+        android:title="Transaksi" />
+    <item
+        android:id="@+id/menuprofile"
+        android:icon="@drawable/ic_baseline_person_outline_24"
+        android:title="Profile" />
+</menu>

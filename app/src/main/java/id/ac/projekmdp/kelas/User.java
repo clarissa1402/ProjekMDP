@@ -7,7 +7,8 @@ public class User {
     private String email,nama,telepon,alamat,password;
     private int saldo,poin;
 
-    public User(String email, String nama, String telepon, String alamat, String password) {
+    public User(Integer id,String email, String nama, String telepon, String alamat, String password) {
+        this.id = id;
         this.email = email;
         this.nama = nama;
         this.telepon = telepon;

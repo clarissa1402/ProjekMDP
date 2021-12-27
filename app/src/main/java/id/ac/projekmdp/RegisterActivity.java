@@ -18,8 +18,13 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 import id.ac.projekmdp.databinding.ActivityMainBinding;
 import id.ac.projekmdp.databinding.ActivityRegisterBinding;
@@ -28,7 +33,7 @@ import id.ac.projekmdp.kelas.User;
 public class RegisterActivity extends AppCompatActivity {
 
     private ActivityRegisterBinding binding;
-
+    Integer ban=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,7 +77,20 @@ public class RegisterActivity extends AppCompatActivity {
 
                     //fAuth.createUserWithEmailAndPassword(email,password);
 
-                    root.child("Users").push().setValue(new User(email,nama,telp,alamat,password)).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    root.child("Users").addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                                ban++;
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+                    root.child("Users").push().setValue(new User(ban,email,nama,telp,alamat,password)).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void unused) {
                             Toast.makeText(getBaseContext(),"Registered",Toast.LENGTH_SHORT).show();

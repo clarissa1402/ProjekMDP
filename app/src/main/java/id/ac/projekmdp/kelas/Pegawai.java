@@ -3,7 +3,7 @@ package id.ac.projekmdp.kelas;
 public class Pegawai {
     private int id;
     private String nik,email,nama,telepon,alamat,password,jasa,deskripsi;
-    private int saldo;
+    private int saldo,harga;
 
     public Pegawai(String nik, String email, String nama, String telepon, String alamat, String password, String jasa, String deskripsi) {
         this.nik = nik;
@@ -13,8 +13,17 @@ public class Pegawai {
         this.alamat = alamat;
         this.password = password;
         this.jasa = jasa;
+        this.harga = 50000;
         this.deskripsi = deskripsi;
         this.saldo = 0;
+    }
+
+    public int getHarga() {
+        return harga;
+    }
+
+    public void setHarga(int harga) {
+        this.harga = harga;
     }
 
     public int getId() {
