@@ -2,6 +2,7 @@ package id.ac.projekmdp;
 
 import static com.google.firebase.database.FirebaseDatabase.getInstance;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ActionBar;
@@ -13,15 +14,28 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 import id.ac.projekmdp.admin.HomeAdmin;
 import id.ac.projekmdp.databinding.ActivityMainBinding;
+import id.ac.projekmdp.kelas.User;
 
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
+//    FirebaseDatabase db = FirebaseDatabase.getInstance();
+//    DatabaseReference root = db.getReference();
+    ArrayList<User> datauser=new ArrayList<>();
+    DatabaseReference root;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +43,42 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        root=FirebaseDatabase.getInstance().getReference("Users");
+        //root.child(email).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+//        root.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<DataSnapshot> task) {
+//                if (task.isSuccessful()){
+////                    for (DataSnapshot dataSnapshot : task.getResult().getChildren()){
+////                        User user=dataSnapshot.getValue(User.class);
+////                        datauser.add(user);
+////                    }
+//                    DataSnapshot ds=task.getResult();
+//                    datauser=new ArrayList<>();
+//                    datauser.add(new User(String.valueOf(ds.child("email").getValue()),String.valueOf(ds.child("nama").getValue()),String.valueOf(ds.child("telepon").getValue()),String.valueOf(ds.child("alamat").getValue()),String.valueOf(ds.child("password").getValue())));
+//                }
+//                else {
+//                    Toast.makeText(MainActivity.this, "Gagal", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        });
+        root.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+//                    User user=dataSnapshot.getValue(User.class);
+//                    datauser.add(user);
+                    datauser.add(new User(String.valueOf(dataSnapshot.child("email").getValue()),String.valueOf(dataSnapshot.child("nama").getValue()),String.valueOf(dataSnapshot.child("telepon").getValue()),String.valueOf(dataSnapshot.child("alamat").getValue()),String.valueOf(dataSnapshot.child("password").getValue())));
+                    //System.out.println(String.valueOf(dataSnapshot.child("email").getValue()));
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
         binding.btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -38,6 +88,50 @@ public class MainActivity extends AppCompatActivity {
                 if(email.equals("admin@gmail.com") && pass.equals("admin")){
                     Intent i = new Intent(getBaseContext(), HomeAdmin.class);
                     startActivity(i);
+                }
+                else{
+                    boolean ada=false;
+                    for (int i = 0; i < datauser.size(); i++) {
+                        if (datauser.get(i).getEmail().equals(email)&&datauser.get(i).getPassword().equals(pass)){
+                            ada=true;
+                        }
+                    }
+                    if(ada){
+                        Toast.makeText(MainActivity.this, "berhasil login", Toast.LENGTH_SHORT).show();
+                    }
+
+                    //root.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+//        root.child(email).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<DataSnapshot> task) {
+//                if (task.isSuccessful()){
+//                    for (DataSnapshot dataSnapshot : task.getResult().getChildren()){
+//                        Toast.makeText(MainActivity.this, String.valueOf(dataSnapshot.child("email").getValue()), Toast.LENGTH_SHORT).show();
+////                        User user=dataSnapshot.getValue(User.class);
+////                        datauser.add(user);
+//                    }
+////                      DataSnapshot ds=task.getResult();
+////                      Toast.makeText(MainActivity.this, String.valueOf(ds.child("email").getValue()), Toast.LENGTH_SHORT).show();
+////                    DataSnapshot ds=task.getResult();
+////                    datauser=new ArrayList<>();
+//                    //datauser.add(new User(String.valueOf(ds.child("email").getValue()),String.valueOf(ds.child("nama").getValue()),String.valueOf(ds.child("telepon").getValue()),String.valueOf(ds.child("alamat").getValue()),String.valueOf(ds.child("password").getValue())));
+//                }
+//                else {
+//                    Toast.makeText(MainActivity.this, "Gagal", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        });
+
+
+
+
+
+
+
+
+
+
+
                 }
                 //root.setValue(email);
             }
