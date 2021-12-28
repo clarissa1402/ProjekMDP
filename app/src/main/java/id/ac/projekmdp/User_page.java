@@ -60,12 +60,12 @@ public class User_page extends AppCompatActivity {
 //                                .replace(R.id.container, fragment)
 //                                .commit();
 //                        return true;
-//                    case R.id.menutransaksi:
-//                        fragment = Fragment_transaksi.newInstance(User_page.this);
-//                        getSupportFragmentManager().beginTransaction()
-//                                .replace(R.id.container, fragment)
-//                                .commit();
-//                        return true;
+                    case R.id.menutransaksi:
+                        fragment = Fragment_transaksi.newInstance(User_page.this);
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.container, fragment)
+                                .commit();
+                        return true;
                     case R.id.menuprofile:
                         fragment = Fragment_profile_user.newInstance(User_page.this);
                         getSupportFragmentManager().beginTransaction()
