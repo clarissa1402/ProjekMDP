@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.util.Pair;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
@@ -24,6 +25,7 @@ import com.google.firebase.database.DatabaseReference;
 
 import java.util.ArrayList;
 
+import id.ac.projekmdp.adapter.transaksiUserAdapter;
 import id.ac.projekmdp.kelas.Pegawai;
 import id.ac.projekmdp.kelas.Transaksi;
 import id.ac.projekmdp.kelas.User;
@@ -45,15 +47,19 @@ public class Fragment_transaksi extends Fragment {
     RecyclerView rvTransaksi;
     TextView txtSearch;
 
+    transaksiUserAdapter adapterTransaksi;
+
     public Fragment_transaksi() {
         // Required empty public constructor
     }
 
-    public static Fragment_transaksi newInstance(User_page u) {
+    public static Fragment_transaksi newInstance(User_page u, ArrayList<Transaksi>dataTransaksi, ArrayList<Pegawai> dataPegawai) {
         Fragment_transaksi fragment = new Fragment_transaksi();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         fragment.user_page = u;
+        fragment.dataPegawai = dataPegawai;
+        fragment.dataTransaksi = dataTransaksi;
         return fragment;
     }
 
@@ -100,5 +106,15 @@ public class Fragment_transaksi extends Fragment {
                 Toast.makeText(getActivity(), ""+"Selected Date is : " + materialDatePicker.getHeaderText(), Toast.LENGTH_SHORT).show();
             }
         });
+
+        rvTransaksi.setHasFixedSize(true);
+        rvTransaksi.setLayoutManager(new LinearLayoutManager(getActivity()));
+        loadRV();
+
+    }
+
+    public void loadRV(){
+        adapterTransaksi = new transaksiUserAdapter(getActivity(), dataTransaksi, dataPegawai, user_page.id);
+        rvTransaksi.setAdapter(adapterTransaksi);
     }
 }

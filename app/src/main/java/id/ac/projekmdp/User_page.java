@@ -22,6 +22,8 @@ import java.util.ArrayList;
 
 import id.ac.projekmdp.databinding.ActivityMainBinding;
 import id.ac.projekmdp.databinding.ActivityUserPageBinding;
+import id.ac.projekmdp.kelas.Pegawai;
+import id.ac.projekmdp.kelas.Transaksi;
 import id.ac.projekmdp.kelas.User;
 
 public class User_page extends AppCompatActivity {
@@ -30,6 +32,8 @@ public class User_page extends AppCompatActivity {
     int id=0;
     DatabaseReference root;
     ArrayList<User>datauser=new ArrayList<>();
+    ArrayList<Pegawai>datapegawai=new ArrayList<>();
+    ArrayList<Transaksi>dataTransaksi=new ArrayList<>();
     User sedang_login;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +45,9 @@ public class User_page extends AppCompatActivity {
         setContentView(R.layout.activity_user_page);
         binding = ActivityUserPageBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        loadPegawai();
+        loadTransaksi();
 
         navUser = findViewById(R.id.navigation_user);
         navUser.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
@@ -61,7 +68,7 @@ public class User_page extends AppCompatActivity {
 //                                .commit();
 //                        return true;
                     case R.id.menutransaksi:
-                        fragment = Fragment_transaksi.newInstance(User_page.this);
+                        fragment = Fragment_transaksi.newInstance(User_page.this, dataTransaksi, datapegawai);
                         getSupportFragmentManager().beginTransaction()
                                 .replace(R.id.container, fragment)
                                 .commit();
@@ -109,11 +116,8 @@ public class User_page extends AppCompatActivity {
         }
     }
 
-    public void gototransaksi(){
-        Fragment fragment = Fragment_home_user.newInstance(User_page.this);
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.container, fragment)
-                .commit();
+    public void gotohome(){
+        navUser.setSelectedItemId(R.id.menuhome);
     }
 
     public void gotobooking(int pid){
@@ -121,6 +125,57 @@ public class User_page extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.container, fragment)
                 .commit();
+    }
+
+    public void loadPegawai(){
+        datapegawai = new ArrayList<>();
+        root.child("Pegawai").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    datapegawai.add(new Pegawai(
+                            Integer.parseInt(String.valueOf(dataSnapshot.child("nik").getValue())),
+                            String.valueOf(dataSnapshot.child("email").getValue()),
+                            String.valueOf(dataSnapshot.child("nama").getValue()),
+                            String.valueOf(dataSnapshot.child("telepon").getValue()),
+                            String.valueOf(dataSnapshot.child("alamat").getValue()),
+                            String.valueOf(dataSnapshot.child("password").getValue()),
+                            String.valueOf(dataSnapshot.child("jasa").getValue()),
+                            String.valueOf(dataSnapshot.child("deskripsi").getValue())
+                    ));
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    public void loadTransaksi(){
+        dataTransaksi = new ArrayList<>();
+        root.child("Transaksi").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    dataTransaksi.add(new Transaksi(
+                            Integer.parseInt(String.valueOf(dataSnapshot.child("id").getValue())),
+                            Integer.parseInt(String.valueOf(dataSnapshot.child("idUser").getValue())),
+                            Integer.parseInt(String.valueOf(dataSnapshot.child("nikPegawai").getValue())),
+                            String.valueOf(dataSnapshot.child("tanggal").getValue()),
+                            Integer.parseInt(String.valueOf(dataSnapshot.child("harga").getValue())),
+                            Integer.parseInt(String.valueOf(dataSnapshot.child("status").getValue()))
+                    ));
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
 }

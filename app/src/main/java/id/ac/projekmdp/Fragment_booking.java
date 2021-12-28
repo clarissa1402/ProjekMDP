@@ -235,7 +235,8 @@ public class Fragment_booking extends Fragment {
             @Override
             public void onSuccess(Void unused) {
                 Toast.makeText(user_page, "Transaction Success", Toast.LENGTH_SHORT).show();
-                user_page.gototransaksi();
+                user_page.loadTransaksi();
+                user_page.gotohome();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
