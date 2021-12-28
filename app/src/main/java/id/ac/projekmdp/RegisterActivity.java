@@ -102,6 +102,21 @@ public class RegisterActivity extends AppCompatActivity {
                             Toast.makeText(getBaseContext(),"Not Registered",Toast.LENGTH_SHORT).show();
                         }
                     });
+                    //dapetkan key
+//                    root.child("Users").orderByChild("email").equalTo(email).addListenerForSingleValueEvent(new ValueEventListener() {
+//                        @Override
+//                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                            for (DataSnapshot childSnapshot: snapshot.getChildren()) {
+//                                String key = childSnapshot.getKey();
+//                                System.out.println(key);
+//                            }
+//                        }
+//
+//                        @Override
+//                        public void onCancelled(@NonNull DatabaseError error) {
+//
+//                        }
+//                    });
                     reset();
                 }
 

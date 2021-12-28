@@ -81,25 +81,25 @@ public class MainActivity extends AppCompatActivity {
                 }
                 else{
                     String tipe="";
-                    String temp_email="";
+                    int temp_id=-1;
                     for (int i = 0; i < datauser.size(); i++) {
                         if (datauser.get(i).getEmail().equals(email)&&datauser.get(i).getPassword().equals(pass)){
                             tipe="user";
-                            temp_email=datauser.get(i).getEmail();
+                            temp_id=datauser.get(i).getId();
                         }
                     }
                     if(tipe==""){
                         for (int i = 0; i < datapegawai.size(); i++) {
                             if (datapegawai.get(i).getEmail().equals(email)&&datapegawai.get(i).getPassword().equals(pass)){
                                 tipe="pegawai";
-                                temp_email=datapegawai.get(i).getEmail();
+                                temp_id=datapegawai.get(i).getNik();
                             }
                         }
                     }
                     if(tipe.equals("user")){
                         //Toast.makeText(MainActivity.this, "Berhasil login", Toast.LENGTH_SHORT).show();
                         Intent i=new Intent(MainActivity.this,User_page.class);
-                        i.putExtra("email",temp_email);
+                        i.putExtra("id",temp_id);
                         startActivity(i);
                     }
                     else if(tipe.equals("pegawai")){
@@ -170,12 +170,13 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
         root.child("Pegawai").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()){
                     datapegawai.add(new Pegawai(
-                            String.valueOf(dataSnapshot.child("nik").getValue()),
+                            Integer.parseInt(String.valueOf(dataSnapshot.child("nik").getValue())),
                             String.valueOf(dataSnapshot.child("email").getValue()),
                             String.valueOf(dataSnapshot.child("nama").getValue()),
                             String.valueOf(dataSnapshot.child("telepon").getValue()),
@@ -192,18 +193,18 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-//        root.child("Pegawai").push().setValue(new Pegawai("46718236487628734", "pegawai@a.com", "pegawai", "412364612374682", "ngagel_jaya", "123", "Cleaning", "deskripsi")).addOnSuccessListener(new OnSuccessListener<Void>() {
-//            @Override
-//            public void onSuccess(Void unused) {
-//                Toast.makeText(getBaseContext(),"Registered",Toast.LENGTH_SHORT).show();
-//
-//            }
-//        }).addOnFailureListener(new OnFailureListener() {
-//            @Override
-//            public void onFailure(@NonNull Exception e) {
-//                Toast.makeText(getBaseContext(),"Not Registered",Toast.LENGTH_SHORT).show();
-//            }
-//        });
+        root.child("Pegawai").push().setValue(new Pegawai(5867, "pegawai@a.com", "pegawai", "412364612374682", "ngagel_jaya", "123", "Cleaning", "deskripsi")).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                Toast.makeText(getBaseContext(),"Registered",Toast.LENGTH_SHORT).show();
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(getBaseContext(),"Not Registered",Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
 

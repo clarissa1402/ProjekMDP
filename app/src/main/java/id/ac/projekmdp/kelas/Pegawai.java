@@ -1,11 +1,11 @@
 package id.ac.projekmdp.kelas;
 
 public class Pegawai {
-    private int id;
-    private String nik,email,nama,telepon,alamat,password,jasa,deskripsi;
-    private int saldo,harga;
+    //private int id;
+    private String email,nama,telepon,alamat,password,jasa,deskripsi;
+    private int saldo,harga,nik;
 
-    public Pegawai(String nik, String email, String nama, String telepon, String alamat, String password, String jasa, String deskripsi) {
+    public Pegawai(Integer nik, String email, String nama, String telepon, String alamat, String password, String jasa, String deskripsi) {
         this.nik = nik;
         this.email = email;
         this.nama = nama;
@@ -26,19 +26,20 @@ public class Pegawai {
         this.harga = harga;
     }
 
-    public int getId() {
-        return id;
-    }
+    //    public int getId() {
+//        return id;
+//    }
+//
+//    public void setId(int id) {
+//        this.id = id;
+//    }
 
-    public void setId(int id) {
-        this.id = id;
-    }
 
-    public String getNik() {
+    public int getNik() {
         return nik;
     }
 
-    public void setNik(String nik) {
+    public void setNik(int nik) {
         this.nik = nik;
     }
 

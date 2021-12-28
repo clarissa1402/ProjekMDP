@@ -97,7 +97,7 @@ public class Fragment_home_user extends Fragment {
         load_data();
         set_jenis();
         for (int i = 0; i < datauser.size(); i++) {
-            if(datauser.get(i).getEmail().equals(u.email)){
+            if(datauser.get(i).getId()==u.id){
                 binding.textView4.setText("Rp "+datauser.get(i).getSaldo());
             }
         }
@@ -167,7 +167,7 @@ public class Fragment_home_user extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()){
                     datapegawai.add(new Pegawai(
-                            String.valueOf(dataSnapshot.child("nik").getValue()),
+                            Integer.parseInt(String.valueOf(dataSnapshot.child("nik").getValue())),
                             String.valueOf(dataSnapshot.child("email").getValue()),
                             String.valueOf(dataSnapshot.child("nama").getValue()),
                             String.valueOf(dataSnapshot.child("telepon").getValue()),
