@@ -24,6 +24,10 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
+
+import id.ac.projekmdp.kelas.User;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link Fragment_profile_user#newInstance} factory method to
@@ -41,6 +45,7 @@ public class Fragment_profile_user extends Fragment {
     ImageView img;
     User_page u;
     DatabaseReference root;
+    ArrayList<User>datauser=new ArrayList<>();
     // TODO: Rename and change types of parameters
 
     public Fragment_profile_user() {
@@ -84,6 +89,7 @@ public class Fragment_profile_user extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         root= FirebaseDatabase.getInstance().getReference();
+        load_data();
         txtemail=view.findViewById(R.id.textView8);
         txtjeniskelamin=view.findViewById(R.id.textView9);
         img=view.findViewById(R.id.imageView5);
@@ -94,12 +100,8 @@ public class Fragment_profile_user extends Fragment {
         btnedit=view.findViewById(R.id.button4);
         btnsave=view.findViewById(R.id.button5);
 
-        txtemail.setText(u.sedang_login.getEmail());
-        //txtjeniskelamin.setText(u.sedang_login.);
-        edtnama.setText(u.sedang_login.getNama());
-        edtalamat.setText(u.sedang_login.getAlamat());
-        edttelepon.setText(u.sedang_login.getTelepon());
-        edtpassword.setText(u.sedang_login.getPassword());
+
+
         btnedit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -108,6 +110,16 @@ public class Fragment_profile_user extends Fragment {
                     edtalamat.setEnabled(true);
                     edttelepon.setEnabled(true);
                     edtpassword.setEnabled(true);
+                    for (int i = 0; i < datauser.size(); i++) {
+                        if(datauser.get(i).getId()==u.id){
+                            txtemail.setText(datauser.get(i).getEmail());
+//        //txtjeniskelamin.setText(u.sedang_login.);
+                            edtnama.setText(datauser.get(i).getNama());
+                            edtalamat.setText(datauser.get(i).getAlamat());
+                            edttelepon.setText(datauser.get(i).getTelepon());
+                            edtpassword.setText(datauser.get(i).getPassword());
+                        }
+                    }
                 }
             }
         });
@@ -132,6 +144,22 @@ public class Fragment_profile_user extends Fragment {
                         Toast.makeText(getContext(), "Update Failed", Toast.LENGTH_SHORT).show();
                     }
                 });
+            }
+        });
+
+    }
+    public void load_data(){
+        root.child("Users").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    datauser.add(new User(Integer.parseInt(String.valueOf(dataSnapshot.child("id").getValue())),  String.valueOf(dataSnapshot.child("email").getValue()),String.valueOf(dataSnapshot.child("nama").getValue()),String.valueOf(dataSnapshot.child("telepon").getValue()),String.valueOf(dataSnapshot.child("alamat").getValue()),String.valueOf(dataSnapshot.child("password").getValue())));
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
     }

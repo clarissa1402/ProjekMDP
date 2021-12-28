@@ -80,7 +80,7 @@ public class User_page extends AppCompatActivity {
             navUser.setSelectedItemId(R.id.menuhome);
         }
     }
-    void load_data(){
+    public void load_data(){
         root.child("Users").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -101,7 +101,7 @@ public class User_page extends AppCompatActivity {
             }
         });
     }
-    public void  set_sedang_login(){
+    public void set_sedang_login(){
         for (int i = 0; i < datauser.size(); i++) {
             if(datauser.get(i).getId()==id){
                 sedang_login=datauser.get(i);

@@ -193,18 +193,18 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-        root.child("Pegawai").push().setValue(new Pegawai(5867, "pegawai@a.com", "pegawai", "412364612374682", "ngagel_jaya", "123", "Cleaning", "deskripsi")).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void unused) {
-                Toast.makeText(getBaseContext(),"Registered",Toast.LENGTH_SHORT).show();
-
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(getBaseContext(),"Not Registered",Toast.LENGTH_SHORT).show();
-            }
-        });
+//        root.child("Pegawai").push().setValue(new Pegawai(5867, "pegawai@a.com", "pegawai", "412364612374682", "ngagel_jaya", "123", "Cleaning", "deskripsi")).addOnSuccessListener(new OnSuccessListener<Void>() {
+//            @Override
+//            public void onSuccess(Void unused) {
+//                Toast.makeText(getBaseContext(),"Registered",Toast.LENGTH_SHORT).show();
+//
+//            }
+//        }).addOnFailureListener(new OnFailureListener() {
+//            @Override
+//            public void onFailure(@NonNull Exception e) {
+//                Toast.makeText(getBaseContext(),"Not Registered",Toast.LENGTH_SHORT).show();
+//            }
+//        });
     }
 }
 
