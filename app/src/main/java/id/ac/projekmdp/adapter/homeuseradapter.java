@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 import id.ac.projekmdp.R;
+import id.ac.projekmdp.User_page;
 import id.ac.projekmdp.kelas.Pegawai;
 
 public class homeuseradapter extends RecyclerView.Adapter<homeuseradapter.itemViewHolder>{
@@ -101,6 +103,14 @@ public class homeuseradapter extends RecyclerView.Adapter<homeuseradapter.itemVi
         holder.txtjenis.setText(p.getJasa());
         holder.txtharga.setText(p.getHarga()+"");
 //         holder.txtNama.setText(p.getNama();
+
+        holder.btntambah.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                User_page user_page = (User_page) context;
+                user_page.gotobooking(p.getNik());
+            }
+        });
     }
 
     @Override
@@ -118,6 +128,7 @@ public class homeuseradapter extends RecyclerView.Adapter<homeuseradapter.itemVi
             txtjenis=itemView.findViewById(R.id.textView6);
             txtharga=itemView.findViewById(R.id.textView7);
             btntambah=itemView.findViewById(R.id.button3);
+
         }
     }
 }

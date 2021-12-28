@@ -108,4 +108,19 @@ public class User_page extends AppCompatActivity {
             }
         }
     }
+
+    public void gototransaksi(){
+        Fragment fragment = Fragment_home_user.newInstance(User_page.this);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.container, fragment)
+                .commit();
+    }
+
+    public void gotobooking(int pid){
+        Fragment fragment = Fragment_booking.newInstance(User_page.this, pid);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.container, fragment)
+                .commit();
+    }
+
 }

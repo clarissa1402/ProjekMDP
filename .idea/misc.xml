@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Kuliah/Semester_5/1_MobileDeviceProgramming/Project/ProjekMDP/app/src/main/res/layout/fragment_booking.xml" value="0.2942708333333333" />
+        <entry key="..\:/Kuliah/Semester_5/1_MobileDeviceProgramming/Project/ProjekMDP/app/src/main/res/layout/fragment_transaksi.xml" value="0.2942708333333333" />
         <entry key="..\:/My Document/Gigi/semester5/projekMDP/ProjekMDP/app/src/main/res/layout/activity_home_admin.xml" value="0.25416666666666665" />
         <entry key="..\:/My Document/Gigi/semester5/projekMDP/ProjekMDP/app/src/main/res/layout/activity_master_admin.xml" value="0.13020833333333334" />
         <entry key="..\:/My Document/Gigi/semester5/projekMDP/ProjekMDP/app/src/main/res/layout/activity_register.xml" value="0.25416666666666665" />
@@ -17,5 +19,5 @@
     </option>
   </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="11" project-jdk-type="JavaSDK" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK" />
 </project>
