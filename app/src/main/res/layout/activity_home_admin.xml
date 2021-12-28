@@ -6,13 +6,36 @@
     android:layout_height="match_parent"
     tools:context=".admin.HomeAdmin">
 
-    <Button
-        android:id="@+id/btnGoToMaster"
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="160dp"
-        android:text="Admin's Master"
-        app:layout_constraintEnd_toEndOf="parent"
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="171dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="Welcome, Admin"
+        android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <FrameLayout
+        android:id="@+id/framelayoutAdmin"
+        android:layout_width="408dp"
+        android:layout_height="595dp"
+        android:layout_marginTop="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.666"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView10">
+
+    </FrameLayout>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomnav"
+        android:layout_width="409dp"
+        android:layout_height="77dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/framelayoutAdmin"
+        app:menu="@menu/bottomnav_admin" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -15,13 +15,7 @@
             android:name=".User_page"
             android:exported="true" />
         <activity
-            android:name=".admin.AddEditVoucher"
-            android:exported="true" />
-        <activity
             android:name=".admin.AddEditPegawai"
-            android:exported="true" />
-        <activity
-            android:name=".admin.MasterAdmin"
             android:exported="true" />
         <activity
             android:name=".admin.HomeAdmin"

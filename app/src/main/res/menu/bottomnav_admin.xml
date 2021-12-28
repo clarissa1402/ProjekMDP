@@ -8,8 +8,8 @@
         android:title="Pegawai"
         app:showAsAction="always" />
     <item
-        android:id="@+id/listvoucher"
-        android:icon="@drawable/ic_voucher"
-        android:title="Voucher"
+        android:id="@+id/listTransaksi"
+        android:icon="@drawable/ic_baseline_sticky_note_2_24"
+        android:title="Transaksi"
         app:showAsAction="always" />
 </menu>

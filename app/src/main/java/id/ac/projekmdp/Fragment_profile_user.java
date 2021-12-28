@@ -101,7 +101,6 @@ public class Fragment_profile_user extends Fragment {
         btnsave=view.findViewById(R.id.button5);
 
 
-
         btnedit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

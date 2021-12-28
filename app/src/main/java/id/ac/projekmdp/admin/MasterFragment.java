@@ -1,49 +1,54 @@
 package id.ac.projekmdp.admin;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 import id.ac.projekmdp.R;
+import id.ac.projekmdp.adapter.homeuseradapter;
+import id.ac.projekmdp.adapter.listPegawaiAdapter;
+import id.ac.projekmdp.databinding.FragmentMasterBinding;
+import id.ac.projekmdp.kelas.Pegawai;
+import id.ac.projekmdp.kelas.User;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link MasterFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class MasterFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final String ARG_PARAM_MENU = "param-menu";
+    private DatabaseReference root;
+    private  String menu;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private FragmentMasterBinding binding;
+    private listPegawaiAdapter adapter;
+    ArrayList<Pegawai> datapegawai=new ArrayList<>();
+    String search="",jenis_dipilh="";
 
     public MasterFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment MasterFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static MasterFragment newInstance(String param1, String param2) {
+    public static MasterFragment newInstance(String menu) {
         MasterFragment fragment = new MasterFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putString(ARG_PARAM_MENU, menu);
         fragment.setArguments(args);
         return fragment;
     }
@@ -52,8 +57,7 @@ public class MasterFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            menu = getArguments().getString(ARG_PARAM_MENU);
         }
     }
 
@@ -61,6 +65,61 @@ public class MasterFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_master, container, false);
+        //return inflater.inflate(R.layout.fragment_master, container, false);
+        binding = FragmentMasterBinding.inflate(inflater,container,false);
+        return binding.getRoot();
     }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        load_data();
+        setUpRecyclerView(datapegawai);
+        adapter.notifyDataSetChanged();
+        Toast.makeText(getContext(),datapegawai.size()+"",Toast.LENGTH_SHORT).show();
+
+    }
+    void setUpRecyclerView(ArrayList<Pegawai> listpegawai){
+        binding.rvAdminMaster.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.rvAdminMaster.setHasFixedSize(true);
+
+        adapter = new listPegawaiAdapter(listpegawai);
+        binding.rvAdminMaster.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+
+        adapter.setOnItemClickCallback(new listPegawaiAdapter.OnItemClickCallback() {
+            @Override
+            public void onItemClicked(Pegawai pegawai) {
+                Intent toUpdate = new Intent(getContext(),AddEditPegawai.class);
+                toUpdate.putExtra("detail", (Parcelable) pegawai);
+                startActivity(toUpdate);
+            }
+        });
+    }
+    public void load_data(){
+        root= FirebaseDatabase.getInstance().getReference();
+        root.child("Pegawai").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    datapegawai.add(new Pegawai(
+                            Integer.parseInt(String.valueOf(dataSnapshot.child("nik").getValue())),
+                            String.valueOf(dataSnapshot.child("email").getValue()),
+                            String.valueOf(dataSnapshot.child("nama").getValue()),
+                            String.valueOf(dataSnapshot.child("telepon").getValue()),
+                            String.valueOf(dataSnapshot.child("alamat").getValue()),
+                            String.valueOf(dataSnapshot.child("password").getValue()),
+                            String.valueOf(dataSnapshot.child("jasa").getValue()),
+                            String.valueOf(dataSnapshot.child("deskripsi").getValue())
+                    ));
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
 }

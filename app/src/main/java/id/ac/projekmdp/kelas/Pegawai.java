@@ -1,6 +1,9 @@
 package id.ac.projekmdp.kelas;
 
-public class Pegawai {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Pegawai implements Parcelable {
     //private int id;
     private String email,nama,telepon,alamat,password,jasa,deskripsi;
     private int saldo,harga,nik;
@@ -17,6 +20,31 @@ public class Pegawai {
         this.deskripsi = deskripsi;
         this.saldo = 0;
     }
+
+    protected Pegawai(Parcel in) {
+        email = in.readString();
+        nama = in.readString();
+        telepon = in.readString();
+        alamat = in.readString();
+        password = in.readString();
+        jasa = in.readString();
+        deskripsi = in.readString();
+        saldo = in.readInt();
+        harga = in.readInt();
+        nik = in.readInt();
+    }
+
+    public static final Creator<Pegawai> CREATOR = new Creator<Pegawai>() {
+        @Override
+        public Pegawai createFromParcel(Parcel in) {
+            return new Pegawai(in);
+        }
+
+        @Override
+        public Pegawai[] newArray(int size) {
+            return new Pegawai[size];
+        }
+    };
 
     public int getHarga() {
         return harga;
@@ -105,5 +133,24 @@ public class Pegawai {
 
     public void setSaldo(int saldo) {
         this.saldo = saldo;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(email);
+        parcel.writeString(nama);
+        parcel.writeString(telepon);
+        parcel.writeString(alamat);
+        parcel.writeString(password);
+        parcel.writeString(jasa);
+        parcel.writeString(deskripsi);
+        parcel.writeInt(saldo);
+        parcel.writeInt(harga);
+        parcel.writeInt(nik);
     }
 }

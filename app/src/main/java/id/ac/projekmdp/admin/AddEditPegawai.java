@@ -58,7 +58,7 @@ public class AddEditPegawai extends AppCompatActivity {
         binding.btnBackPegawai.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(AddEditPegawai.this,MasterAdmin.class);
+                Intent i = new Intent(AddEditPegawai.this,HomeAdmin.class);
                 startActivity(i);
             }
         });
