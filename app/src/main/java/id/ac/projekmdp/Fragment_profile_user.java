@@ -1,6 +1,5 @@
 package id.ac.projekmdp;
 
-import android.media.Image;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -21,8 +20,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -59,13 +56,13 @@ public class Fragment_profile_user extends Fragment {
      * @return A new instance of fragment Fragment_profile_user.
      */
     // TODO: Rename and change types and number of parameters
-    public static Fragment_profile_user newInstance(User_page u) {
+    public static Fragment_profile_user newInstance(User_page u, ArrayList<User>datauser) {
         Fragment_profile_user fragment = new Fragment_profile_user();
         Bundle args = new Bundle();
-//        args.putString(ARG_PARAM1, param1);
-//        args.putString(ARG_PARAM2, param2);
         fragment.u=u;
         fragment.setArguments(args);
+        args.putParcelableArrayList(ARG_PARAM1, datauser);
+//        args.putString(ARG_PARAM2, param2);
         return fragment;
     }
 
@@ -73,7 +70,7 @@ public class Fragment_profile_user extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-//            mParam1 = getArguments().getString(ARG_PARAM1);
+            datauser = getArguments().getParcelableArrayList(ARG_PARAM1);
 //            mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
@@ -88,18 +85,16 @@ public class Fragment_profile_user extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        root= FirebaseDatabase.getInstance().getReference();
-        load_data();
         txtemail=view.findViewById(R.id.textView8);
         txtjeniskelamin=view.findViewById(R.id.textView9);
         img=view.findViewById(R.id.imageView5);
-        edtnama=view.findViewById(R.id.editTextTextPersonName);
-        edtalamat=view.findViewById(R.id.editTextTextPersonName2);
-        edttelepon=view.findViewById(R.id.editTextTextPersonName3);
-        edtpassword=view.findViewById(R.id.editTextTextPersonName4);
+        edtnama=view.findViewById(R.id.etNama1);
+        edtalamat=view.findViewById(R.id.etAlamat1);
+        edttelepon=view.findViewById(R.id.etTelp1);
+        edtpassword=view.findViewById(R.id.etPass1);
         btnedit=view.findViewById(R.id.button4);
         btnsave=view.findViewById(R.id.button5);
-
+        load_data();
 
         btnedit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,16 +104,6 @@ public class Fragment_profile_user extends Fragment {
                     edtalamat.setEnabled(true);
                     edttelepon.setEnabled(true);
                     edtpassword.setEnabled(true);
-                    for (int i = 0; i < datauser.size(); i++) {
-                        if(datauser.get(i).getId()==u.id){
-                            txtemail.setText(datauser.get(i).getEmail());
-//        //txtjeniskelamin.setText(u.sedang_login.);
-                            edtnama.setText(datauser.get(i).getNama());
-                            edtalamat.setText(datauser.get(i).getAlamat());
-                            edttelepon.setText(datauser.get(i).getTelepon());
-                            edtpassword.setText(datauser.get(i).getPassword());
-                        }
-                    }
                 }
             }
         });
@@ -134,8 +119,9 @@ public class Fragment_profile_user extends Fragment {
                             root.child("Users").child(key).child("alamat").setValue(edtalamat.getText().toString());
                             root.child("Users").child(key).child("telepon").setValue(edttelepon.getText().toString());
                             root.child("Users").child(key).child("password").setValue(edtpassword.getText().toString());
-                            Toast.makeText(getContext(), "Update Success", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(getContext(),String.valueOf(childSnapshot.child("id").getValue()) , Toast.LENGTH_SHORT).show();
                         }
+                        Toast.makeText(getContext(), "Update Success", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
@@ -148,6 +134,7 @@ public class Fragment_profile_user extends Fragment {
 
     }
     public void load_data(){
+        root= FirebaseDatabase.getInstance().getReference();
         root.child("Users").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -161,5 +148,15 @@ public class Fragment_profile_user extends Fragment {
 
             }
         });
+        for (int i = 0; i < datauser.size(); i++) {
+            if(datauser.get(i).getId()==u.id){
+                txtemail.setText(datauser.get(i).getEmail());
+//        //txtjeniskelamin.setText(u.sedang_login.);
+                edtnama.setText(datauser.get(i).getNama());
+                edtalamat.setText(datauser.get(i).getAlamat());
+                edttelepon.setText(datauser.get(i).getTelepon());
+                edtpassword.setText(datauser.get(i).getPassword());
+            }
+        }
     }
 }

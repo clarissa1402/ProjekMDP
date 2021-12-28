@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -20,6 +21,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import id.ac.projekmdp.admin.AddEditPegawai;
 import id.ac.projekmdp.databinding.ActivityMainBinding;
 import id.ac.projekmdp.databinding.ActivityUserPageBinding;
 import id.ac.projekmdp.kelas.Pegawai;
@@ -61,12 +63,12 @@ public class User_page extends AppCompatActivity {
                                 .replace(R.id.container, fragment)
                                 .commit();
                         return true;
-//                    case R.id.menutopup:
-//                        fragment = Fragment_top_up.newInstance(User_page.this);
-//                        getSupportFragmentManager().beginTransaction()
-//                                .replace(R.id.container, fragment)
-//                                .commit();
-//                        return true;
+                    case R.id.menutopup:
+                        fragment = Fragment_topup_user.newInstance(User_page.this);
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.container, fragment)
+                                .commit();
+                        return true;
                     case R.id.menutransaksi:
                         fragment = Fragment_transaksi.newInstance(User_page.this, dataTransaksi, datapegawai);
                         getSupportFragmentManager().beginTransaction()
@@ -74,7 +76,7 @@ public class User_page extends AppCompatActivity {
                                 .commit();
                         return true;
                     case R.id.menuprofile:
-                        fragment = Fragment_profile_user.newInstance(User_page.this);
+                        fragment = Fragment_profile_user.newInstance(User_page.this, datauser);
                         getSupportFragmentManager().beginTransaction()
                                 .replace(R.id.container, fragment)
                                 .commit();
@@ -176,6 +178,21 @@ public class User_page extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.optionmenu_user,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId()==R.id.keluar){
+            Intent logout = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(logout);
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }

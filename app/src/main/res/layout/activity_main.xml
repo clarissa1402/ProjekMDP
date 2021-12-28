@@ -32,12 +32,15 @@
         app:cardUseCompatPadding="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView">
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:cardCornerRadius="12dp"
+        >
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#F3F3F3">
+
 
             <EditText
                 android:id="@+id/etEmail"
@@ -62,8 +65,8 @@
                 android:layout_marginTop="16dp"
                 android:drawableStart="@drawable/ic_baseline_key_24"
                 android:ems="10"
-                android:hint="   Password"
-                android:inputType="textPersonName"
+                android:hint=" Password"
+                android:inputType="textPassword"
                 android:minHeight="48dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -84,13 +87,14 @@
                 android:layout_width="350dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:backgroundTint="#40FFFFFF"
+                android:backgroundTint="#FFF8F3"
                 android:onClick="btnklik"
                 android:text="Create An Account"
                 android:textColor="#FFA500"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/btnLogin" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

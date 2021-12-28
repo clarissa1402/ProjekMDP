@@ -167,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                Toast.makeText(getBaseContext(), error +"", Toast.LENGTH_LONG).show();
             }
         });
 
