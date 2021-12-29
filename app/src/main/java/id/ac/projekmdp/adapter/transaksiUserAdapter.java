@@ -42,6 +42,8 @@ public class transaksiUserAdapter extends RecyclerView.Adapter<transaksiUserAdap
     private Context context;
     private DatabaseReference root;
     String telp = "";
+    int idTrans = 0;
+    int saldoPegawai = 0;
 
     public transaksiUserAdapter(Context context, ArrayList<Transaksi> arrTransaksiAll, ArrayList<Pegawai> arrPegawai, int idUser, String selectedStatus, String searchText, String startDate, String endDate) {
         this.arrPegawai = arrPegawai;
@@ -123,7 +125,7 @@ public class transaksiUserAdapter extends RecyclerView.Adapter<transaksiUserAdap
 
     public boolean cekNama(int nik, String nama){
         for(int i = 0; i < arrPegawai.size(); i++){
-            if(arrPegawai.get(i).getNik() == nik && arrPegawai.get(i).getNama().contains(nama)){
+            if(arrPegawai.get(i).getNik() == nik && arrPegawai.get(i).getNama().toLowerCase().contains(nama.toLowerCase())){
                 return true;
             }
         }
@@ -170,6 +172,17 @@ public class transaksiUserAdapter extends RecyclerView.Adapter<transaksiUserAdap
         holder.btnFinish.setEnabled(false);
         holder.btnFinish.setVisibility(View.INVISIBLE);
         holder.txtTanggal.setText(t.getTanggal());
+
+        for(int i=0; i<arrPegawai.size(); i++){
+            if(arrPegawai.get(i).getNik() == t.getNikPegawai()){
+                holder.txtJenis.setText(arrPegawai.get(i).getJasa());
+                holder.txtNama.setText(arrPegawai.get(i).getNama());
+
+                telp = arrPegawai.get(i).getTelepon().replaceAll("\\D+","");
+                saldoPegawai = arrPegawai.get(i).getSaldo();
+            }
+        }
+
         if(t.getStatus() == 0){
             holder.txtStatus.setText("Declined");
         }
@@ -181,7 +194,7 @@ public class transaksiUserAdapter extends RecyclerView.Adapter<transaksiUserAdap
                 @Override
                 public void onClick(View view) {
                     //FINISH TRANSAKSI
-                    finishTransaksi(t.getId());
+                    finishTransaksi(t.getId(), t.getNikPegawai(), saldoPegawai, t.getHarga());
                 }
             });
         }
@@ -190,15 +203,6 @@ public class transaksiUserAdapter extends RecyclerView.Adapter<transaksiUserAdap
         }
         else if(t.getStatus() == 3){
             holder.txtStatus.setText("Finished");
-        }
-
-        for(int i=0; i<arrPegawai.size(); i++){
-            if(arrPegawai.get(i).getNik() == t.getNikPegawai()){
-                holder.txtJenis.setText(arrPegawai.get(i).getJasa());
-                holder.txtNama.setText(arrPegawai.get(i).getNama());
-
-                telp = arrPegawai.get(i).getTelepon().replaceAll("\\D+","");
-            }
         }
 
         holder.btnCall.setOnClickListener(new View.OnClickListener() {
@@ -242,7 +246,7 @@ public class transaksiUserAdapter extends RecyclerView.Adapter<transaksiUserAdap
         }
     }
 
-    private void finishTransaksi(int idTrans){
+    private void finishTransaksi(int idTrans, int nikPegawai, int saldopeg, int harga){
         root= FirebaseDatabase.getInstance().getReference();
         root.child("Transaksi").orderByChild("id").equalTo(idTrans).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -256,6 +260,30 @@ public class transaksiUserAdapter extends RecyclerView.Adapter<transaksiUserAdap
                 User_page user_page = (User_page)context;
                 Toast.makeText(user_page, "Transaction finished", Toast.LENGTH_SHORT).show();
                 user_page.loadTransaksi();
+                user_page.gototransaksi();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                User_page user_page = (User_page)context;
+                Toast.makeText(user_page, "Oops.. Try again later", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        root.child("Pegawai").orderByChild("nik").equalTo(nikPegawai).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot childSnapshot: snapshot.getChildren()) {
+                    String key = childSnapshot.getKey();
+                    int newSaldo = saldopeg + harga;
+                    root.child("Pegawai").child(key).child("saldo").setValue(newSaldo);
+
+                    System.out.println(saldopeg + " + " + harga + " = " + newSaldo);
+                }
+
+                //Success finish trans
+                User_page user_page = (User_page)context;
+                user_page.loadPegawai();
                 user_page.gototransaksi();
             }
 

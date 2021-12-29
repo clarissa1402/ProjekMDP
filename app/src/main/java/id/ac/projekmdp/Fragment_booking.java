@@ -178,7 +178,9 @@ public class Fragment_booking extends Fragment {
                             String.valueOf(dataSnapshot.child("alamat").getValue()),
                             String.valueOf(dataSnapshot.child("password").getValue()),
                             String.valueOf(dataSnapshot.child("jasa").getValue()),
-                            String.valueOf(dataSnapshot.child("deskripsi").getValue())
+                            String.valueOf(dataSnapshot.child("deskripsi").getValue()),
+                            Integer.parseInt(String.valueOf(dataSnapshot.child("harga").getValue())),
+                            Integer.parseInt(String.valueOf(dataSnapshot.child("saldo").getValue()))
                     ));
                 }
 

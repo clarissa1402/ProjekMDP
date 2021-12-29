@@ -21,6 +21,19 @@ public class Pegawai implements Parcelable {
         this.saldo = 0;
     }
 
+    public Pegawai(Integer nik, String email, String nama, String telepon, String alamat, String password, String jasa, String deskripsi, int harga, int saldo) {
+        this.nik = nik;
+        this.email = email;
+        this.nama = nama;
+        this.telepon = telepon;
+        this.alamat = alamat;
+        this.password = password;
+        this.jasa = jasa;
+        this.harga = harga;
+        this.deskripsi = deskripsi;
+        this.saldo = saldo;
+    }
+
     protected Pegawai(Parcel in) {
         email = in.readString();
         nama = in.readString();

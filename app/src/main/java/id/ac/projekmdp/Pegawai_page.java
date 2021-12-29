@@ -1,7 +1,5 @@
 package id.ac.projekmdp;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -22,75 +20,80 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-import id.ac.projekmdp.admin.AddEditPegawai;
-import id.ac.projekmdp.databinding.ActivityMainBinding;
 import id.ac.projekmdp.databinding.ActivityUserPageBinding;
 import id.ac.projekmdp.kelas.Pegawai;
 import id.ac.projekmdp.kelas.Transaksi;
 import id.ac.projekmdp.kelas.User;
 
-public class User_page extends AppCompatActivity {
+public class Pegawai_page extends AppCompatActivity {
     private ActivityUserPageBinding binding;
-    BottomNavigationView navUser;
-    int id=0;
+    BottomNavigationView navPegawai;
+    int nik = 0;
     DatabaseReference root;
-    ArrayList<User>datauser=new ArrayList<>();
-    ArrayList<Pegawai>datapegawai=new ArrayList<>();
-    ArrayList<Transaksi>dataTransaksi=new ArrayList<>();
-    User sedang_login;
+    ArrayList<User> datauser = new ArrayList<>();
+    ArrayList<Pegawai> datapegawai = new ArrayList<>();
+    ArrayList<Transaksi> dataTransaksi = new ArrayList<>();
+    Pegawai sedang_login;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        root= FirebaseDatabase.getInstance().getReference();
-        load_data();
-        id=getIntent().getIntExtra("id",0);
-        set_sedang_login();
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_page);
-        binding = ActivityUserPageBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        setContentView(R.layout.activity_pegawai_page);
 
+        root= FirebaseDatabase.getInstance().getReference();
+        nik = getIntent().getIntExtra("nik",0);
+
+        loadUser();
         loadPegawai();
         loadTransaksi();
+        set_sedang_login();
 
-        navUser = findViewById(R.id.navigation_user);
-        navUser.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+        navPegawai = findViewById(R.id.navigation_peg);
+        navPegawai.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 Fragment fragment;
                 switch (item.getItemId()) {
-                    case R.id.menuhome:
-                        fragment = Fragment_home_user.newInstance(User_page.this, datauser, datapegawai);
+                    case R.id.menutransaksipeg:
+                        fragment = Fragment_transaksi_pegawai.newInstance(Pegawai_page.this, dataTransaksi, datauser);
                         getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.container, fragment)
+                                .replace(R.id.container_peg, fragment)
                                 .commit();
                         return true;
-                    case R.id.menutopup:
-                        fragment = Fragment_topup_user.newInstance(User_page.this);
-                        getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.container, fragment)
-                                .commit();
-                        return true;
-                    case R.id.menutransaksi:
-                        fragment = Fragment_transaksi.newInstance(User_page.this, dataTransaksi, datapegawai);
-                        getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.container, fragment)
-                                .commit();
-                        return true;
-                    case R.id.menuprofile:
-                        fragment = Fragment_profile_user.newInstance(User_page.this, datauser);
-                        getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.container, fragment)
-                                .commit();
-                        return true;
+//                    case R.id.menuwithdrawpeg:
+//                        fragment = Fragment_withdraw_pegawai.newInstance(Pegawai_page.this, dataTransaksi, datapegawai);
+//                        getSupportFragmentManager().beginTransaction()
+//                                .replace(R.id.container_peg, fragment)
+//                                .commit();
+//                        return true;
+//                    case R.id.menuprofilepeg:
+//                        fragment = Fragment_profile_pegawai.newInstance(Pegawai_page.this, datauser);
+//                        getSupportFragmentManager().beginTransaction()
+//                                .replace(R.id.container_peg, fragment)
+//                                .commit();
+//                        return true;
                 }
                 return false;
             }
         });
         if (savedInstanceState == null) {
-            navUser.setSelectedItemId(R.id.menuhome);
+            navPegawai.setSelectedItemId(R.id.menutransaksipeg);
         }
     }
-    public void load_data(){
+
+    public void gototransaksi(){
+        navPegawai.setSelectedItemId(R.id.menutransaksipeg);
+    }
+
+    public void set_sedang_login(){
+        for (int i = 0; i < datapegawai.size(); i++) {
+            if(datapegawai.get(i).getNik() == nik){
+                sedang_login = datapegawai.get(i);
+            }
+        }
+    }
+
+    public void loadUser(){
         root.child("Users").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -103,7 +106,7 @@ public class User_page extends AppCompatActivity {
                             String.valueOf(dataSnapshot.child("alamat").getValue()),
                             String.valueOf(dataSnapshot.child("password").getValue()),
                             Integer.parseInt(String.valueOf(dataSnapshot.child("saldo").getValue()))
-                        ));
+                    ));
                 }
             }
 
@@ -113,28 +116,6 @@ public class User_page extends AppCompatActivity {
             }
 
         });
-    }
-    public void set_sedang_login(){
-        for (int i = 0; i < datauser.size(); i++) {
-            if(datauser.get(i).getId()==id){
-                sedang_login=datauser.get(i);
-            }
-        }
-    }
-
-    public void gotohome(){
-        navUser.setSelectedItemId(R.id.menuhome);
-    }
-
-    public void gototransaksi(){
-        navUser.setSelectedItemId(R.id.menutransaksi);
-    }
-
-    public void gotobooking(int pid){
-        Fragment fragment = Fragment_booking.newInstance(User_page.this, pid);
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.container, fragment)
-                .commit();
     }
 
     public void loadPegawai(){
@@ -166,7 +147,7 @@ public class User_page extends AppCompatActivity {
     }
 
     public void loadTransaksi(){
-        dataTransaksi = new ArrayList<>();
+        dataTransaksi = new ArrayList<Transaksi>();
         root.child("Transaksi").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -188,6 +169,13 @@ public class User_page extends AppCompatActivity {
             }
         });
     }
+
+    public void call(String telp){
+        Intent callIntent = new Intent(Intent.ACTION_DIAL);
+        callIntent.setData(Uri.parse("tel:" + telp));
+        startActivity(callIntent);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.optionmenu_user,menu);
@@ -197,15 +185,10 @@ public class User_page extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId()==R.id.keluar){
-            Intent logout = new Intent(getApplicationContext(), MainActivity.class);
-            startActivity(logout);
+            Pegawai_page.this.finish();
+//            Intent logout = new Intent(getApplicationContext(), MainActivity.class);
+//            startActivity(logout);
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    public void call(String telp){
-        Intent callIntent = new Intent(Intent.ACTION_DIAL);
-        callIntent.setData(Uri.parse("tel:" + telp));
-        startActivity(callIntent);
     }
 }

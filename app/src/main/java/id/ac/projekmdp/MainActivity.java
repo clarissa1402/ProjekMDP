@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
                             temp_id=datauser.get(i).getId();
                         }
                     }
-                    if(tipe==""){
+                    if(tipe.equals("")){
                         for (int i = 0; i < datapegawai.size(); i++) {
                             if (datapegawai.get(i).getEmail().equals(email)&&datapegawai.get(i).getPassword().equals(pass)){
                                 tipe="pegawai";
@@ -101,9 +101,13 @@ public class MainActivity extends AppCompatActivity {
                         Intent i=new Intent(MainActivity.this,User_page.class);
                         i.putExtra("id",temp_id);
                         startActivity(i);
+                        clearInput();
                     }
                     else if(tipe.equals("pegawai")){
-
+                        Intent i=new Intent(MainActivity.this,Pegawai_page.class);
+                        i.putExtra("nik",temp_id);
+                        startActivity(i);
+                        clearInput();
                     }
 
                     //root.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
@@ -150,6 +154,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    public void clearInput(){
+        binding.etEmail.setText("");
+        binding.etPassword.setText("");
+    }
+
     public void load_data(){
         root.child("Users").addValueEventListener(new ValueEventListener() {
             @Override

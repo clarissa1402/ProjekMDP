@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="15dp">
+
+    <ImageView
+        android:id="@+id/imageView107"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/felix_" />
+
+    <TextView
+        android:id="@+id/textView100"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="11dp"
+        android:layout_marginTop="16dp"
+        android:text="Nama"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/imageView107"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView116"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="11dp"
+        android:layout_marginTop="10dp"
+        android:text="Tanggal"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@+id/imageView107"
+        app:layout_constraintTop_toBottomOf="@+id/textView100" />
+
+    <Button
+        android:id="@+id/button100"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginEnd="19dp"
+        android:background="@drawable/ic_baseline_chat_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/button107"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginEnd="6dp"
+        android:background="@drawable/ic_baseline_call_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/button100" />
+
+    <TextView
+        android:id="@+id/textView119"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="19dp"
+        android:text="Status"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button108"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginEnd="19dp"
+        android:layout_marginBottom="6dp"
+        android:background="@drawable/ic_baseline_check_24"
+        app:layout_constraintBottom_toTopOf="@+id/button100"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/button9"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginEnd="6dp"
+        android:layout_marginBottom="6dp"
+        android:background="@drawable/ic_baseline_close_24"
+        app:layout_constraintBottom_toTopOf="@+id/button107"
+        app:layout_constraintEnd_toStartOf="@+id/button108" />
+
+    <TextView
+        android:id="@+id/textView20"
+        android:layout_width="171dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="11dp"
+        android:layout_marginTop="5dp"
+        android:text="Alamat"
+        app:layout_constraintStart_toEndOf="@+id/imageView107"
+        app:layout_constraintTop_toBottomOf="@+id/textView116" />
+</androidx.constraintlayout.widget.ConstraintLayout>
