@@ -9,7 +9,7 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="377dp"
-        android:layout_height="144dp"
+        android:layout_height="129dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="15dp"
         android:backgroundTint="#F9D371"
@@ -30,19 +30,51 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Balance:"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:textSize="20sp"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:layout_editor_absoluteX="10dp" />
 
             <TextView
                 android:id="@+id/uang"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="IDR 100000,-"
-                android:textSize="24sp"
+                android:textSize="34sp"
                 android:textStyle="bold"
-                app:layout_constraintTop_toBottomOf="@+id/textView19" />
+                app:layout_constraintTop_toBottomOf="@+id/textView19"
+                tools:layout_editor_absoluteX="10dp" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/textView21"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center_horizontal"
+        android:text="Top Up"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/editTextTextPersonName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:ems="10"
+        android:hint="(min. IDR 50.000,-)"
+        android:inputType="number" />
+
+    <Button
+        android:id="@+id/button10"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:text="Top Up" />
 
 </LinearLayout>

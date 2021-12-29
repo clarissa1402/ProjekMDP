@@ -6,6 +6,18 @@ plugins {
 android {
     compileSdk 31
 
+    // Define Merchant BASE URL and CLIENT KEY for each flavors
+    productFlavors {
+        sandbox {
+            buildConfigField "String", "BASE_URL", "\"https://babowemidtrans.herokuapp.com/index.php/\""
+            buildConfigField "String", "CLIENT_KEY", "\"SB-Mid-client-HVTcgsrWFrzF3AVC\""
+        }
+
+        production {
+            buildConfigField "String", "BASE_URL", "\"https://merchant-url-production.com/\""
+            buildConfigField "String", "CLIENT_KEY", "\"https://babowemidtrans.herokuapp.com/index.php/\""
+        }
+    }
     defaultConfig {
         applicationId "id.ac.projekmdp"
         minSdk 21
@@ -30,6 +42,7 @@ android {
     buildFeatures {
         viewBinding true
     }
+
 }
 
 dependencies {
@@ -57,4 +70,6 @@ dependencies {
     implementation "com.android.volley:volley:1.2.1"
 
     implementation 'de.hdodenhof:circleimageview:3.1.0'
+    //midtrans
+    implementation 'com.midtrans:uikit:1.28.0-SANDBOX'
 }
