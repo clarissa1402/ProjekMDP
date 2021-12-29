@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -58,7 +59,7 @@ public class User_page extends AppCompatActivity {
                 Fragment fragment;
                 switch (item.getItemId()) {
                     case R.id.menuhome:
-                        fragment = Fragment_home_user.newInstance(User_page.this);
+                        fragment = Fragment_home_user.newInstance(User_page.this, datauser, datapegawai);
                         getSupportFragmentManager().beginTransaction()
                                 .replace(R.id.container, fragment)
                                 .commit();
@@ -100,7 +101,9 @@ public class User_page extends AppCompatActivity {
                             String.valueOf(dataSnapshot.child("nama").getValue()),
                             String.valueOf(dataSnapshot.child("telepon").getValue()),
                             String.valueOf(dataSnapshot.child("alamat").getValue()),
-                            String.valueOf(dataSnapshot.child("password").getValue())));
+                            String.valueOf(dataSnapshot.child("password").getValue()),
+                            Integer.parseInt(String.valueOf(dataSnapshot.child("saldo").getValue()))
+                        ));
                 }
             }
 
@@ -108,6 +111,7 @@ public class User_page extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
+
         });
     }
     public void set_sedang_login(){
@@ -120,6 +124,10 @@ public class User_page extends AppCompatActivity {
 
     public void gotohome(){
         navUser.setSelectedItemId(R.id.menuhome);
+    }
+
+    public void gototransaksi(){
+        navUser.setSelectedItemId(R.id.menutransaksi);
     }
 
     public void gotobooking(int pid){
@@ -170,7 +178,6 @@ public class User_page extends AppCompatActivity {
                             Integer.parseInt(String.valueOf(dataSnapshot.child("status").getValue()))
                     ));
                 }
-
             }
 
             @Override
@@ -179,7 +186,6 @@ public class User_page extends AppCompatActivity {
             }
         });
     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.optionmenu_user,menu);
@@ -195,4 +201,9 @@ public class User_page extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public void call(String telp){
+        Intent callIntent = new Intent(Intent.ACTION_DIAL);
+        callIntent.setData(Uri.parse("tel:" + telp));
+        startActivity(callIntent);
+    }
 }

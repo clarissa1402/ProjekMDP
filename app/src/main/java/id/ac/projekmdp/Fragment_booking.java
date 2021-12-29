@@ -140,7 +140,14 @@ public class Fragment_booking extends Fragment {
                         }
                     }
                     if(cek){
-                        insertTransaksi(newID);
+                        user_page.set_sedang_login();
+                        //CEK SALDO
+                        if(user_page.sedang_login.getSaldo() - selected.getHarga() >= 0){
+                            insertTransaksi(newID);
+                        }
+                        else{
+                            Toast.makeText(user_page, "Not enough saldo", Toast.LENGTH_SHORT).show();
+                        }
                     }
                     else{
                         Toast.makeText(user_page, "Invalid Date", Toast.LENGTH_SHORT).show();
@@ -234,14 +241,39 @@ public class Fragment_booking extends Fragment {
         root.child("Transaksi").push().setValue(new Transaksi(newID,user_page.id,nik,selectedDate,selected.getHarga(),2)).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
-                Toast.makeText(user_page, "Transaction Success", Toast.LENGTH_SHORT).show();
-                user_page.loadTransaksi();
-                user_page.gotohome();
+
+                updateSaldo();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Toast.makeText(user_page, "Transaction Failed", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void updateSaldo(){
+        root.child("Users").orderByChild("id").equalTo(user_page.id).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot childSnapshot: snapshot.getChildren()) {
+                    String key = childSnapshot.getKey();
+                    user_page.set_sedang_login();
+                    int saldo = user_page.sedang_login.getSaldo() - selected.getHarga();
+                    root.child("Users").child(key).child("saldo").setValue(saldo);
+                    user_page.load_data();
+                    user_page.set_sedang_login();
+                }
+
+                //Transaction Success
+                Toast.makeText(user_page, "Transaction Success", Toast.LENGTH_SHORT).show();
+                user_page.loadTransaksi();
+                user_page.gotohome();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getContext(), "Update Failed", Toast.LENGTH_SHORT).show();
             }
         });
     }

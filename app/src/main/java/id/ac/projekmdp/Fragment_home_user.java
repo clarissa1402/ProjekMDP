@@ -66,10 +66,12 @@ public class Fragment_home_user extends Fragment {
      * @return A new instance of fragment Fragment_home_user.
      */
     // TODO: Rename and change types and number of parameters
-    public static Fragment_home_user newInstance(User_page u1) {
+    public static Fragment_home_user newInstance(User_page u1, ArrayList<User> datauser, ArrayList<Pegawai> datapegawai) {
         Fragment_home_user fragment = new Fragment_home_user();
         Bundle args = new Bundle();
         fragment.u=u1;
+        fragment.datauser = datauser;
+        fragment.datapegawai = datapegawai;
         fragment.setArguments(args);
         return fragment;
     }
@@ -94,10 +96,12 @@ public class Fragment_home_user extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        load_data();
+//        load_data();
         set_jenis();
+        System.out.println("SIZE: "+datauser.size()+"");
         for (int i = 0; i < datauser.size(); i++) {
             if(datauser.get(i).getId()==u.id){
+                System.out.println("SALDO: "+datauser.get(i).getSaldo()+"");
                 binding.textView4.setText("Rp "+datauser.get(i).getSaldo());
             }
         }
@@ -153,7 +157,7 @@ public class Fragment_home_user extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()){
-                    datauser.add(new User(Integer.parseInt(String.valueOf(dataSnapshot.child("id").getValue())),  String.valueOf(dataSnapshot.child("email").getValue()),String.valueOf(dataSnapshot.child("nama").getValue()),String.valueOf(dataSnapshot.child("telepon").getValue()),String.valueOf(dataSnapshot.child("alamat").getValue()),String.valueOf(dataSnapshot.child("password").getValue())));
+                    datauser.add(new User(Integer.parseInt(String.valueOf(dataSnapshot.child("id").getValue())),  String.valueOf(dataSnapshot.child("email").getValue()),String.valueOf(dataSnapshot.child("nama").getValue()),String.valueOf(dataSnapshot.child("telepon").getValue()),String.valueOf(dataSnapshot.child("alamat").getValue()),String.valueOf(dataSnapshot.child("password").getValue()), Integer.parseInt(String.valueOf(dataSnapshot.child("saldo").getValue()))));
                 }
             }
 

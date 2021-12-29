@@ -20,6 +20,18 @@ public class User implements Parcelable {
         this.saldo = 0;
         this.poin = 0;
     }
+
+    public User(Integer id,String email, String nama, String telepon, String alamat, String password, int saldo) {
+        this.id = id;
+        this.email = email;
+        this.nama = nama;
+        this.telepon = telepon;
+        this.alamat = alamat;
+        this.password = password;
+        this.saldo = saldo;
+        this.poin = 0;
+    }
+
     public int getId() {
         return id;
     }

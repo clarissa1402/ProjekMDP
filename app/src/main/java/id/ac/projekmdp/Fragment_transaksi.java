@@ -10,9 +10,13 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.Spinner;
@@ -23,7 +27,10 @@ import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.google.firebase.database.DatabaseReference;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import id.ac.projekmdp.adapter.transaksiUserAdapter;
 import id.ac.projekmdp.kelas.Pegawai;
@@ -41,11 +48,20 @@ public class Fragment_transaksi extends Fragment {
 
     ArrayList<Transaksi> dataTransaksi = new ArrayList<Transaksi>();
     ArrayList<Pegawai> dataPegawai = new ArrayList<Pegawai>();
+//    String[] jasa = {"All","Cleaning","Painting","Plumbing","Electrical","Repair"};
+    String[] status = {"Status","Declined","Ongoing","Pending","Finished"};
 
-    Spinner spinnerJasa;
+//    Spinner spinnerJasa;
+    Spinner spinnerStatus;
     Button daterangepicker;
     RecyclerView rvTransaksi;
     TextView txtSearch;
+
+//    String selectedJasa = "Status";
+    String selectedStatus = "Status";
+    String searchText = "";
+    String startDate = "";
+    String endDate = "";
 
     transaksiUserAdapter adapterTransaksi;
 
@@ -82,11 +98,18 @@ public class Fragment_transaksi extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        spinnerJasa = view.findViewById(R.id.spinner3);
+        spinnerStatus = view.findViewById(R.id.spinner3);
         daterangepicker = view.findViewById(R.id.daterangepicker);
         txtSearch = view.findViewById(R.id.editTextTextPersonName5);
         rvTransaksi = view.findViewById(R.id.rvTransaksiUser);
 
+        //SET SPINNER
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),
+                android.R.layout.simple_spinner_item, status);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerStatus.setAdapter(adapter);
+
+        //DATE RANGE PICKER
         MaterialDatePicker.Builder materialDateBuilder = MaterialDatePicker.Builder.dateRangePicker();
         materialDateBuilder.setTitleText("Select Date");
         final MaterialDatePicker materialDatePicker = materialDateBuilder.build();
@@ -102,19 +125,59 @@ public class Fragment_transaksi extends Fragment {
         materialDatePicker.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener() {
             @Override
             public void onPositiveButtonClick(Object selection) {
-                Toast.makeText(getActivity(), ""+materialDatePicker.getSelection(), Toast.LENGTH_SHORT).show();
-                Toast.makeText(getActivity(), ""+"Selected Date is : " + materialDatePicker.getHeaderText(), Toast.LENGTH_SHORT).show();
+                String range = materialDatePicker.getSelection().toString().replaceAll("\\D+","");
+                String awal = range.substring(0,10);
+                String akhir = range.substring(13,23);
+
+                Date startD = new Date(Long.parseLong(awal) * 1000L);
+                Date endD = new Date(Long.parseLong(akhir) * 1000L);
+
+                DateFormat newFormat = new SimpleDateFormat("dd/MM/yyyy");
+                startDate = newFormat.format(startD);
+                endDate = newFormat.format(endD);
+
+                loadRV();
+            }
+        });
+
+        txtSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                searchText = txtSearch.getText().toString();
+                loadRV();
+            }
+        });
+
+        spinnerStatus.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                selectedStatus = spinnerStatus.getSelectedItem().toString();
+                loadRV();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
             }
         });
 
         rvTransaksi.setHasFixedSize(true);
         rvTransaksi.setLayoutManager(new LinearLayoutManager(getActivity()));
         loadRV();
-
     }
 
     public void loadRV(){
-        adapterTransaksi = new transaksiUserAdapter(getActivity(), dataTransaksi, dataPegawai, user_page.id);
+        adapterTransaksi = new transaksiUserAdapter(getActivity(), dataTransaksi, dataPegawai, user_page.id, selectedStatus, searchText, startDate, endDate);
         rvTransaksi.setAdapter(adapterTransaksi);
     }
 }
