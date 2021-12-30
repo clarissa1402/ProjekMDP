@@ -105,6 +105,7 @@ public class Pegawai_page extends AppCompatActivity {
                             String.valueOf(dataSnapshot.child("telepon").getValue()),
                             String.valueOf(dataSnapshot.child("alamat").getValue()),
                             String.valueOf(dataSnapshot.child("password").getValue()),
+                            String.valueOf(dataSnapshot.child("jenis_kelamin").getValue()),
                             Integer.parseInt(String.valueOf(dataSnapshot.child("saldo").getValue()))
                     ));
                 }

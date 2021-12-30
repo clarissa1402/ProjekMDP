@@ -85,6 +85,7 @@ public class Fragment_profile_user extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        root= FirebaseDatabase.getInstance().getReference();
         txtemail=view.findViewById(R.id.textView8);
         txtjeniskelamin=view.findViewById(R.id.textView9);
         img=view.findViewById(R.id.imageView5);
@@ -95,11 +96,12 @@ public class Fragment_profile_user extends Fragment {
         btnedit=view.findViewById(R.id.button4);
         btnsave=view.findViewById(R.id.button5);
         load_data();
-
+        //System.out.println(u.id+"");
         btnedit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(!edtnama.isEnabled()){
+                    //load_data();
                     edtnama.setEnabled(true);
                     edtalamat.setEnabled(true);
                     edttelepon.setEnabled(true);
@@ -134,12 +136,12 @@ public class Fragment_profile_user extends Fragment {
 
     }
     public void load_data(){
-        root= FirebaseDatabase.getInstance().getReference();
+//        root= FirebaseDatabase.getInstance().getReference();
         root.child("Users").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()){
-                    datauser.add(new User(Integer.parseInt(String.valueOf(dataSnapshot.child("id").getValue())),  String.valueOf(dataSnapshot.child("email").getValue()),String.valueOf(dataSnapshot.child("nama").getValue()),String.valueOf(dataSnapshot.child("telepon").getValue()),String.valueOf(dataSnapshot.child("alamat").getValue()),String.valueOf(dataSnapshot.child("password").getValue())));
+                    datauser.add(new User(Integer.parseInt(String.valueOf(dataSnapshot.child("id").getValue())),  String.valueOf(dataSnapshot.child("email").getValue()),String.valueOf(dataSnapshot.child("nama").getValue()),String.valueOf(dataSnapshot.child("telepon").getValue()),String.valueOf(dataSnapshot.child("alamat").getValue()),String.valueOf(dataSnapshot.child("password").getValue()),String.valueOf(dataSnapshot.child("jenis_kelamin").getValue())));
                 }
             }
 
@@ -151,12 +153,18 @@ public class Fragment_profile_user extends Fragment {
         for (int i = 0; i < datauser.size(); i++) {
             if(datauser.get(i).getId()==u.id){
                 txtemail.setText(datauser.get(i).getEmail());
-//        //txtjeniskelamin.setText(u.sedang_login.);
+                txtjeniskelamin.setText(datauser.get(i).getJenis_kelamin());
                 edtnama.setText(datauser.get(i).getNama());
                 edtalamat.setText(datauser.get(i).getAlamat());
                 edttelepon.setText(datauser.get(i).getTelepon());
                 edtpassword.setText(datauser.get(i).getPassword());
             }
         }
+//            txtemail.setText(u.sedang_login.getEmail());
+//            txtjeniskelamin.setText(u.sedang_login.getJenis_kelamin());
+//            edtnama.setText(u.sedang_login.getNama());
+//            edtalamat.setText(u.sedang_login.getAlamat());
+//            edttelepon.setText(u.sedang_login.getTelepon());
+//            edtpassword.setText(u.sedang_login.getPassword());
     }
 }

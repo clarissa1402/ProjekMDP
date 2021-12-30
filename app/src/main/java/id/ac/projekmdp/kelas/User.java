@@ -5,32 +5,57 @@ import android.os.Parcelable;
 
 public class User implements Parcelable {
 
-
     private int id;
-    private String email,nama,telepon,alamat,password;
+    private String email,nama,telepon,alamat,password,jenis_kelamin;
     private int saldo,poin;
 
-    public User(Integer id,String email, String nama, String telepon, String alamat, String password) {
+    public User(Integer id,String email, String nama, String telepon, String alamat, String password,String jenis_kelamin) {
         this.id = id;
         this.email = email;
         this.nama = nama;
         this.telepon = telepon;
         this.alamat = alamat;
         this.password = password;
+        this.jenis_kelamin=jenis_kelamin;
         this.saldo = 0;
         this.poin = 0;
     }
 
-    public User(Integer id,String email, String nama, String telepon, String alamat, String password, int saldo) {
+    public User(Integer id,String email, String nama, String telepon, String alamat, String password, String jenis_kelamin, int saldo) {
         this.id = id;
         this.email = email;
         this.nama = nama;
         this.telepon = telepon;
         this.alamat = alamat;
         this.password = password;
+        this.jenis_kelamin=jenis_kelamin;
         this.saldo = saldo;
         this.poin = 0;
     }
+
+    protected User(Parcel in) {
+        id = in.readInt();
+        email = in.readString();
+        nama = in.readString();
+        telepon = in.readString();
+        alamat = in.readString();
+        password = in.readString();
+        jenis_kelamin = in.readString();
+        saldo = in.readInt();
+        poin = in.readInt();
+    }
+
+    public static final Creator<User> CREATOR = new Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel in) {
+            return new User(in);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
 
     public int getId() {
         return id;
@@ -95,54 +120,30 @@ public class User implements Parcelable {
         this.poin = poin;
     }
 
+    public String getJenis_kelamin() {
+        return jenis_kelamin;
+    }
+
+    public void setJenis_kelamin(String jenis_kelamin) {
+        this.jenis_kelamin = jenis_kelamin;
+    }
+
+
     @Override
     public int describeContents() {
         return 0;
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.id);
-        dest.writeString(this.email);
-        dest.writeString(this.nama);
-        dest.writeString(this.telepon);
-        dest.writeString(this.alamat);
-        dest.writeString(this.password);
-        dest.writeInt(this.saldo);
-        dest.writeInt(this.poin);
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(id);
+        parcel.writeString(email);
+        parcel.writeString(nama);
+        parcel.writeString(telepon);
+        parcel.writeString(alamat);
+        parcel.writeString(password);
+        parcel.writeString(jenis_kelamin);
+        parcel.writeInt(saldo);
+        parcel.writeInt(poin);
     }
-
-    public void readFromParcel(Parcel source) {
-        this.id = source.readInt();
-        this.email = source.readString();
-        this.nama = source.readString();
-        this.telepon = source.readString();
-        this.alamat = source.readString();
-        this.password = source.readString();
-        this.saldo = source.readInt();
-        this.poin = source.readInt();
-    }
-
-    protected User(Parcel in) {
-        this.id = in.readInt();
-        this.email = in.readString();
-        this.nama = in.readString();
-        this.telepon = in.readString();
-        this.alamat = in.readString();
-        this.password = in.readString();
-        this.saldo = in.readInt();
-        this.poin = in.readInt();
-    }
-
-    public static final Creator<User> CREATOR = new Creator<User>() {
-        @Override
-        public User createFromParcel(Parcel source) {
-            return new User(source);
-        }
-
-        @Override
-        public User[] newArray(int size) {
-            return new User[size];
-        }
-    };
 }

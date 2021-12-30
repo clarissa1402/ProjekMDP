@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ProjekMDP">
         <activity
+            android:name=".ChatUser"
+            android:exported="true" />
+        <activity
             android:name=".Pegawai_page"
             android:exported="true" />
         <activity

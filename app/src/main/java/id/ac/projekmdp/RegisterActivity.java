@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -28,23 +30,44 @@ import java.util.ArrayList;
 
 import id.ac.projekmdp.databinding.ActivityMainBinding;
 import id.ac.projekmdp.databinding.ActivityRegisterBinding;
+import id.ac.projekmdp.kelas.Pegawai;
 import id.ac.projekmdp.kelas.User;
 
 public class RegisterActivity extends AppCompatActivity {
 
     private ActivityRegisterBinding binding;
     Integer ban=0;
+    DatabaseReference root;
+    ArrayList<User>datauser=new ArrayList<>();
+    String jenis_kelamin="Laki-laki";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         binding = ActivityRegisterBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot()); //binding.getRoot() -> mengembalikan View
+        root= FirebaseDatabase.getInstance().getReference();
+//        FirebaseDatabase db = FirebaseDatabase.getInstance();
+//        DatabaseReference root = db.getReference();
+        load_data();
+        binding.radioButton2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                binding.radioButton2.setChecked(true);
+                jenis_kelamin="Perempuan";
+            }
+        });
+        binding.radioButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                binding.radioButton.setChecked(true);
+                jenis_kelamin="Laki-laki";
+            }
+        });
         binding.btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FirebaseDatabase db = FirebaseDatabase.getInstance();
-                DatabaseReference root = db.getReference();
+
 
                 FirebaseAuth fAuth = null;
 
@@ -74,23 +97,9 @@ public class RegisterActivity extends AppCompatActivity {
                     binding.etPassRegis.requestFocus();
                 }
                 else if(nama.length()>0 && email.length()>0 && alamat.length()>0 && telp.length()>0 && password.length()>0 && confirm.length()>0 && password.equals(confirm)){
-
                     //fAuth.createUserWithEmailAndPassword(email,password);
 
-                    root.child("Users").addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            for (DataSnapshot dataSnapshot : snapshot.getChildren()){
-                                ban++;
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
-                    });
-                    root.child("Users").push().setValue(new User(ban,email,nama,telp,alamat,password)).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    root.child("Users").push().setValue(new User(datauser.size(),email,nama,telp,alamat,password,jenis_kelamin)).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void unused) {
                             Toast.makeText(getBaseContext(),"Registered",Toast.LENGTH_SHORT).show();
@@ -141,6 +150,29 @@ public class RegisterActivity extends AppCompatActivity {
         binding.etEmailRegis.setText("");
         binding.etNamaRegis.setText("");
         binding.etTelpRegis.setText("");
+    }
+    public void load_data() {
+        root.child("Users").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    datauser.add(new User(
+                            Integer.parseInt(String.valueOf(dataSnapshot.child("id").getValue())),
+                            String.valueOf(dataSnapshot.child("email").getValue()),
+                            String.valueOf(dataSnapshot.child("nama").getValue()),
+                            String.valueOf(dataSnapshot.child("telepon").getValue()),
+                            String.valueOf(dataSnapshot.child("alamat").getValue()),
+                            String.valueOf(dataSnapshot.child("password").getValue()),
+                            String.valueOf(dataSnapshot.child("jenis_kelamin").getValue())
+                            ));
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getBaseContext(), error + "", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
 }

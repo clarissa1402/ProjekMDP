@@ -134,14 +134,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
-
-
-
-
-
-
-
                 }
                 //root.setValue(email);
             }
@@ -171,7 +163,9 @@ public class MainActivity extends AppCompatActivity {
                         String.valueOf(dataSnapshot.child("nama").getValue()),
                         String.valueOf(dataSnapshot.child("telepon").getValue()),
                         String.valueOf(dataSnapshot.child("alamat").getValue()),
-                        String.valueOf(dataSnapshot.child("password").getValue())));
+                        String.valueOf(dataSnapshot.child("password").getValue()),
+                        String.valueOf(dataSnapshot.child("jenis_kelamin").getValue())
+                    ));
                 }
             }
 

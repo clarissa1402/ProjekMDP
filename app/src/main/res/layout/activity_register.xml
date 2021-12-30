@@ -91,6 +91,7 @@
       app:layout_constraintTop_toBottomOf="@+id/etPassRegis" />
 
   <TextView
+      android:id="@+id/textView24"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_marginTop="20dp"
@@ -106,12 +107,12 @@
       android:id="@+id/btnRegister"
       android:layout_width="350dp"
       android:layout_height="wrap_content"
-      android:layout_marginTop="32dp"
+      android:layout_marginTop="16dp"
       android:text="Register"
       app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintHorizontal_bias="0.508"
+      app:layout_constraintHorizontal_bias="0.491"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/etConfirmRegis" />
+      app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
 
   <Button
       android:id="@+id/btnToLogin"
@@ -126,5 +127,32 @@
       app:layout_constraintHorizontal_bias="0.524"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toBottomOf="@+id/btnRegister" />
+
+  <RadioGroup
+      android:id="@+id/radioGroup"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="32dp"
+      android:layout_marginEnd="32dp"
+      android:orientation="horizontal"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/etConfirmRegis">
+
+    <RadioButton
+        android:id="@+id/radioButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        android:text="Laki - laki" />
+
+    <RadioButton
+        android:id="@+id/radioButton2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="50dp"
+        android:layout_weight="1"
+        android:text="Perempuan" />
+  </RadioGroup>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

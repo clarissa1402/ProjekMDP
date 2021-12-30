@@ -42,6 +42,7 @@ public class transaksiUserAdapter extends RecyclerView.Adapter<transaksiUserAdap
     private Context context;
     private DatabaseReference root;
     String telp = "";
+    int nik_peg=-1;
     int idTrans = 0;
     int saldoPegawai = 0;
 
@@ -179,6 +180,7 @@ public class transaksiUserAdapter extends RecyclerView.Adapter<transaksiUserAdap
                 holder.txtNama.setText(arrPegawai.get(i).getNama());
 
                 telp = arrPegawai.get(i).getTelepon().replaceAll("\\D+","");
+                nik_peg=arrPegawai.get(i).getNik();
                 saldoPegawai = arrPegawai.get(i).getSaldo();
             }
         }
@@ -216,7 +218,8 @@ public class transaksiUserAdapter extends RecyclerView.Adapter<transaksiUserAdap
         holder.btnChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                User_page user_page = (User_page) context;
+                user_page.chat(nik_peg);
             }
         });
     }

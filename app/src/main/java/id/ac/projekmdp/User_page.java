@@ -32,7 +32,7 @@ import id.ac.projekmdp.kelas.User;
 public class User_page extends AppCompatActivity {
     private ActivityUserPageBinding binding;
     BottomNavigationView navUser;
-    int id=0;
+    int id=-1;
     DatabaseReference root;
     ArrayList<User>datauser=new ArrayList<>();
     ArrayList<Pegawai>datapegawai=new ArrayList<>();
@@ -42,7 +42,7 @@ public class User_page extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         root= FirebaseDatabase.getInstance().getReference();
         load_data();
-        id=getIntent().getIntExtra("id",0);
+        id=getIntent().getIntExtra("id",-1);
         set_sedang_login();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_page);
@@ -102,6 +102,7 @@ public class User_page extends AppCompatActivity {
                             String.valueOf(dataSnapshot.child("telepon").getValue()),
                             String.valueOf(dataSnapshot.child("alamat").getValue()),
                             String.valueOf(dataSnapshot.child("password").getValue()),
+                            String.valueOf(dataSnapshot.child("jenis_kelamin").getValue()),
                             Integer.parseInt(String.valueOf(dataSnapshot.child("saldo").getValue()))
                         ));
                 }
@@ -207,5 +208,11 @@ public class User_page extends AppCompatActivity {
         Intent callIntent = new Intent(Intent.ACTION_DIAL);
         callIntent.setData(Uri.parse("tel:" + telp));
         startActivity(callIntent);
+    }
+    public void chat(int tujuan){
+        Intent chatIntent = new Intent(User_page.this,ChatUser.class);
+        chatIntent.putExtra("nik_peg",tujuan);
+        chatIntent.putExtra("id_user",id);
+        startActivity(chatIntent);
     }
 }

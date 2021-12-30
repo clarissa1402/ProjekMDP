@@ -124,7 +124,6 @@ public class Fragment_booking extends Fragment {
                         if(date1.before(date2)){
                             cek = false;
                         }
-
                     } catch (ParseException e) {
                         e.printStackTrace();
                         cek = false;
