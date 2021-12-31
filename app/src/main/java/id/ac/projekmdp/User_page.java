@@ -43,7 +43,7 @@ public class User_page extends AppCompatActivity {
         root= FirebaseDatabase.getInstance().getReference();
         load_data();
         id=getIntent().getIntExtra("id",-1);
-        set_sedang_login();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_page);
         binding = ActivityUserPageBinding.inflate(getLayoutInflater());
@@ -106,6 +106,7 @@ public class User_page extends AppCompatActivity {
                             Integer.parseInt(String.valueOf(dataSnapshot.child("saldo").getValue()))
                         ));
                 }
+                set_sedang_login();
             }
 
             @Override
@@ -213,6 +214,7 @@ public class User_page extends AppCompatActivity {
         Intent chatIntent = new Intent(User_page.this,ChatUser.class);
         chatIntent.putExtra("nik_peg",tujuan);
         chatIntent.putExtra("id_user",id);
+        chatIntent.putExtra("dari",1);
         startActivity(chatIntent);
     }
 }

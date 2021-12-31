@@ -41,6 +41,7 @@ public class transaksiPegawaiAdapter extends RecyclerView.Adapter<transaksiPegaw
     private Context context;
     private DatabaseReference root;
     String telp = "";
+    int id_terpilih=-1;
 
     public transaksiPegawaiAdapter(Context context, ArrayList<Transaksi> arrTransaksiAll, ArrayList<User> arrUser, int nik, String selectedStatus, String searchText, String startDate, String endDate) {
         this.arrUser = arrUser;
@@ -212,6 +213,7 @@ public class transaksiPegawaiAdapter extends RecyclerView.Adapter<transaksiPegaw
             if(arrUser.get(i).getId() == t.getIdUser()){
                 holder.txtNama.setText(arrUser.get(i).getNama());
                 telp = arrUser.get(i).getTelepon().replaceAll("\\D+","");
+                id_terpilih=arrUser.get(i).getId();
             }
         }
 
@@ -226,7 +228,8 @@ public class transaksiPegawaiAdapter extends RecyclerView.Adapter<transaksiPegaw
         holder.btnChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Pegawai_page pegawai_page = (Pegawai_page) context;
+                pegawai_page.chat(id_terpilih);
             }
         });
     }

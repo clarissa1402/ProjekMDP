@@ -46,7 +46,7 @@ public class Pegawai_page extends AppCompatActivity {
         loadUser();
         loadPegawai();
         loadTransaksi();
-        set_sedang_login();
+
 
         navPegawai = findViewById(R.id.navigation_peg);
         navPegawai.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
@@ -109,6 +109,7 @@ public class Pegawai_page extends AppCompatActivity {
                             Integer.parseInt(String.valueOf(dataSnapshot.child("saldo").getValue()))
                     ));
                 }
+                set_sedang_login();
             }
 
             @Override
@@ -191,5 +192,12 @@ public class Pegawai_page extends AppCompatActivity {
 //            startActivity(logout);
         }
         return super.onOptionsItemSelected(item);
+    }
+    public void chat(int tujuan){
+        Intent chatIntent = new Intent(Pegawai_page.this,ChatUser.class);
+        chatIntent.putExtra("nik_peg",nik);
+        chatIntent.putExtra("id_user",tujuan);
+        chatIntent.putExtra("dari",2);
+        startActivity(chatIntent);
     }
 }
