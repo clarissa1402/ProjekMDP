@@ -65,7 +65,7 @@ public class User_page extends AppCompatActivity {
                                 .commit();
                         return true;
                     case R.id.menutopup:
-                        fragment = Fragment_topup_user.newInstance(User_page.this);
+                        fragment = Fragment_topup_user.newInstance(User_page.this, sedang_login);
                         getSupportFragmentManager().beginTransaction()
                                 .replace(R.id.container, fragment)
                                 .commit();

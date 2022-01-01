@@ -1,6 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="id.ac.projekmdp">
+<?xml version="1.0" encoding="utf-8" ?>
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    package="id.ac.projekmdp"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:replace="android:allowBackup">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -26,9 +29,6 @@
             android:exported="true" />
         <activity
             android:name=".admin.AddEditPegawai"
-            android:exported="true" />
-        <activity
-            android:name=".admin.HomeAdmin"
             android:exported="true" />
         <activity
             android:name=".admin.HomeAdmin"
