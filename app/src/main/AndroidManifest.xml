@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<manifest
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    package="id.ac.projekmdp"
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    package="id.ac.projekmdp"
     tools:replace="android:allowBackup">
+<!--    xmlns:tools="http://schemas.android.com/tools"-->
+<!--    tools:replace="android:allowBackup"-->
 
     <uses-permission android:name="android.permission.INTERNET" />
 
