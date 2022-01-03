@@ -219,7 +219,8 @@ public class transaksiUserAdapter extends RecyclerView.Adapter<transaksiUserAdap
             @Override
             public void onClick(View view) {
                 User_page user_page = (User_page) context;
-                user_page.chat(nik_peg);
+//                user_page.chat(nik_peg);
+                user_page.chat(t.getNikPegawai());
             }
         });
     }

@@ -229,7 +229,7 @@ public class transaksiPegawaiAdapter extends RecyclerView.Adapter<transaksiPegaw
             @Override
             public void onClick(View view) {
                 Pegawai_page pegawai_page = (Pegawai_page) context;
-                pegawai_page.chat(id_terpilih);
+                pegawai_page.chat(t.getIdUser());
             }
         });
     }
