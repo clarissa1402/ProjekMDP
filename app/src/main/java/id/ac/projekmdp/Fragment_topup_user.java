@@ -2,8 +2,10 @@ package id.ac.projekmdp;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.StyleRes;
 import androidx.fragment.app.Fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +25,10 @@ import com.midtrans.sdk.corekit.callback.TransactionFinishedCallback;
 import com.midtrans.sdk.corekit.core.MidtransSDK;
 import com.midtrans.sdk.corekit.core.TransactionRequest;
 import com.midtrans.sdk.corekit.core.themes.CustomColorTheme;
+import com.midtrans.sdk.corekit.models.BillingAddress;
+import com.midtrans.sdk.corekit.models.CustomerDetails;
+import com.midtrans.sdk.corekit.models.ItemDetails;
+import com.midtrans.sdk.corekit.models.ShippingAddress;
 import com.midtrans.sdk.corekit.models.snap.TransactionResult;
 import com.midtrans.sdk.uikit.SdkUIFlowBuilder;
 
@@ -86,8 +92,6 @@ public class Fragment_topup_user extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        //return inflater.inflate(R.layout.fragment_topup_user, container, false);
         binding = FragmentTopupUserBinding.inflate(inflater,container,false);
         return binding.getRoot();
     }
@@ -96,11 +100,19 @@ public class Fragment_topup_user extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         binding.uang.setText("IDR "+sedang_login.getSaldo());
+        makePayment();
+        binding.btnTopup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(view.getContext(), "btnTopup" , Toast.LENGTH_LONG).show();
+                clickPay();
+            }
+        });
     }
     private void makePayment(){
         SdkUIFlowBuilder.init()
                 .setClientKey("SB-Mid-client-HVTcgsrWFrzF3AVC") // client_key is mandatory
-                .setContext(u.getBaseContext()) // context is mandatory
+                .setContext(getContext()) // context is mandatory
                 .setTransactionFinishedCallback(new TransactionFinishedCallback() {
                     @Override
                     public void onTransactionFinished(TransactionResult result) {
@@ -113,9 +125,43 @@ public class Fragment_topup_user extends Fragment {
                 .buildSDK();
     }
     private void clickPay(){
-        String TRANSACTION_ID;
-        int TOTAL_AMOUNT;
-        //TransactionRequest transactionRequest = new TransactionRequest(TRANSACTION_ID, TOTAL_AMOUNT);
-        MidtransSDK.getInstance().startPaymentUiFlow(u.getBaseContext() );
+        String TRANSACTION_ID = "tes1halohalo";
+        int TOTAL_AMOUNT = 1000;
+        TransactionRequest transactionRequest = new TransactionRequest(TRANSACTION_ID, TOTAL_AMOUNT);
+        CustomerDetails customerDetails = new CustomerDetails();
+        customerDetails.setCustomerIdentifier("budi-6789");
+        customerDetails.setPhone("08123456789");
+        customerDetails.setFirstName("Budi");
+        customerDetails.setLastName("Utomo");
+        customerDetails.setEmail("budi@utomo.com");
+
+        ShippingAddress shippingAddress = new ShippingAddress();
+        shippingAddress.setAddress("Jalan Andalas Gang Sebelah No. 1");
+        shippingAddress.setCity("Jakarta");
+        shippingAddress.setPostalCode("10220");
+        customerDetails.setShippingAddress(shippingAddress);
+
+        BillingAddress billingAddress = new BillingAddress();
+        billingAddress.setAddress("Jalan Andalas Gang Sebelah No. 1");
+        billingAddress.setCity("Jakarta");
+        billingAddress.setPostalCode("10220");
+        customerDetails.setBillingAddress(billingAddress);
+
+        transactionRequest.setCustomerDetails(customerDetails);
+
+        String ITEM_ID_1 = "T1";
+        int ITEM_PRICE_1 = 20000;
+        int ITEM_QUANTITY_1 = 2;
+        String ITEM_NAME_1 = "baju";
+        ItemDetails itemDetails1 = new ItemDetails(ITEM_ID_1, ITEM_PRICE_1, ITEM_QUANTITY_1, ITEM_NAME_1);
+
+// Create array list and add above item details in it and then set it to transaction request.
+        ArrayList<ItemDetails> itemDetailsList = new ArrayList<>();
+        itemDetailsList.add(itemDetails1);
+
+// Set item details into the transaction request.
+        transactionRequest.setItemDetails(itemDetailsList);
+        MidtransSDK.getInstance().setTransactionRequest(transactionRequest);
+        MidtransSDK.getInstance().startPaymentUiFlow(getContext());
     }
 }
