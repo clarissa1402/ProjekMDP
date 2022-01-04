@@ -7,12 +7,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Parcelable;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -23,32 +26,26 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-import id.ac.projekmdp.R;
-import id.ac.projekmdp.adapter.homeuseradapter;
 import id.ac.projekmdp.adapter.listPegawaiAdapter;
 import id.ac.projekmdp.databinding.FragmentMasterBinding;
 import id.ac.projekmdp.kelas.Pegawai;
-import id.ac.projekmdp.kelas.User;
 
 public class MasterFragment extends Fragment {
 
     private static final String ARG_PARAM_MENU = "param-menu";
-    private DatabaseReference root;
-    private  String menu;
 
+    private String menu;
     private FragmentMasterBinding binding;
     private listPegawaiAdapter adapter;
     ArrayList<Pegawai> datapegawai=new ArrayList<>();
     String search="",jenis_dipilh="";
 
-    public MasterFragment() {
-        // Required empty public constructor
-    }
 
-    public static MasterFragment newInstance(String menu) {
+    public static MasterFragment newInstance(String menu,ArrayList<Pegawai> datapegawai) {
         MasterFragment fragment = new MasterFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM_MENU, menu);
+        fragment.datapegawai = datapegawai;
         fragment.setArguments(args);
         return fragment;
     }
@@ -73,20 +70,46 @@ public class MasterFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        load_data();
-        setUpRecyclerView(datapegawai);
-        adapter.notifyDataSetChanged();
-        Toast.makeText(getContext(),datapegawai.size()+"",Toast.LENGTH_SHORT).show();
+        //load_data();
 
-    }
-    void setUpRecyclerView(ArrayList<Pegawai> listpegawai){
+        //Toast.makeText(getContext(),datapegawai.size()+"",Toast.LENGTH_SHORT).show();
+        //System.out.println("SIZE: "+datapegawai.size()+"");
         binding.rvAdminMaster.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.rvAdminMaster.setHasFixedSize(true);
 
-        adapter = new listPegawaiAdapter(listpegawai);
+        adapter = new listPegawaiAdapter(datapegawai,search,"All");
         binding.rvAdminMaster.setAdapter(adapter);
         adapter.notifyDataSetChanged();
 
+        binding.spinnerJenis.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                jenis_dipilh = binding.spinnerJenis.getSelectedItem().toString();
+                setRecycle();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+        binding.etSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                search = binding.etSearch.getText().toString();
+                setRecycle();
+            }
+        });
         adapter.setOnItemClickCallback(new listPegawaiAdapter.OnItemClickCallback() {
             @Override
             public void onItemClicked(Pegawai pegawai) {
@@ -96,30 +119,11 @@ public class MasterFragment extends Fragment {
             }
         });
     }
-    public void load_data(){
-        root= FirebaseDatabase.getInstance().getReference();
-        root.child("Pegawai").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
-                    datapegawai.add(new Pegawai(
-                            Integer.parseInt(String.valueOf(dataSnapshot.child("nik").getValue())),
-                            String.valueOf(dataSnapshot.child("email").getValue()),
-                            String.valueOf(dataSnapshot.child("nama").getValue()),
-                            String.valueOf(dataSnapshot.child("telepon").getValue()),
-                            String.valueOf(dataSnapshot.child("alamat").getValue()),
-                            String.valueOf(dataSnapshot.child("password").getValue()),
-                            String.valueOf(dataSnapshot.child("jasa").getValue()),
-                            String.valueOf(dataSnapshot.child("deskripsi").getValue())
-                    ));
-                }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+    public void setRecycle(){
+        adapter = new listPegawaiAdapter(datapegawai,search,jenis_dipilh);
+        binding.rvAdminMaster.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
     }
 
 }
