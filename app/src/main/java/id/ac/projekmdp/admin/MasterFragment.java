@@ -114,7 +114,7 @@ public class MasterFragment extends Fragment {
             @Override
             public void onItemClicked(Pegawai pegawai) {
                 Intent toUpdate = new Intent(getContext(),AddEditPegawai.class);
-                toUpdate.putExtra("detail", (Parcelable) pegawai);
+                toUpdate.putExtra("detail", pegawai);
                 startActivity(toUpdate);
             }
         });

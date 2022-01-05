@@ -31,12 +31,12 @@
 
     <Spinner
         android:id="@+id/spinnerJenis"
-        android:layout_width="120dp"
+        android:layout_width="160dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="48dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="24dp"
-        android:minHeight="48dp"
         android:entries="@array/list_jenis"
+        android:minHeight="48dp"
         app:layout_constraintStart_toEndOf="@+id/etSearch"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

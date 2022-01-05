@@ -35,26 +35,26 @@ public class listPegawaiAdapter extends RecyclerView.Adapter<listPegawaiAdapter.
         if(!this.searchText.equals("") && !jenis.equalsIgnoreCase("all")){
             for(int i=0; i < listPegawaiSorted.size(); i++){
                 if(listPegawaiSorted.get(i).getNama().contains(searchText) && listPegawaiSorted.get(i).getJasa().equalsIgnoreCase(jenis)){
-                    this.listPegawaiSorted.add(listPegawaiSorted.get(i));
+                    this.listPegawai.add(listPegawaiSorted.get(i));
                 }
             }
         }
         else if(!this.searchText.equals("")){
             for(int i=0; i < listPegawaiSorted.size(); i++){
                 if(listPegawaiSorted.get(i).getNama().contains(searchText)){
-                    this.listPegawaiSorted.add(listPegawaiSorted.get(i));
+                    this.listPegawai.add(listPegawaiSorted.get(i));
                 }
             }
         }
         else if(!jenis.equalsIgnoreCase("all")){
             for(int i=0; i < listPegawaiSorted.size(); i++){
                 if(listPegawaiSorted.get(i).getJasa().equalsIgnoreCase(jenis)){
-                    this.listPegawaiSorted.add(listPegawaiSorted.get(i));
+                    this.listPegawai.add(listPegawaiSorted.get(i));
                 }
             }
         }
         else{
-            this.listPegawaiSorted = pegawais;
+            this.listPegawai = pegawais;
         }
 
     }

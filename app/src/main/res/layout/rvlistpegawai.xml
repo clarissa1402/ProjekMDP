@@ -32,6 +32,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:text="Nama"
+                android:textColor="#FF9800"
                 android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@+id/imageView6"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -58,12 +59,14 @@
 
             <TextView
                 android:id="@+id/tvJasaPegawai"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="156dp"
+                android:layout_width="89dp"
+                android:layout_height="25dp"
                 android:layout_marginTop="24dp"
                 android:text="Jasa"
-                app:layout_constraintStart_toEndOf="@+id/tvEmailPegawai"
+                android:textColor="@color/payment_status_pending"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.881"
+                app:layout_constraintStart_toEndOf="@+id/tvNamaPegawai"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
