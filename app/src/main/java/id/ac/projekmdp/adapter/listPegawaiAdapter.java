@@ -31,6 +31,7 @@ public class listPegawaiAdapter extends RecyclerView.Adapter<listPegawaiAdapter.
         this.jenis = jenis;
         this.searchText = search;
 
+
         //Search & Filter
         if(!this.searchText.equals("") && !jenis.equalsIgnoreCase("all")){
             for(int i=0; i < listPegawaiSorted.size(); i++){
@@ -56,7 +57,6 @@ public class listPegawaiAdapter extends RecyclerView.Adapter<listPegawaiAdapter.
         else{
             this.listPegawai = pegawais;
         }
-
     }
 
     @NonNull

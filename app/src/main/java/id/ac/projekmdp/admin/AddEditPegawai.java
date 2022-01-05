@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
@@ -31,6 +32,7 @@ public class AddEditPegawai extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        root= FirebaseDatabase.getInstance().getReference();
         binding = ActivityAddEditPegawaiBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         isEdit = false;
@@ -73,10 +75,23 @@ public class AddEditPegawai extends AppCompatActivity {
         String password = binding.etPasswordPegawai.getText().toString();
         String confirm = binding.etConfirmPassPegawai.getText().toString();
         String harga = binding.etHargaPegawai.getText().toString();
-        String jenis = binding.spinner.toString();
-        String deskripsi = binding.etDeskripsi.toString();
-        Integer hargaInt = Integer.parseInt(harga);
-        Integer nikInt = Integer.parseInt(nik);
+        String jenis = binding.spinner.getSelectedItem().toString();
+        String deskripsi = binding.etDeskripsi.getText().toString();
+        Integer hargaInt =0;
+        if (harga.equals("")){
+            hargaInt=50000;
+        }
+        else{
+            hargaInt=Integer.parseInt(harga);
+        }
+        Integer nikInt = 0;
+        if(nik.equals("")){
+            nikInt = 0;
+        }
+        else {
+            nikInt=Integer.parseInt(nik);
+        }
+
         if(TextUtils.isEmpty(nik) ){
             input(binding.etnik,"NIK");
         }if(TextUtils.isEmpty(nama) ){
@@ -101,7 +116,7 @@ public class AddEditPegawai extends AppCompatActivity {
         }
         if(!isEdit){
             if(deskripsi.length()>0 && nama.length()>0 && email.length()>0 && alamat.length()>0 && telp.length()>0 && password.length()>0 && confirm.length()>0 && password.equals(confirm) && nik.length()>0){
-                root.child("Pegawai").push().setValue(new Pegawai(nikInt,email,nama,telp,alamat,password,jenis,deskripsi)).addOnSuccessListener(new OnSuccessListener<Void>() {
+                root.child("Pegawai").push().setValue(new Pegawai(nikInt,email,nama,telp,alamat,password,jenis,deskripsi,hargaInt,0)).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
                         Toast.makeText(getBaseContext(),"Registered",Toast.LENGTH_SHORT).show();
@@ -133,4 +148,5 @@ public class AddEditPegawai extends AppCompatActivity {
         txt.setError("Field "+s+" Tidak boleh kosong!");
         txt.requestFocus();
     }
+
 }
