@@ -231,6 +231,7 @@ public class Pegawai_page extends AppCompatActivity {
         chatIntent.putExtra("dari",2);
         //chatIntent.putExtra("sedang_login",sedang_login.get);
         chatIntent.putParcelableArrayListExtra("datauser",datauser);
+        chatIntent.putParcelableArrayListExtra("datapegawai",datapegawai);
         startActivity(chatIntent);
     }
 }

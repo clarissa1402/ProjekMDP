@@ -143,7 +143,18 @@ public class User_page extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()){
                     datapegawai.add(new Pegawai(
-                            Integer.parseInt(String.valueOf(dataSnapshot.child("nik").getValue())),
+//                            Integer.parseInt(String.valueOf(dataSnapshot.child("nik").getValue())),
+//                            String.valueOf(dataSnapshot.child("email").getValue()),
+//                            String.valueOf(dataSnapshot.child("nama").getValue()),
+//                            String.valueOf(dataSnapshot.child("telepon").getValue()),
+//                            String.valueOf(dataSnapshot.child("alamat").getValue()),
+//                            String.valueOf(dataSnapshot.child("password").getValue()),
+//                            String.valueOf(dataSnapshot.child("jasa").getValue()),
+//                            String.valueOf(dataSnapshot.child("deskripsi").getValue()),
+//                            Integer.parseInt(String.valueOf(dataSnapshot.child("harga").getValue())),
+//                            Integer.parseInt(String.valueOf(dataSnapshot.child("saldo").getValue()))
+
+
                             String.valueOf(dataSnapshot.child("email").getValue()),
                             String.valueOf(dataSnapshot.child("nama").getValue()),
                             String.valueOf(dataSnapshot.child("telepon").getValue()),
@@ -151,8 +162,10 @@ public class User_page extends AppCompatActivity {
                             String.valueOf(dataSnapshot.child("password").getValue()),
                             String.valueOf(dataSnapshot.child("jasa").getValue()),
                             String.valueOf(dataSnapshot.child("deskripsi").getValue()),
+                            String.valueOf(dataSnapshot.child("url").getValue()),
+                            Integer.parseInt(String.valueOf(dataSnapshot.child("saldo").getValue())),
                             Integer.parseInt(String.valueOf(dataSnapshot.child("harga").getValue())),
-                            Integer.parseInt(String.valueOf(dataSnapshot.child("saldo").getValue()))
+                            Integer.parseInt(String.valueOf(dataSnapshot.child("nik").getValue()))
                     ));
                 }
             }
@@ -243,6 +256,7 @@ public class User_page extends AppCompatActivity {
         chatIntent.putExtra("dari",1);
         //chatIntent.putExtra("sedang_login",sedang_login);
         chatIntent.putParcelableArrayListExtra("datauser",datauser);
+        chatIntent.putParcelableArrayListExtra("datapegawai",datapegawai);
         startActivity(chatIntent);
     }
 }

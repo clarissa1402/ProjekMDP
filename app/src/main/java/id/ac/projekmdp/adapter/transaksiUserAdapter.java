@@ -16,6 +16,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -179,6 +180,7 @@ public class transaksiUserAdapter extends RecyclerView.Adapter<transaksiUserAdap
             if(arrPegawai.get(i).getNik() == t.getNikPegawai()){
                 holder.txtJenis.setText(arrPegawai.get(i).getJasa());
                 holder.txtNama.setText(arrPegawai.get(i).getNama());
+                Glide.with(context).load(arrPegawai.get(i).getUrl()).into(holder.ivFoto);
 
 //                telp = arrPegawai.get(i).getTelepon().replaceAll("\\D+","");
                 nik_peg=arrPegawai.get(i).getNik();

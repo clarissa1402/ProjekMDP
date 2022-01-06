@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import id.ac.projekmdp.adapter.chatUserAdapter;
 import id.ac.projekmdp.kelas.Dchat;
 import id.ac.projekmdp.kelas.Hchat;
+import id.ac.projekmdp.kelas.Pegawai;
 import id.ac.projekmdp.kelas.User;
 
 public class ChatUser extends AppCompatActivity {
@@ -34,11 +35,12 @@ public class ChatUser extends AppCompatActivity {
     ArrayList<Hchat>datahchat=new ArrayList<>();
     ArrayList<Dchat>datadchat=new ArrayList<>();
     ArrayList<User>datauser=new ArrayList<>();
+    ArrayList<Pegawai>datapegawai=new ArrayList<>();
     //ArrayList<Hchat>datahchatfiltered=new ArrayList<>();
     ArrayList<Dchat>datadchatfiltered=new ArrayList<>();
     DatabaseReference root;
     int nik_peg,id_user,id_hc,dari;
-    String link_foto_user;
+    String link_foto_user,link_foto_pegawai;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         root= FirebaseDatabase.getInstance().getReference();
@@ -52,11 +54,13 @@ public class ChatUser extends AppCompatActivity {
         id_user=getIntent().getIntExtra("id_user",0);
         dari=getIntent().getIntExtra("dari",0);
         datauser=getIntent().getParcelableArrayListExtra("datauser");
+        datapegawai=getIntent().getParcelableArrayListExtra("datapegawai");
         //sedang_login=getIntent().getParcelableExtra("sedanglogin");
         rv.setHasFixedSize(true);
         rv.setLayoutManager(new LinearLayoutManager(ChatUser.this));
         load_data();
         user_sedang_login();
+        pegawai_sedang_login();
 
 
         ivsend.setOnClickListener(new View.OnClickListener() {
@@ -163,7 +167,7 @@ public class ChatUser extends AppCompatActivity {
                 //System.out.println(datadchat.size()+"a");
                 filter();
 
-                userchatadapter = new chatUserAdapter(datadchatfiltered,dari,link_foto_user,ChatUser.this);
+                userchatadapter = new chatUserAdapter(datadchatfiltered,dari,link_foto_user,link_foto_pegawai,ChatUser.this);
                 rv.setAdapter(userchatadapter);
                 rv.scrollToPosition(datadchatfiltered.size()-1);
                 userchatadapter.notifyDataSetChanged();
@@ -258,6 +262,13 @@ public class ChatUser extends AppCompatActivity {
         for (int i = 0; i < datauser.size(); i++) {
             if(datauser.get(i).getId()==id_user){
                 link_foto_user=datauser.get(i).getUrl();
+            }
+        }
+    }
+    void pegawai_sedang_login(){
+        for (int i = 0; i < datapegawai.size(); i++) {
+            if(datapegawai.get(i).getNik()==nik_peg){
+                link_foto_pegawai=datapegawai.get(i).getUrl();
             }
         }
     }

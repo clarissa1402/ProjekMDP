@@ -96,11 +96,11 @@ public class FragmentProfilePegawai extends Fragment {
         binding.etTelpPegProfile.setText(pegawai.getTelepon());
         binding.etNama.setText(pegawai.getNama());
         binding.etPasswordProfilePeg.setText(pegawai.getPassword());
-        if(pegawai.getUrl().equals("")){
+            if(pegawai.getUrl().equals("")){
 
-        }else{
-            Glide.with(getContext()).load(pegawai.getUrl()).into(binding.imageView13);
-        }
+            }else{
+                Glide.with(getContext()).load(pegawai.getUrl()).into(binding.imageView13);
+            }
         binding.etAlamatPegProfile.setEnabled(false);
         binding.etDeskripsiPegProfile.setEnabled(false);
         binding.etNama.setEnabled(false);

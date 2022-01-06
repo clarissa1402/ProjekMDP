@@ -14,6 +14,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -215,8 +216,15 @@ public class transaksiPegawaiAdapter extends RecyclerView.Adapter<transaksiPegaw
                 holder.txtNama.setText(arrUser.get(i).getNama());
 //                telp = arrUser.get(i).getTelepon().replaceAll("\\D+","");
                 id_terpilih=arrUser.get(i).getId();
+                if(arrUser.get(i).getUrl().equals("")){
+
+                }else{
+                    Glide.with(context).load(arrUser.get(i).getUrl()).into(holder.ivFoto);
+                }
             }
         }
+
+
 
         holder.btnCall.setOnClickListener(new View.OnClickListener() {
             @Override

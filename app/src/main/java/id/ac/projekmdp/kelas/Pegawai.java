@@ -58,6 +58,7 @@ public class Pegawai implements Parcelable{
         password = in.readString();
         jasa = in.readString();
         deskripsi = in.readString();
+        url = in.readString();
         saldo = in.readInt();
         harga = in.readInt();
         nik = in.readInt();

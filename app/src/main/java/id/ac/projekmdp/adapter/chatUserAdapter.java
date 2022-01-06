@@ -23,9 +23,10 @@ public class chatUserAdapter extends RecyclerView.Adapter{
     ArrayList<Dchat>datadchat=new ArrayList<>();
     private int dari;
     Context context;
-    String link_foto_user;
-    public chatUserAdapter(ArrayList<Dchat> datadchat, int dari, String link_foto_user,Context c) {
+    String link_foto_user,link_foto_pegawai;
+    public chatUserAdapter(ArrayList<Dchat> datadchat, int dari, String link_foto_user,String link_foto_pegawai,Context c) {
         this.link_foto_user=link_foto_user;
+        this.link_foto_pegawai=link_foto_pegawai;
         this.datadchat = datadchat;
         this.dari=dari;
         this.context=c;
@@ -63,17 +64,42 @@ public class chatUserAdapter extends RecyclerView.Adapter{
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         final Dchat dchat = datadchat.get(position);
         //holder.txtchat.setText(dchat.getChat());
+
         if(holder.getClass()==itemViewHolder.class){
+            //halaman user
             itemViewHolder viewHolder=(itemViewHolder) holder;
             viewHolder.txtchat.setText(dchat.getChat());
             //viewHolder.ivprofile
-            if(!link_foto_user.equals("")){
-                Glide.with(context).load(link_foto_user).into(viewHolder.ivprofile);
+            if(dchat.getPengirim()==1){
+                //dari user
+                if(!link_foto_user.equals("")){
+                    Glide.with(context).load(link_foto_user).into(viewHolder.ivprofile);
+                }
+            }
+            else{
+                if(!link_foto_pegawai.equals("")){
+                    Glide.with(context).load(link_foto_pegawai).into(viewHolder.ivprofile);
+                }
             }
         }
         else if (holder.getClass()==penerimaViewHolder.class){
+            //halaman pegawai
             penerimaViewHolder viewHolder=(penerimaViewHolder) holder;
             viewHolder.txtchat.setText(dchat.getChat());
+//            if(!link_foto_pegawai.equals("")){
+//                Glide.with(context).load(link_foto_pegawai).into(viewHolder.ivprofile);
+//            }
+            if(dchat.getPengirim()==1){
+                //dari user
+                if(!link_foto_user.equals("")){
+                    Glide.with(context).load(link_foto_user).into(viewHolder.ivprofile);
+                }
+            }
+            else{
+                if(!link_foto_pegawai.equals("")){
+                    Glide.with(context).load(link_foto_pegawai).into(viewHolder.ivprofile);
+                }
+            }
         }
     }
 
