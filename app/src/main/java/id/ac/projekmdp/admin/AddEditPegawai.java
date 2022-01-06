@@ -149,29 +149,32 @@ public class AddEditPegawai extends AppCompatActivity {
                 });
             }
         }else {
-            //Toast.makeText(getBaseContext(),"Masuk edit",Toast.LENGTH_SHORT).show();
-            root.child("Pegawai").orderByChild("nik").equalTo(pegawai.getNik()).addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    for (DataSnapshot childSnapshot: snapshot.getChildren()){
-                        String key = childSnapshot.getKey();
-                        root.child("Pegawai").child(key).child("nik").setValue(nik);
-                        root.child("Pegawai").child(key).child("email").setValue(email);
-                        root.child("Pegawai").child(key).child("nama").setValue(nama);
-                        root.child("Pegawai").child(key).child("telepon").setValue(telp);
-                        root.child("Pegawai").child(key).child("alamat").setValue(alamat);
-                        root.child("Pegawai").child(key).child("jasa").setValue(jenis);
-                        root.child("Pegawai").child(key).child("deskripsi").setValue(deskripsi);
-                        root.child("Pegawai").child(key).child("harga").setValue(harga);
+            if (deskripsi.length()>0 && nama.length()>0 && email.length()>0 && alamat.length()>0 && telp.length()>0 && nik.length()>0){
+                //Toast.makeText(getBaseContext(),"Masuk edit",Toast.LENGTH_SHORT).show();
+                root.child("Pegawai").orderByChild("nik").equalTo(pegawai.getNik()).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot childSnapshot: snapshot.getChildren()){
+                            String key = childSnapshot.getKey();
+                            root.child("Pegawai").child(key).child("nik").setValue(nik);
+                            root.child("Pegawai").child(key).child("email").setValue(email);
+                            root.child("Pegawai").child(key).child("nama").setValue(nama);
+                            root.child("Pegawai").child(key).child("telepon").setValue(telp);
+                            root.child("Pegawai").child(key).child("alamat").setValue(alamat);
+                            root.child("Pegawai").child(key).child("jasa").setValue(jenis);
+                            root.child("Pegawai").child(key).child("deskripsi").setValue(deskripsi);
+                            root.child("Pegawai").child(key).child("harga").setValue(harga);
+                        }
+                        Toast.makeText(getBaseContext(),"Edited",Toast.LENGTH_SHORT).show();
                     }
-                    Toast.makeText(getBaseContext(),"Edited",Toast.LENGTH_SHORT).show();
-                }
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
 
-                }
-            });
+                    }
+                });
+            }
+
         }
 
     }
