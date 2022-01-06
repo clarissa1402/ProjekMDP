@@ -27,6 +27,49 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/felix_" />
+
+            <TextView
+                android:id="@+id/tvNamaPegTrans"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="8dp"
+                android:text="Nama Pegawai"
+                android:textColor="#FF9800"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/imageView12"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvTanggalTrans"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="8dp"
+                android:text="Tanggal"
+                app:layout_constraintStart_toEndOf="@+id/imageView12"
+                app:layout_constraintTop_toBottomOf="@+id/tvNamaPegTrans" />
+
+            <TextView
+                android:id="@+id/tvHargaTrans"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="8dp"
+                android:text="harga"
+                app:layout_constraintStart_toEndOf="@+id/imageView12"
+                app:layout_constraintTop_toBottomOf="@+id/tvTanggalTrans" />
+
+            <TextView
+                android:id="@+id/tvStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="120dp"
+                android:layout_marginTop="64dp"
+                android:text="Status"
+                app:layout_constraintStart_toEndOf="@+id/tvHargaTrans"
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>
