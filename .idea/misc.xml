@@ -42,8 +42,9 @@
         <entry key="..\:/Kuliah/Semester_5/1_MobileDeviceProgramming/Project/ProjekMDP/app/src/main/res/layout/activity_user_page.xml" value="0.2942708333333333" />
         <entry key="..\:/Kuliah/Semester_5/1_MobileDeviceProgramming/Project/ProjekMDP/app/src/main/res/layout/fragment_booking.xml" value="0.2942708333333333" />
         <entry key="..\:/Kuliah/Semester_5/1_MobileDeviceProgramming/Project/ProjekMDP/app/src/main/res/layout/fragment_home_user.xml" value="0.2942708333333333" />
-        <entry key="..\:/Kuliah/Semester_5/1_MobileDeviceProgramming/Project/ProjekMDP/app/src/main/res/layout/fragment_transaksi.xml" value="0.2942708333333333" />
-        <entry key="..\:/Kuliah/Semester_5/1_MobileDeviceProgramming/Project/ProjekMDP/app/src/main/res/layout/fragment_transaksi_pegawai.xml" value="0.4092219020172911" />
+        <entry key="..\:/Kuliah/Semester_5/1_MobileDeviceProgramming/Project/ProjekMDP/app/src/main/res/layout/fragment_topup_user.xml" value="0.1875" />
+        <entry key="..\:/Kuliah/Semester_5/1_MobileDeviceProgramming/Project/ProjekMDP/app/src/main/res/layout/fragment_transaksi.xml" value="0.2879999900124293" />
+        <entry key="..\:/Kuliah/Semester_5/1_MobileDeviceProgramming/Project/ProjekMDP/app/src/main/res/layout/fragment_transaksi_pegawai.xml" value="0.2879999900124293" />
         <entry key="..\:/Kuliah/Semester_5/1_MobileDeviceProgramming/Project/ProjekMDP/app/src/main/res/layout/recyclerview_home_user.xml" value="0.2942708333333333" />
         <entry key="..\:/Kuliah/Semester_5/1_MobileDeviceProgramming/Project/ProjekMDP/app/src/main/res/layout/recyclerview_transaksi_pegawai.xml" value="0.4363636212309535" />
         <entry key="..\:/Kuliah/Semester_5/1_MobileDeviceProgramming/Project/ProjekMDP/app/src/main/res/layout/recyclerview_transaksi_user.xml" value="0.2879999900124293" />

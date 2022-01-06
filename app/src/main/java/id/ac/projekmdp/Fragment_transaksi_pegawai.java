@@ -48,7 +48,7 @@ public class Fragment_transaksi_pegawai extends Fragment {
     String[] status = {"Status","Declined","Ongoing","Pending","Finished"};
 
     Spinner spinnerStatus;
-    Button daterangepicker;
+    Button daterangepicker, btnClearRange;
     RecyclerView rvTransaksi;
     TextView txtSearch;
 
@@ -96,6 +96,17 @@ public class Fragment_transaksi_pegawai extends Fragment {
         daterangepicker = view.findViewById(R.id.daterangepicker100);
         txtSearch = view.findViewById(R.id.editTextTextPersonName105);
         rvTransaksi = view.findViewById(R.id.rvTransaksiPegawai);
+        btnClearRange = view.findViewById(R.id.button10);
+
+        //CLEAR RANGE
+        btnClearRange.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startDate = "";
+                endDate = "";
+                loadRV();
+            }
+        });
 
         //SET SPINNER
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),

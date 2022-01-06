@@ -39,12 +39,12 @@
         android:layout_gravity="center"
         android:layout_marginStart="12dp"
         android:layout_marginTop="25dp"
-        android:layout_marginEnd="22dp"
+        android:layout_marginEnd="3dp"
         android:text="Select Date"
         android:textAllCaps="true"
-        android:textSize="14sp"
+        android:textSize="12sp"
         app:icon="@drawable/ic_baseline_date_range_24"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/button10"
         app:layout_constraintStart_toEndOf="@+id/spinner103"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -57,4 +57,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName105" />
+
+    <Button
+        android:id="@+id/button10"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/ic_baseline_close_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
