@@ -1,11 +1,19 @@
 package id.ac.projekmdp;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,12 +23,22 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 import id.ac.projekmdp.kelas.User;
@@ -133,7 +151,134 @@ public class Fragment_profile_user extends Fragment {
                 });
             }
         });
+        img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                select_image();
+                upload();
+            }
+        });
+    }
 
+    public void upload(){
+        img.setDrawingCacheEnabled(true);
+        img.buildDrawingCache();
+        Bitmap bitmap=((BitmapDrawable) img.getDrawable()).getBitmap();
+        ByteArrayOutputStream baos=new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos);
+        byte[] data=baos.toByteArray();
+
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference reference = storage.getReference("images").child("U"+u.id+".jpeg");
+        UploadTask uploadTask=reference.putBytes(data);
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(getActivity(),e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                if(taskSnapshot.getMetadata().getReference()!=null){
+                    if (taskSnapshot.getMetadata().getReference()!=null){
+                        taskSnapshot.getMetadata().getReference().getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Uri> task) {
+                                if(task.getResult()!=null){
+                                    saveData(task.getResult().toString());
+                                }
+                                else {
+                                    Toast.makeText(getActivity(), "Gagal", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                    }
+                    else {
+                        Toast.makeText(getActivity(), "Gagal", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else {
+                    Toast.makeText(getActivity(), "Gagal", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    void saveData(String link){
+
+        root.child("Users").orderByChild("id").equalTo(u.id).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot childSnapshot: snapshot.getChildren()) {
+                    String key = childSnapshot.getKey();
+//                    root.child("Users").child(key).child("nama").setValue(edtnama.getText().toString());
+//                    root.child("Users").child(key).child("alamat").setValue(edtalamat.getText().toString());
+//                    root.child("Users").child(key).child("telepon").setValue(edttelepon.getText().toString());
+//                    root.child("Users").child(key).child("password").setValue(edtpassword.getText().toString());
+                    root.child("Users").child(key).child("url").setValue(link);
+                    //Toast.makeText(getContext(),String.valueOf(childSnapshot.child("id").getValue()) , Toast.LENGTH_SHORT).show();
+                }
+                Toast.makeText(getContext(), "Update Success", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getContext(), "Update Failed", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==20&&data!=null&&resultCode==Activity.RESULT_OK){
+            final Uri path=data.getData();
+            Thread thread=new Thread(()->{
+                try {
+                    InputStream inputStream= getActivity().getContentResolver().openInputStream(path);
+                    Bitmap bitmap= BitmapFactory.decodeStream(inputStream);
+                    img.post(()->{
+                       img.setImageBitmap(bitmap);
+                    });
+                }catch (IOException e){
+                    e.printStackTrace();
+                }
+            });
+            thread.start();
+        }
+        if(requestCode==10 && resultCode== Activity.RESULT_OK){
+            final Bundle extras=data.getExtras();
+            Thread thread=new Thread(()->{
+               Bitmap bitmap=(Bitmap) extras.get("data");
+               img.post(()->{
+                   img.setImageBitmap(bitmap);
+               });
+            });
+            thread.start();
+        }
+    }
+
+
+    void select_image(){
+        final CharSequence[] items={"Take Photo","Choose Photo From Library","Cancel"};
+        AlertDialog.Builder builder=new AlertDialog.Builder(getContext());
+        builder.setTitle(getString(R.string.app_name));
+        builder.setIcon(R.mipmap.ic_launcher);
+        builder.setItems(items,((dialogInterface, i) -> {
+            if(items[i].equals("Take Photo")){
+                Intent intent=new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(intent,10);
+            }
+            else if(items[i].equals("Choose Photo From Library")){
+                Intent intent=new Intent(Intent.ACTION_PICK);
+                intent.setType("image/*");
+                startActivityForResult(Intent.createChooser(intent,"Select Image"),20);
+            }
+            else if(items[i].equals("Cancel")){
+                dialogInterface.dismiss();
+            }
+        }));
+        builder.show();
     }
     public void load_data(){
 //        root= FirebaseDatabase.getInstance().getReference();
