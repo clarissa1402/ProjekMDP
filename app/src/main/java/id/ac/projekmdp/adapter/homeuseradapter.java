@@ -7,11 +7,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
@@ -102,6 +105,10 @@ public class homeuseradapter extends RecyclerView.Adapter<homeuseradapter.itemVi
         holder.txtnama.setText(p.getNama());
         holder.txtjenis.setText(p.getJasa());
         holder.txtharga.setText(p.getHarga()+"");
+        if(!p.getUrl().equals("")){
+            Glide.with(context).load(p.getUrl()).into(holder.iv);
+        }
+
 //         holder.txtNama.setText(p.getNama();
 
         holder.btntambah.setOnClickListener(new View.OnClickListener() {
@@ -121,6 +128,7 @@ public class homeuseradapter extends RecyclerView.Adapter<homeuseradapter.itemVi
     public class itemViewHolder extends RecyclerView.ViewHolder {
          TextView txtnama,txtjenis,txtharga;
          Button btntambah;
+         ImageView iv;
 
         public itemViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -128,7 +136,7 @@ public class homeuseradapter extends RecyclerView.Adapter<homeuseradapter.itemVi
             txtjenis=itemView.findViewById(R.id.textView6);
             txtharga=itemView.findViewById(R.id.textView7);
             btntambah=itemView.findViewById(R.id.button3);
-
+            iv=itemView.findViewById(R.id.imageView4);
         }
     }
 }
