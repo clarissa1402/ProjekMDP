@@ -78,6 +78,21 @@ public class MasterFragment extends Fragment {
         binding.rvAdminMaster.setHasFixedSize(true);
 
         adapter = new listPegawaiAdapter(datapegawai,search,"All");
+
+        adapter.setOnItemClickCallback(new listPegawaiAdapter.OnItemClickCallback() {
+            @Override
+            public void onItemClicked(Pegawai pegawai) {
+                /*Toast.makeText(
+                        getContext(),
+                        pegawai.toString(),
+                        Toast.LENGTH_SHORT
+                ).show();*/
+                Intent toUpdate = new Intent(getContext(),AddEditPegawai.class);
+                toUpdate.putExtra("detail", pegawai);
+                startActivity(toUpdate);
+            }
+        });
+
         binding.rvAdminMaster.setAdapter(adapter);
         adapter.notifyDataSetChanged();
 
@@ -108,14 +123,6 @@ public class MasterFragment extends Fragment {
             public void afterTextChanged(Editable editable) {
                 search = binding.etSearch.getText().toString();
                 setRecycle();
-            }
-        });
-        adapter.setOnItemClickCallback(new listPegawaiAdapter.OnItemClickCallback() {
-            @Override
-            public void onItemClicked(Pegawai pegawai) {
-                Intent toUpdate = new Intent(getContext(),AddEditPegawai.class);
-                toUpdate.putExtra("detail", pegawai);
-                startActivity(toUpdate);
             }
         });
     }

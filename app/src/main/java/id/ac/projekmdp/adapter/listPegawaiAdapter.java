@@ -1,6 +1,5 @@
 package id.ac.projekmdp.adapter;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,20 +16,17 @@ public class listPegawaiAdapter extends RecyclerView.Adapter<listPegawaiAdapter.
 
     private ArrayList<Pegawai> listPegawai = new ArrayList<>();
     private ArrayList<Pegawai> listPegawaiSorted = new ArrayList<>();
-    private Context context;
+    private OnItemClickCallback onItemClickCallback;
+    private String searchText, jenis;
 
     public void setOnItemClickCallback(OnItemClickCallback onItemClickCallback) {
         this.onItemClickCallback = onItemClickCallback;
     }
 
-    private OnItemClickCallback onItemClickCallback;
-    private String searchText, jenis;
-
     public listPegawaiAdapter(ArrayList<Pegawai> pegawais, String search, String jenis) {
         this.listPegawaiSorted = pegawais;
         this.jenis = jenis;
         this.searchText = search;
-
 
         //Search & Filter
         if(!this.searchText.equals("") && !jenis.equalsIgnoreCase("all")){
@@ -68,12 +64,15 @@ public class listPegawaiAdapter extends RecyclerView.Adapter<listPegawaiAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull itemViewHolder holder, int position) {
-        Pegawai pegawai = listPegawai.get(position);
+        Pegawai pegawai = listPegawai.get(holder.getAdapterPosition());
         holder.bind(pegawai);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 onItemClickCallback.onItemClicked(pegawai);
+                //System.out.println(position+"");
+                //System.out.println(holder.getAdapterPosition()+"a");
+                //System.out.println(pegawai.getNama()+"");
             }
         });
     }
@@ -85,9 +84,9 @@ public class listPegawaiAdapter extends RecyclerView.Adapter<listPegawaiAdapter.
 
     public class itemViewHolder extends RecyclerView.ViewHolder {
         private final RvlistpegawaiBinding binding;
-        public itemViewHolder(@NonNull RvlistpegawaiBinding itemView) {
-            super(itemView.getRoot());
-            this.binding = itemView;
+        public itemViewHolder(@NonNull RvlistpegawaiBinding rvlistpegawaiBinding) {
+            super(rvlistpegawaiBinding.getRoot());
+            this.binding = rvlistpegawaiBinding;
         }
 
         void bind(Pegawai pegawai){
