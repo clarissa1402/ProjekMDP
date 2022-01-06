@@ -84,7 +84,7 @@ public class ChatUser extends AppCompatActivity {
                         id_hc=0;
                     }
                     else{
-                        id_hc=cek_id_hchat();
+                        id_hc=datahchat.size();
                     }
                     load_data();
                 }
@@ -97,7 +97,7 @@ public class ChatUser extends AppCompatActivity {
                     public void onSuccess(Void unused) {
                         load_data();
                         Toast.makeText(getBaseContext(),"Success",Toast.LENGTH_SHORT).show();
-                        edtchat.setText("");
+//                        edtchat.setText("");
 //                        filter();
 //                        userchatadapter = new chatUserAdapter(datadchatfiltered);
 //                        rv.setAdapter(userchatadapter);
