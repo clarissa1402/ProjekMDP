@@ -101,6 +101,7 @@ public class Fragment_booking extends Fragment {
         txtHarga = view.findViewById(R.id.textView15);
         foto = view.findViewById(R.id.imageView6);
         tanggal = view.findViewById(R.id.calendarView);
+        tanggal.setMinDate(new java.util.Date().getTime());
 
         loadPegawai();
         loadTransaksi();

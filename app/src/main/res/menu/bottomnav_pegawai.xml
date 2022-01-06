@@ -9,6 +9,7 @@
     <item
         android:id="@+id/menuwithdrawpeg"
         android:icon="@drawable/ic_baseline_attach_money_24"
+        android:visible="false"
         android:title="Withdraw" />
     <item
         android:id="@+id/menuprofilepeg"
