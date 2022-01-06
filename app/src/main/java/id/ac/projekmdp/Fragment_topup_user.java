@@ -16,6 +16,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -37,6 +39,7 @@ import com.midtrans.sdk.uikit.SdkUIFlowBuilder;
 import java.util.ArrayList;
 import id.ac.projekmdp.databinding.FragmentTopupUserBinding;
 import id.ac.projekmdp.kelas.Pegawai;
+import id.ac.projekmdp.kelas.Topup;
 import id.ac.projekmdp.kelas.Transaksi;
 import id.ac.projekmdp.kelas.User;
 
@@ -60,6 +63,7 @@ public class Fragment_topup_user extends Fragment implements TransactionFinished
     User sedang_login;
     DatabaseReference root;
     ArrayList<Transaksi>dataTransaksi = new ArrayList<>();
+    ArrayList<Topup>topupList = new ArrayList<>();
     int TotalTopup;
 
     public Fragment_topup_user() {
@@ -107,18 +111,35 @@ public class Fragment_topup_user extends Fragment implements TransactionFinished
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         root= FirebaseDatabase.getInstance().getReference();
+        load_data();
         binding.uang.setText("IDR "+sedang_login.getSaldo());
         binding.btnTopup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 context = view.getContext();
-                try {
-                    TotalTopup = Integer.parseInt(binding.etUang.getText().toString());
-                }catch (Exception e){
-                    Toast.makeText(context, e+"", Toast.LENGTH_SHORT).show();
+                if(Integer.parseInt(binding.etUang.getText().toString())<50000 ){
+                    Toast.makeText(context,"Top up minim IDR 50.000",Toast.LENGTH_SHORT).show();
                 }
-                clickPay();
-                Toast.makeText(view.getContext(), "btnTopup" , Toast.LENGTH_LONG).show();
+                else{
+                    root.child("Topup").push().setValue(new Topup(topupList.size()+1, Integer.parseInt(binding.etUang.getText().toString()))).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            Toast.makeText(context,"Top Up",Toast.LENGTH_SHORT).show();
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(context,"Error",Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    try {
+                        TotalTopup = Integer.parseInt(binding.etUang.getText().toString());
+                    }catch (Exception e){
+                        Toast.makeText(context, e+"", Toast.LENGTH_SHORT).show();
+                    }
+                    clickPay();
+                }
+                //Toast.makeText(view.getContext(), "btnTopup" , Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -131,6 +152,8 @@ public class Fragment_topup_user extends Fragment implements TransactionFinished
                     @Override
                     public void onTransactionFinished(TransactionResult result) {
                         // Handle finished transaction here.
+                        updateSaldo();
+                        binding.etUang.setText("");
                     }
                 }) // set transaction finish callback (sdk callback)
                 .setMerchantBaseUrl("https://babowemidtrans.herokuapp.com/index.php/") //set merchant url (required)
@@ -139,34 +162,27 @@ public class Fragment_topup_user extends Fragment implements TransactionFinished
                 .setLanguage("id") //`en` for English and `id` for Bahasa
                 .buildSDK();
 
-        String TRANSACTION_ID = "tes100";
-        int TOTAL_AMOUNT = 40000;
+        String TRANSACTION_ID = (topupList.size()+1)+"Topup";
+        int TOTAL_AMOUNT = Integer.parseInt(binding.etUang.getText().toString());
         TransactionRequest transactionRequest = new TransactionRequest(TRANSACTION_ID, TOTAL_AMOUNT);
         CustomerDetails customerDetails = new CustomerDetails();
-        customerDetails.setCustomerIdentifier("budi-6789");
-        customerDetails.setPhone("08123456789");
-        customerDetails.setFirstName("Budi");
-        customerDetails.setLastName("Utomo");
-        customerDetails.setEmail("budi@utomo.com");
+        customerDetails.setPhone(sedang_login.getTelepon().toString());
+        customerDetails.setFirstName(sedang_login.getNama().toString());
 
         ShippingAddress shippingAddress = new ShippingAddress();
-        shippingAddress.setAddress("Jalan Andalas Gang Sebelah No. 1");
-        shippingAddress.setCity("Jakarta");
-        shippingAddress.setPostalCode("10220");
+        shippingAddress.setAddress(sedang_login.getAlamat().toString());
         customerDetails.setShippingAddress(shippingAddress);
 
         BillingAddress billingAddress = new BillingAddress();
-        billingAddress.setAddress("Jalan Andalas Gang Sebelah No. 1");
-        billingAddress.setCity("Jakarta");
-        billingAddress.setPostalCode("10220");
+        billingAddress.setAddress(sedang_login.getAlamat().toString());
         customerDetails.setBillingAddress(billingAddress);
 
         transactionRequest.setCustomerDetails(customerDetails);
 
         String ITEM_ID_1 = "T1";
-        int ITEM_PRICE_1 = 20000;
-        int ITEM_QUANTITY_1 = 2;
-        String ITEM_NAME_1 = "baju";
+        int ITEM_PRICE_1 = Integer.parseInt(binding.etUang.getText().toString());
+        int ITEM_QUANTITY_1 = 1;
+        String ITEM_NAME_1 = "Top up";
         ItemDetails itemDetails1 = new ItemDetails(ITEM_ID_1, ITEM_PRICE_1, ITEM_QUANTITY_1, ITEM_NAME_1);
 
 // Create array list and add above item details in it and then set it to transaction request.
@@ -190,15 +206,31 @@ public class Fragment_topup_user extends Fragment implements TransactionFinished
         MidtransSDK.getInstance().startPaymentUiFlow(context);
     }
 
+    public void load_data() {
+        root.child("Topup").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    topupList.add(new Topup(
+                            Integer.parseInt(String.valueOf(dataSnapshot.child("id").getValue())),
+                            Integer.parseInt(String.valueOf(dataSnapshot.child("saldo").getValue()))
+                    ));
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(context, error + "", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
     @Override
     public void onTransactionFinished(TransactionResult result) {
         if (result.getResponse() != null) {
             switch (result.getStatus()) {
                 case TransactionResult.STATUS_SUCCESS:
                     Toast.makeText(context, "Transaction Finished. ID: " + result.getResponse().getTransactionId(), Toast.LENGTH_LONG).show();
-                    int temp = Integer.parseInt(binding.uang.getText().toString());
-                    int total = temp + TotalTopup;
-                    binding.uang.setText("IDR "+total);
                     updateSaldo();
                     break;
                 case TransactionResult.STATUS_PENDING:
@@ -220,21 +252,23 @@ public class Fragment_topup_user extends Fragment implements TransactionFinished
         }
     }
     void updateSaldo(){
-
+        int temp = Integer.parseInt(binding.uang.getText().toString().substring(4));
+        int total = temp + TotalTopup;
+        binding.uang.setText("IDR "+total);
         root.child("Users").orderByChild("id").equalTo(sedang_login.getId()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot childSnapshot: snapshot.getChildren()) {
                     String key = childSnapshot.getKey();
-                    root.child("Users").child(key).child("saldo").setValue(TotalTopup);
+                    root.child("Users").child(key).child("saldo").setValue(total);
                     //Toast.makeText(getContext(),String.valueOf(childSnapshot.child("id").getValue()) , Toast.LENGTH_SHORT).show();
                 }
-                Toast.makeText(getContext(), "Update Success", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Topup Success", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(getContext(), "Update Failed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Topup Failed", Toast.LENGTH_SHORT).show();
             }
         });
     }
