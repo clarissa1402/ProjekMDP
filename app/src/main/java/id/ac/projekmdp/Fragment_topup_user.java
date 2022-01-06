@@ -37,6 +37,7 @@ import com.midtrans.sdk.uikit.SdkUIFlowBuilder;
 import java.util.ArrayList;
 import id.ac.projekmdp.databinding.FragmentTopupUserBinding;
 import id.ac.projekmdp.kelas.Pegawai;
+import id.ac.projekmdp.kelas.Transaksi;
 import id.ac.projekmdp.kelas.User;
 
 /**
@@ -44,7 +45,7 @@ import id.ac.projekmdp.kelas.User;
  * Use the {@link Fragment_topup_user#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Fragment_topup_user extends Fragment {
+public class Fragment_topup_user extends Fragment implements TransactionFinishedCallback{
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -57,6 +58,9 @@ public class Fragment_topup_user extends Fragment {
     User_page u;
     private FragmentTopupUserBinding binding;
     User sedang_login;
+    DatabaseReference root;
+    ArrayList<Transaksi>dataTransaksi = new ArrayList<>();
+    int TotalTopup;
 
     public Fragment_topup_user() {
         // Required empty public constructor
@@ -71,13 +75,14 @@ public class Fragment_topup_user extends Fragment {
      * @return A new instance of fragment Fragment_topup_user.
      */
     // TODO: Rename and change types and number of parameters
-    public static Fragment_topup_user newInstance(User_page u, User sedang_login) {
+    public static Fragment_topup_user newInstance(User_page u, User sedang_login, ArrayList<Transaksi>dataTransaksi) {
         Fragment_topup_user fragment = new Fragment_topup_user();
         Bundle args = new Bundle();
         //args.putString(ARG_PARAM1, param1);
         //args.putString(ARG_PARAM2, param2);
         fragment.u=u;
         fragment.sedang_login = sedang_login;
+        fragment.dataTransaksi = dataTransaksi;
         fragment.setArguments(args);
         return fragment;
     }
@@ -101,11 +106,17 @@ public class Fragment_topup_user extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        root= FirebaseDatabase.getInstance().getReference();
         binding.uang.setText("IDR "+sedang_login.getSaldo());
         binding.btnTopup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 context = view.getContext();
+                try {
+                    TotalTopup = Integer.parseInt(binding.etUang.getText().toString());
+                }catch (Exception e){
+                    Toast.makeText(context, e+"", Toast.LENGTH_SHORT).show();
+                }
                 clickPay();
                 Toast.makeText(view.getContext(), "btnTopup" , Toast.LENGTH_LONG).show();
             }
@@ -128,7 +139,7 @@ public class Fragment_topup_user extends Fragment {
                 .setLanguage("id") //`en` for English and `id` for Bahasa
                 .buildSDK();
 
-        String TRANSACTION_ID = "tes1halohalo";
+        String TRANSACTION_ID = "tes100";
         int TOTAL_AMOUNT = 40000;
         TransactionRequest transactionRequest = new TransactionRequest(TRANSACTION_ID, TOTAL_AMOUNT);
         CustomerDetails customerDetails = new CustomerDetails();
@@ -177,5 +188,54 @@ public class Fragment_topup_user extends Fragment {
         MidtransSDK.getInstance().setTransactionRequest(transactionRequest);
 //...
         MidtransSDK.getInstance().startPaymentUiFlow(context);
+    }
+
+    @Override
+    public void onTransactionFinished(TransactionResult result) {
+        if (result.getResponse() != null) {
+            switch (result.getStatus()) {
+                case TransactionResult.STATUS_SUCCESS:
+                    Toast.makeText(context, "Transaction Finished. ID: " + result.getResponse().getTransactionId(), Toast.LENGTH_LONG).show();
+                    int temp = Integer.parseInt(binding.uang.getText().toString());
+                    int total = temp + TotalTopup;
+                    binding.uang.setText("IDR "+total);
+                    updateSaldo();
+                    break;
+                case TransactionResult.STATUS_PENDING:
+                    Toast.makeText(context, "Transaction Pending. ID: " + result.getResponse().getTransactionId(), Toast.LENGTH_LONG).show();
+                    break;
+                case TransactionResult.STATUS_FAILED:
+                    Toast.makeText(context, "Transaction Failed. ID: " + result.getResponse().getTransactionId() + ". Message: " + result.getResponse().getStatusMessage(), Toast.LENGTH_LONG).show();
+                    break;
+            }
+            result.getResponse().getValidationMessages();
+        } else if (result.isTransactionCanceled()) {
+            Toast.makeText(context, "Transaction Canceled", Toast.LENGTH_LONG).show();
+        } else {
+            if (result.getStatus().equalsIgnoreCase(TransactionResult.STATUS_INVALID)) {
+                Toast.makeText(context, "Transaction Invalid", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(context, "Transaction Finished with failure.", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+    void updateSaldo(){
+
+        root.child("Users").orderByChild("id").equalTo(sedang_login.getId()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot childSnapshot: snapshot.getChildren()) {
+                    String key = childSnapshot.getKey();
+                    root.child("Users").child(key).child("saldo").setValue(TotalTopup);
+                    //Toast.makeText(getContext(),String.valueOf(childSnapshot.child("id").getValue()) , Toast.LENGTH_SHORT).show();
+                }
+                Toast.makeText(getContext(), "Update Success", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getContext(), "Update Failed", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
