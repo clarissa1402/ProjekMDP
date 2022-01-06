@@ -106,6 +106,7 @@ public class Pegawai_page extends AppCompatActivity {
                             String.valueOf(dataSnapshot.child("alamat").getValue()),
                             String.valueOf(dataSnapshot.child("password").getValue()),
                             String.valueOf(dataSnapshot.child("jenis_kelamin").getValue()),
+                            String.valueOf(dataSnapshot.child("url").getValue()),
                             Integer.parseInt(String.valueOf(dataSnapshot.child("saldo").getValue()))
                     ));
                 }
@@ -198,6 +199,8 @@ public class Pegawai_page extends AppCompatActivity {
         chatIntent.putExtra("nik_peg",nik);
         chatIntent.putExtra("id_user",tujuan);
         chatIntent.putExtra("dari",2);
+        //chatIntent.putExtra("sedang_login",sedang_login.get);
+        chatIntent.putParcelableArrayListExtra("datauser",datauser);
         startActivity(chatIntent);
     }
 }

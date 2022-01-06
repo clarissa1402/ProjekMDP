@@ -35,10 +35,12 @@ public class ChatUser extends AppCompatActivity {
     chatUserAdapter userchatadapter;
     ArrayList<Hchat>datahchat=new ArrayList<>();
     ArrayList<Dchat>datadchat=new ArrayList<>();
+    ArrayList<User>datauser=new ArrayList<>();
     //ArrayList<Hchat>datahchatfiltered=new ArrayList<>();
     ArrayList<Dchat>datadchatfiltered=new ArrayList<>();
     DatabaseReference root;
     int nik_peg,id_user,id_hc,dari;
+    String link_foto_user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         root= FirebaseDatabase.getInstance().getReference();
@@ -51,10 +53,12 @@ public class ChatUser extends AppCompatActivity {
         nik_peg=getIntent().getIntExtra("nik_peg",0);
         id_user=getIntent().getIntExtra("id_user",0);
         dari=getIntent().getIntExtra("dari",0);
-        System.out.println(nik_peg+" "+id_user+" "+dari);
+        datauser=getIntent().getParcelableArrayListExtra("datauser");
+        //sedang_login=getIntent().getParcelableExtra("sedanglogin");
         rv.setHasFixedSize(true);
         rv.setLayoutManager(new LinearLayoutManager(ChatUser.this));
         load_data();
+        user_sedang_login();
 
 
         ivsend.setOnClickListener(new View.OnClickListener() {
@@ -161,7 +165,7 @@ public class ChatUser extends AppCompatActivity {
                 //System.out.println(datadchat.size()+"a");
                 filter();
 
-                userchatadapter = new chatUserAdapter(datadchatfiltered,dari);
+                userchatadapter = new chatUserAdapter(datadchatfiltered,dari,link_foto_user,ChatUser.this);
                 rv.setAdapter(userchatadapter);
                 rv.scrollToPosition(datadchatfiltered.size()-1);
                 userchatadapter.notifyDataSetChanged();
@@ -249,6 +253,13 @@ public class ChatUser extends AppCompatActivity {
                 if(datadchat.get(i).getId_hchat()==id_hchat){
                     datadchatfiltered.add(datadchat.get(i));
                 }
+            }
+        }
+    }
+    void user_sedang_login(){
+        for (int i = 0; i < datauser.size(); i++) {
+            if(datauser.get(i).getId()==id_user){
+                link_foto_user=datauser.get(i).getUrl();
             }
         }
     }

@@ -23,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -56,7 +57,7 @@ public class Fragment_profile_user extends Fragment {
     private static final String ARG_PARAM2 = "param2";
     EditText edtnama,edtalamat,edttelepon,edtpassword;
     TextView txtemail,txtjeniskelamin;
-    Button btnedit,btnsave;
+    Button btnedit,btnsave,btntes;
     ImageView img;
     User_page u;
     DatabaseReference root;
@@ -113,6 +114,7 @@ public class Fragment_profile_user extends Fragment {
         edtpassword=view.findViewById(R.id.etPass1);
         btnedit=view.findViewById(R.id.button4);
         btnsave=view.findViewById(R.id.button5);
+        //btntes=view.findViewById(R.id.button10);
         load_data();
         //System.out.println(u.id+"");
         btnedit.setOnClickListener(new View.OnClickListener() {
@@ -149,15 +151,22 @@ public class Fragment_profile_user extends Fragment {
                         Toast.makeText(getContext(), "Update Failed", Toast.LENGTH_SHORT).show();
                     }
                 });
+                upload();
             }
         });
         img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 select_image();
-                upload();
+                //upload();
             }
         });
+//        btntes.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//            }
+//        });
     }
 
     public void upload(){
@@ -186,6 +195,8 @@ public class Fragment_profile_user extends Fragment {
                             public void onComplete(@NonNull Task<Uri> task) {
                                 if(task.getResult()!=null){
                                     saveData(task.getResult().toString());
+                                    //saveData("U"+u.id+".jpeg");
+                                    Toast.makeText(getActivity(), "Berhasil", Toast.LENGTH_SHORT).show();
                                 }
                                 else {
                                     Toast.makeText(getActivity(), "Gagal", Toast.LENGTH_SHORT).show();
@@ -204,7 +215,7 @@ public class Fragment_profile_user extends Fragment {
         });
     }
 
-    void saveData(String link){
+    void saveData(String link_url){
 
         root.child("Users").orderByChild("id").equalTo(u.id).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -215,7 +226,7 @@ public class Fragment_profile_user extends Fragment {
 //                    root.child("Users").child(key).child("alamat").setValue(edtalamat.getText().toString());
 //                    root.child("Users").child(key).child("telepon").setValue(edttelepon.getText().toString());
 //                    root.child("Users").child(key).child("password").setValue(edtpassword.getText().toString());
-                    root.child("Users").child(key).child("url").setValue(link);
+                    root.child("Users").child(key).child("url").setValue(link_url);
                     //Toast.makeText(getContext(),String.valueOf(childSnapshot.child("id").getValue()) , Toast.LENGTH_SHORT).show();
                 }
                 Toast.makeText(getContext(), "Update Success", Toast.LENGTH_SHORT).show();
@@ -253,6 +264,7 @@ public class Fragment_profile_user extends Fragment {
                img.post(()->{
                    img.setImageBitmap(bitmap);
                });
+
             });
             thread.start();
         }
@@ -303,6 +315,11 @@ public class Fragment_profile_user extends Fragment {
                 edtalamat.setText(datauser.get(i).getAlamat());
                 edttelepon.setText(datauser.get(i).getTelepon());
                 edtpassword.setText(datauser.get(i).getPassword());
+                if(datauser.get(i).getUrl().equals("")){
+
+                }else{
+                    Glide.with(getContext()).load(datauser.get(i).getUrl()).into(img);
+                }
             }
         }
 //            txtemail.setText(u.sedang_login.getEmail());

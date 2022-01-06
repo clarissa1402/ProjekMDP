@@ -6,7 +6,7 @@ import android.os.Parcelable;
 public class User implements Parcelable {
 
     private int id;
-    private String email,nama,telepon,alamat,password,jenis_kelamin;
+    private String email,nama,telepon,alamat,password,jenis_kelamin,url;
     private int saldo,poin;
 
     public User(Integer id,String email, String nama, String telepon, String alamat, String password,String jenis_kelamin) {
@@ -17,11 +17,12 @@ public class User implements Parcelable {
         this.alamat = alamat;
         this.password = password;
         this.jenis_kelamin=jenis_kelamin;
+        this.url="";
         this.saldo = 0;
         this.poin = 0;
     }
 
-    public User(Integer id,String email, String nama, String telepon, String alamat, String password, String jenis_kelamin, int saldo) {
+    public User(Integer id,String email, String nama, String telepon, String alamat, String password, String jenis_kelamin,String url, int saldo) {
         this.id = id;
         this.email = email;
         this.nama = nama;
@@ -30,6 +31,7 @@ public class User implements Parcelable {
         this.password = password;
         this.jenis_kelamin=jenis_kelamin;
         this.saldo = saldo;
+        this.url=url;
         this.poin = 0;
     }
 
@@ -41,9 +43,11 @@ public class User implements Parcelable {
         alamat = in.readString();
         password = in.readString();
         jenis_kelamin = in.readString();
+        url = in.readString();
         saldo = in.readInt();
         poin = in.readInt();
     }
+
 
     public static final Creator<User> CREATOR = new Creator<User>() {
         @Override
@@ -128,6 +132,13 @@ public class User implements Parcelable {
         this.jenis_kelamin = jenis_kelamin;
     }
 
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
 
     @Override
     public int describeContents() {
@@ -143,6 +154,7 @@ public class User implements Parcelable {
         parcel.writeString(alamat);
         parcel.writeString(password);
         parcel.writeString(jenis_kelamin);
+        parcel.writeString(url);
         parcel.writeInt(saldo);
         parcel.writeInt(poin);
     }
