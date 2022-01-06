@@ -30,9 +30,9 @@ public class Pegawai_page extends AppCompatActivity {
     BottomNavigationView navPegawai;
     int nik = 0;
     DatabaseReference root;
-    ArrayList<User> datauser = new ArrayList<>();
-    ArrayList<Pegawai> datapegawai = new ArrayList<>();
-    ArrayList<Transaksi> dataTransaksi = new ArrayList<>();
+    public ArrayList<User> datauser = new ArrayList<>();
+    public ArrayList<Pegawai> datapegawai = new ArrayList<>();
+    public ArrayList<Transaksi> dataTransaksi = new ArrayList<>();
     Pegawai sedang_login;
 
     @Override

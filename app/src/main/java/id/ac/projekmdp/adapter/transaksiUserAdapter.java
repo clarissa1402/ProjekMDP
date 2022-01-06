@@ -44,7 +44,7 @@ public class transaksiUserAdapter extends RecyclerView.Adapter<transaksiUserAdap
 //    String telp = "";
     int nik_peg=-1;
     int idTrans = 0;
-    int saldoPegawai = 0;
+//    int saldoPegawai = 0;
 
     public transaksiUserAdapter(Context context, ArrayList<Transaksi> arrTransaksiAll, ArrayList<Pegawai> arrPegawai, int idUser, String selectedStatus, String searchText, String startDate, String endDate) {
         this.arrPegawai = arrPegawai;
@@ -182,7 +182,7 @@ public class transaksiUserAdapter extends RecyclerView.Adapter<transaksiUserAdap
 
 //                telp = arrPegawai.get(i).getTelepon().replaceAll("\\D+","");
                 nik_peg=arrPegawai.get(i).getNik();
-                saldoPegawai = arrPegawai.get(i).getSaldo();
+//                saldoPegawai = arrPegawai.get(i).getSaldo();
             }
         }
 
@@ -197,6 +197,12 @@ public class transaksiUserAdapter extends RecyclerView.Adapter<transaksiUserAdap
                 @Override
                 public void onClick(View view) {
                     //FINISH TRANSAKSI
+                    int saldoPegawai = 0;
+                    for(int i=0; i<arrPegawai.size(); i++){
+                        if(arrPegawai.get(i).getNik() == t.getNikPegawai()){
+                            saldoPegawai = arrPegawai.get(i).getSaldo();
+                        }
+                    }
                     finishTransaksi(t.getId(), t.getNikPegawai(), saldoPegawai, t.getHarga());
                 }
             });

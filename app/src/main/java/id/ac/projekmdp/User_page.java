@@ -35,9 +35,9 @@ public class User_page extends AppCompatActivity {
     BottomNavigationView navUser;
     int id=-1;
     DatabaseReference root;
-    ArrayList<User>datauser=new ArrayList<>();
-    ArrayList<Pegawai>datapegawai=new ArrayList<>();
-    ArrayList<Transaksi>dataTransaksi=new ArrayList<>();
+    public ArrayList<User>datauser=new ArrayList<>();
+    public ArrayList<Pegawai>datapegawai=new ArrayList<>();
+    public ArrayList<Transaksi>dataTransaksi=new ArrayList<>();
     User sedang_login;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

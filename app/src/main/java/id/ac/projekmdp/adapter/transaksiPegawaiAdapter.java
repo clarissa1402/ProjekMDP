@@ -191,6 +191,7 @@ public class transaksiPegawaiAdapter extends RecyclerView.Adapter<transaksiPegaw
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     updateStatusTransaksi(t.getId(),0);
+                                    returnsaldo(t.getIdUser(), t.getHarga());
                                 }
                             });
                     builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
@@ -287,6 +288,38 @@ public class transaksiPegawaiAdapter extends RecyclerView.Adapter<transaksiPegaw
 
                 pegawai_page.loadTransaksi();
                 pegawai_page.gototransaksi();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Pegawai_page pegawai_page = (Pegawai_page) context;
+                Toast.makeText(pegawai_page, "Oops.. Try again later", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void returnsaldo(int userID, int harga){
+        Pegawai_page pegawai_page = (Pegawai_page) context;
+        root= FirebaseDatabase.getInstance().getReference();
+        root.child("Users").orderByChild("id").equalTo(userID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot childSnapshot: snapshot.getChildren()) {
+                    int oldSaldo = 0;
+
+                    for (int i = 0; i < pegawai_page.datauser.size(); i++){
+                        if(pegawai_page.datauser.get(i).getId() == userID){
+                            oldSaldo = pegawai_page.datauser.get(i).getSaldo();
+                        }
+                    }
+                    int newSaldo = oldSaldo + harga;
+
+                    String key = childSnapshot.getKey();
+                    root.child("Users").child(key).child("saldo").setValue(newSaldo);
+                }
+
+                pegawai_page.loadUser();
+
             }
 
             @Override
