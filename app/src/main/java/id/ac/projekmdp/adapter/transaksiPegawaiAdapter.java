@@ -286,7 +286,7 @@ public class transaksiPegawaiAdapter extends RecyclerView.Adapter<transaksiPegaw
                     Toast.makeText(pegawai_page, "Transaction declined", Toast.LENGTH_SHORT).show();
                 }
 
-                pegawai_page.loadTransaksi();
+                pegawai_page.loadTransaksi(0);
                 pegawai_page.gototransaksi();
             }
 
@@ -307,9 +307,9 @@ public class transaksiPegawaiAdapter extends RecyclerView.Adapter<transaksiPegaw
                 for (DataSnapshot childSnapshot: snapshot.getChildren()) {
                     int oldSaldo = 0;
 
-                    for (int i = 0; i < pegawai_page.datauser.size(); i++){
-                        if(pegawai_page.datauser.get(i).getId() == userID){
-                            oldSaldo = pegawai_page.datauser.get(i).getSaldo();
+                    for (int i = 0; i < arrUser.size(); i++){
+                        if(arrUser.get(i).getId() == userID){
+                            oldSaldo = arrUser.get(i).getSaldo();
                         }
                     }
                     int newSaldo = oldSaldo + harga;

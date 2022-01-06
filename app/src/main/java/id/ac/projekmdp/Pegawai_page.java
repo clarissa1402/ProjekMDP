@@ -30,9 +30,9 @@ public class Pegawai_page extends AppCompatActivity {
     BottomNavigationView navPegawai;
     int nik = 0;
     DatabaseReference root;
-    public ArrayList<User> datauser = new ArrayList<>();
-    public ArrayList<Pegawai> datapegawai = new ArrayList<>();
-    public ArrayList<Transaksi> dataTransaksi = new ArrayList<>();
+    ArrayList<User> datauser = new ArrayList<>();
+    ArrayList<Pegawai> datapegawai = new ArrayList<>();
+    ArrayList<Transaksi> dataTransaksi = new ArrayList<>();
     Pegawai sedang_login;
 
     @Override
@@ -129,7 +129,6 @@ public class Pegawai_page extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()){
                     datapegawai.add(new Pegawai(
-                            Integer.parseInt(String.valueOf(dataSnapshot.child("nik").getValue())),
                             String.valueOf(dataSnapshot.child("email").getValue()),
                             String.valueOf(dataSnapshot.child("nama").getValue()),
                             String.valueOf(dataSnapshot.child("telepon").getValue()),
@@ -137,8 +136,10 @@ public class Pegawai_page extends AppCompatActivity {
                             String.valueOf(dataSnapshot.child("password").getValue()),
                             String.valueOf(dataSnapshot.child("jasa").getValue()),
                             String.valueOf(dataSnapshot.child("deskripsi").getValue()),
+                            String.valueOf(dataSnapshot.child("url").getValue()),
+                            Integer.parseInt(String.valueOf(dataSnapshot.child("saldo").getValue())),
                             Integer.parseInt(String.valueOf(dataSnapshot.child("harga").getValue())),
-                            Integer.parseInt(String.valueOf(dataSnapshot.child("saldo").getValue()))
+                            Integer.parseInt(String.valueOf(dataSnapshot.child("nik").getValue()))
                     ));
                 }
             }
@@ -155,6 +156,7 @@ public class Pegawai_page extends AppCompatActivity {
         root.child("Transaksi").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                dataTransaksi = new ArrayList<>();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()){
                     dataTransaksi.add(new Transaksi(
                             Integer.parseInt(String.valueOf(dataSnapshot.child("id").getValue())),
@@ -165,6 +167,33 @@ public class Pegawai_page extends AppCompatActivity {
                             Integer.parseInt(String.valueOf(dataSnapshot.child("status").getValue()))
                     ));
                 }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    public void loadTransaksi(int x){
+        dataTransaksi = new ArrayList<Transaksi>();
+        root.child("Transaksi").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                dataTransaksi = new ArrayList<>();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    dataTransaksi.add(new Transaksi(
+                            Integer.parseInt(String.valueOf(dataSnapshot.child("id").getValue())),
+                            Integer.parseInt(String.valueOf(dataSnapshot.child("idUser").getValue())),
+                            Integer.parseInt(String.valueOf(dataSnapshot.child("nikPegawai").getValue())),
+                            String.valueOf(dataSnapshot.child("tanggal").getValue()),
+                            Integer.parseInt(String.valueOf(dataSnapshot.child("harga").getValue())),
+                            Integer.parseInt(String.valueOf(dataSnapshot.child("status").getValue()))
+                    ));
+                }
+
+                gototransaksi();
             }
 
             @Override

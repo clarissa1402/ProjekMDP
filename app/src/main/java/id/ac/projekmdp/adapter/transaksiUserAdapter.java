@@ -278,7 +278,7 @@ public class transaksiUserAdapter extends RecyclerView.Adapter<transaksiUserAdap
                 //Success finish trans
                 User_page user_page = (User_page)context;
                 Toast.makeText(user_page, "Transaction finished", Toast.LENGTH_SHORT).show();
-                user_page.loadTransaksi();
+                user_page.loadTransaksi(0);
                 user_page.gototransaksi();
             }
 
