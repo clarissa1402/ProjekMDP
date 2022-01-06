@@ -38,17 +38,24 @@ public class AddEditPegawai extends AppCompatActivity {
         isEdit = false;
         if(getIntent().hasExtra("detail")){
             isEdit = true;
-            pegawai = getIntent().getParcelableExtra("detail");
-            binding.etnik.setText(pegawai.getNik());
-            binding.etNamaPegawai.setText(pegawai.getNama());
-            binding.etPasswordPegawai.setEnabled(false);
-            binding.etConfirmPassPegawai.setEnabled(false);
-            binding.etEmailPegawai.setText(pegawai.getEmail());
-            binding.etAlamat.setText(pegawai.getAlamat());
-            int selectedIndex = getSpinnerValuePosition(binding.spinner,pegawai.getJasa());
-            binding.spinner.setSelection(selectedIndex);
-            binding.etDeskripsi.setText(pegawai.getDeskripsi());
-            binding.etHargaPegawai.setText(pegawai.getHarga());
+            try {
+                pegawai = getIntent().getParcelableExtra("detail");
+                binding.etnik.setText(pegawai.getNik()+"");
+                binding.etNamaPegawai.setText(pegawai.getNama());
+                binding.etPasswordPegawai.setEnabled(false);
+                binding.etConfirmPassPegawai.setEnabled(false);
+                binding.etEmailPegawai.setText(pegawai.getEmail());
+                binding.etAlamat.setText(pegawai.getAlamat());
+                int selectedIndex = getSpinnerValuePosition(binding.spinner,pegawai.getJasa());
+                binding.spinner.setSelection(selectedIndex);
+                binding.etDeskripsi.setText(pegawai.getDeskripsi());
+                binding.etHargaPegawai.setText(pegawai.getHarga()+"");
+            }
+            catch (Exception ex)
+            {
+                ex.printStackTrace();
+            }
+
         }
         binding.btnSavePegawai.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -99,13 +99,13 @@ public class Fragment_topup_user extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        binding.uang.setText("IDR "+sedang_login.getSaldo());
+        //binding.uang.setText("IDR "+sedang_login.getSaldo());
         makePayment();
         binding.btnTopup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(view.getContext(), "btnTopup" , Toast.LENGTH_LONG).show();
                 clickPay();
+                Toast.makeText(view.getContext(), "btnTopup" , Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -120,13 +120,13 @@ public class Fragment_topup_user extends Fragment {
                     }
                 }) // set transaction finish callback (sdk callback)
                 .setMerchantBaseUrl("https://babowemidtrans.herokuapp.com/index.php/") //set merchant url (required)
-                .enableLog(true) // enable sdk log (optional)
+                .enableLog(false) // enable sdk log (optional)
                 .setColorTheme(new CustomColorTheme("#FFE51255", "#B61548", "#FFE51255")) // set theme. it will replace theme on snap theme on MAP ( optional)
                 .buildSDK();
     }
     private void clickPay(){
         String TRANSACTION_ID = "tes1halohalo";
-        int TOTAL_AMOUNT = 1000;
+        int TOTAL_AMOUNT = 40000;
         TransactionRequest transactionRequest = new TransactionRequest(TRANSACTION_ID, TOTAL_AMOUNT);
         CustomerDetails customerDetails = new CustomerDetails();
         customerDetails.setCustomerIdentifier("budi-6789");

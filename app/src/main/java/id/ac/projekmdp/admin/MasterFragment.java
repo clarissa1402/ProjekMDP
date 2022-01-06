@@ -128,7 +128,21 @@ public class MasterFragment extends Fragment {
     }
 
     public void setRecycle(){
+
         adapter = new listPegawaiAdapter(datapegawai,search,jenis_dipilh);
+        adapter.setOnItemClickCallback(new listPegawaiAdapter.OnItemClickCallback() {
+            @Override
+            public void onItemClicked(Pegawai pegawai) {
+                /*Toast.makeText(
+                        getContext(),
+                        pegawai.toString(),
+                        Toast.LENGTH_SHORT
+                ).show();*/
+                Intent toUpdate = new Intent(getContext(),AddEditPegawai.class);
+                toUpdate.putExtra("detail", pegawai);
+                startActivity(toUpdate);
+            }
+        });
         binding.rvAdminMaster.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }

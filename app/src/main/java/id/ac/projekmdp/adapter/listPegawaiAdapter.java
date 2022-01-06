@@ -69,6 +69,7 @@ public class listPegawaiAdapter extends RecyclerView.Adapter<listPegawaiAdapter.
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                System.out.println("test");
                 onItemClickCallback.onItemClicked(pegawai);
                 //System.out.println(position+"");
                 //System.out.println(holder.getAdapterPosition()+"a");
