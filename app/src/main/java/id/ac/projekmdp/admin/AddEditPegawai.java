@@ -13,8 +13,11 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -46,6 +49,7 @@ public class AddEditPegawai extends AppCompatActivity {
                 binding.etConfirmPassPegawai.setEnabled(false);
                 binding.etEmailPegawai.setText(pegawai.getEmail());
                 binding.etAlamat.setText(pegawai.getAlamat());
+                binding.etTelp.setText(pegawai.getTelepon());
                 int selectedIndex = getSpinnerValuePosition(binding.spinner,pegawai.getJasa());
                 binding.spinner.setSelection(selectedIndex);
                 binding.etDeskripsi.setText(pegawai.getDeskripsi());
@@ -71,8 +75,16 @@ public class AddEditPegawai extends AppCompatActivity {
                 startActivity(i);
             }
         });
+        if (isEdit){
+            makeToast("edit mode");;
+        }
+        else{
+            makeToast("add mode");
+        }
     }
-
+    void makeToast(String pesan){
+        Toast.makeText(getApplicationContext(), pesan, Toast.LENGTH_SHORT).show();
+    }
     void addUpdate(){
         String nik = binding.etnik.getText().toString();
         String nama = binding.etNamaPegawai.getText().toString();
@@ -111,17 +123,18 @@ public class AddEditPegawai extends AppCompatActivity {
             input(binding.etTelp,"Nomor Telepon");
         }if(TextUtils.isEmpty(deskripsi)){
             input(binding.etDeskripsi,"Deskripsi");
-        }if(TextUtils.isEmpty(password)){
-            input(binding.etPasswordPegawai,"Password");
-        }if(TextUtils.isEmpty(confirm)){
-            input(binding.etConfirmPassPegawai,"Confirm Password");
-        }if(!password.equals(confirm)){
-            binding.etConfirmPassPegawai.setError("The Password Confirmation Doesn't Match!");
-            binding.etConfirmPassPegawai.requestFocus();
-            binding.etPasswordPegawai.setError("The Password Confirmation Doesn't Match!");
-            binding.etPasswordPegawai.requestFocus();
         }
         if(!isEdit){
+            if(TextUtils.isEmpty(password)){
+                input(binding.etPasswordPegawai,"Password");
+            }if(TextUtils.isEmpty(confirm)){
+                input(binding.etConfirmPassPegawai,"Confirm Password");
+            }if(!password.equals(confirm)){
+                binding.etConfirmPassPegawai.setError("The Password Confirmation Doesn't Match!");
+                binding.etConfirmPassPegawai.requestFocus();
+                binding.etPasswordPegawai.setError("The Password Confirmation Doesn't Match!");
+                binding.etPasswordPegawai.requestFocus();
+            }
             if(deskripsi.length()>0 && nama.length()>0 && email.length()>0 && alamat.length()>0 && telp.length()>0 && password.length()>0 && confirm.length()>0 && password.equals(confirm) && nik.length()>0){
                 root.child("Pegawai").push().setValue(new Pegawai(nikInt,email,nama,telp,alamat,password,jenis,deskripsi,hargaInt,0)).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -136,7 +149,29 @@ public class AddEditPegawai extends AppCompatActivity {
                 });
             }
         }else {
-            Toast.makeText(getBaseContext(),"Masuk edit",Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getBaseContext(),"Masuk edit",Toast.LENGTH_SHORT).show();
+            root.child("Pegawai").orderByChild("nik").equalTo(pegawai.getNik()).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for (DataSnapshot childSnapshot: snapshot.getChildren()){
+                        String key = childSnapshot.getKey();
+                        root.child("Pegawai").child(key).child("nik").setValue(nik);
+                        root.child("Pegawai").child(key).child("email").setValue(email);
+                        root.child("Pegawai").child(key).child("nama").setValue(nama);
+                        root.child("Pegawai").child(key).child("telepon").setValue(telp);
+                        root.child("Pegawai").child(key).child("alamat").setValue(alamat);
+                        root.child("Pegawai").child(key).child("jasa").setValue(jenis);
+                        root.child("Pegawai").child(key).child("deskripsi").setValue(deskripsi);
+                        root.child("Pegawai").child(key).child("harga").setValue(harga);
+                    }
+                    Toast.makeText(getBaseContext(),"Edited",Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
         }
 
     }
