@@ -24,12 +24,14 @@
         <entry key="..\:/Github/ProjekMDP/app/src/main/res/layout/activity_register.xml" value="0.371875" />
         <entry key="..\:/Github/ProjekMDP/app/src/main/res/layout/chat_shape.xml" value="0.2677083333333333" />
         <entry key="..\:/Github/ProjekMDP/app/src/main/res/layout/fragment_booking.xml" value="0.2328125" />
+        <entry key="..\:/Github/ProjekMDP/app/src/main/res/layout/fragment_home_user.xml" value="0.371875" />
         <entry key="..\:/Github/ProjekMDP/app/src/main/res/layout/fragment_profile_pegawai.xml" value="0.23802083333333332" />
         <entry key="..\:/Github/ProjekMDP/app/src/main/res/layout/fragment_profile_user.xml" value="0.2677083333333333" />
         <entry key="..\:/Github/ProjekMDP/app/src/main/res/layout/fragment_transaksi.xml" value="0.2328125" />
         <entry key="..\:/Github/ProjekMDP/app/src/main/res/layout/fragment_transaksi_pegawai.xml" value="0.2677083333333333" />
         <entry key="..\:/Github/ProjekMDP/app/src/main/res/layout/recyclerview_chat_user.xml" value="0.5" />
         <entry key="..\:/Github/ProjekMDP/app/src/main/res/layout/recyclerview_chat_user_penerima.xml" value="0.9" />
+        <entry key="..\:/Github/ProjekMDP/app/src/main/res/layout/recyclerview_home_user.xml" value="0.371875" />
         <entry key="..\:/Github/ProjekMDP/app/src/main/res/layout/recyclerview_transaksi_pegawai.xml" value="0.2677083333333333" />
         <entry key="..\:/Github/ProjekMDP/app/src/main/res/layout/recyclerview_transaksi_user.xml" value="0.2328125" />
         <entry key="..\:/Github/ProjekMDP/app/src/main/res/layout/rvlistpegawai.xml" value="0.2390625" />
