@@ -19,23 +19,23 @@
         <activity
             android:name=".ChatUser"
             android:exported="true"
-            android:theme="@style/Theme.ProjekMDP.ActionBar"/>
+            android:theme="@style/Theme.ProjekMDP.ActionBar" />
         <activity
             android:name=".Pegawai_page"
-            android:theme="@style/Theme.ProjekMDP.ActionBar"
-            android:exported="true" />
+            android:exported="true"
+            android:theme="@style/Theme.ProjekMDP.ActionBar" />
         <activity
             android:name=".User_page"
-            android:theme="@style/Theme.ProjekMDP.ActionBar"
-            android:exported="true" />
+            android:exported="true"
+            android:theme="@style/Theme.ProjekMDP.ActionBar" />
         <activity
             android:name=".admin.AddEditPegawai"
             android:exported="true"
-            android:theme="@style/Theme.ProjekMDP.ActionBar"/>
+            android:theme="@style/Theme.ProjekMDP.ActionBar" />
         <activity
             android:name=".admin.HomeAdmin"
             android:exported="true"
-            android:theme="@style/Theme.ProjekMDP.ActionBar"/>
+            android:theme="@style/Theme.ProjekMDP.ActionBar" />
         <activity
             android:name=".MainActivity"
             android:exported="true"

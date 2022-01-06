@@ -25,10 +25,12 @@ import com.midtrans.sdk.corekit.callback.TransactionFinishedCallback;
 import com.midtrans.sdk.corekit.core.MidtransSDK;
 import com.midtrans.sdk.corekit.core.TransactionRequest;
 import com.midtrans.sdk.corekit.core.themes.CustomColorTheme;
+import com.midtrans.sdk.corekit.models.BankType;
 import com.midtrans.sdk.corekit.models.BillingAddress;
 import com.midtrans.sdk.corekit.models.CustomerDetails;
 import com.midtrans.sdk.corekit.models.ItemDetails;
 import com.midtrans.sdk.corekit.models.ShippingAddress;
+import com.midtrans.sdk.corekit.models.snap.CreditCard;
 import com.midtrans.sdk.corekit.models.snap.TransactionResult;
 import com.midtrans.sdk.uikit.SdkUIFlowBuilder;
 
@@ -95,24 +97,25 @@ public class Fragment_topup_user extends Fragment {
         binding = FragmentTopupUserBinding.inflate(inflater,container,false);
         return binding.getRoot();
     }
-
+    Context context;
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        //binding.uang.setText("IDR "+sedang_login.getSaldo());
-        makePayment();
+        binding.uang.setText("IDR "+sedang_login.getSaldo());
         binding.btnTopup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                context = view.getContext();
                 clickPay();
                 Toast.makeText(view.getContext(), "btnTopup" , Toast.LENGTH_LONG).show();
             }
         });
     }
-    private void makePayment(){
+    String Ckey = "SB-Mid-client-HVTcgsrWFrzF3AVC";
+    private void clickPay(){
         SdkUIFlowBuilder.init()
-                .setClientKey("SB-Mid-client-HVTcgsrWFrzF3AVC") // client_key is mandatory
-                .setContext(getContext()) // context is mandatory
+                .setClientKey(Ckey) // client_key is mandatory
+                .setContext(context) // context is mandatory
                 .setTransactionFinishedCallback(new TransactionFinishedCallback() {
                     @Override
                     public void onTransactionFinished(TransactionResult result) {
@@ -120,11 +123,11 @@ public class Fragment_topup_user extends Fragment {
                     }
                 }) // set transaction finish callback (sdk callback)
                 .setMerchantBaseUrl("https://babowemidtrans.herokuapp.com/index.php/") //set merchant url (required)
-                .enableLog(false) // enable sdk log (optional)
+                .enableLog(true) // enable sdk log (optional)
                 .setColorTheme(new CustomColorTheme("#FFE51255", "#B61548", "#FFE51255")) // set theme. it will replace theme on snap theme on MAP ( optional)
+                .setLanguage("id") //`en` for English and `id` for Bahasa
                 .buildSDK();
-    }
-    private void clickPay(){
+
         String TRANSACTION_ID = "tes1halohalo";
         int TOTAL_AMOUNT = 40000;
         TransactionRequest transactionRequest = new TransactionRequest(TRANSACTION_ID, TOTAL_AMOUNT);
@@ -161,7 +164,18 @@ public class Fragment_topup_user extends Fragment {
 
 // Set item details into the transaction request.
         transactionRequest.setItemDetails(itemDetailsList);
+        CreditCard creditCardOptions = new CreditCard();
+// Set to true if you want to save card to Snap
+        creditCardOptions.setSaveCard(false);
+// Set bank name when using MIGS channel
+        creditCardOptions.setBank(BankType.BCA);
+// Set MIGS channel (ONLY for BCA, BRI and Maybank Acquiring bank)
+        creditCardOptions.setChannel(CreditCard.MIGS);
+// Set Credit Card Options
+        transactionRequest.setCreditCard(creditCardOptions);
+// Set transaction request into SDK instance
         MidtransSDK.getInstance().setTransactionRequest(transactionRequest);
-        MidtransSDK.getInstance().startPaymentUiFlow(getContext());
+//...
+        MidtransSDK.getInstance().startPaymentUiFlow(context);
     }
 }
