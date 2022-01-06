@@ -25,11 +25,13 @@ import id.ac.projekmdp.R;
 import id.ac.projekmdp.databinding.ActivityHomeAdminBinding;
 import id.ac.projekmdp.kelas.Pegawai;
 import id.ac.projekmdp.kelas.Transaksi;
+import id.ac.projekmdp.kelas.User;
 
 public class HomeAdmin extends AppCompatActivity {
 
     ActivityHomeAdminBinding binding;
     DatabaseReference root;
+    ArrayList<User> datauser = new ArrayList<>();
     ArrayList<Pegawai> datapegawai = new ArrayList<>();
     ArrayList<Transaksi> dataTransaksi = new ArrayList<>();
 
@@ -42,6 +44,7 @@ public class HomeAdmin extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         loadPegawai();
+        loadUser();
         loadTransaksi();
 
         binding.bottomnav.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
@@ -66,7 +69,10 @@ public class HomeAdmin extends AppCompatActivity {
                                 .replace(R.id.framelayoutAdmin,fragment)
                                 .commit();
                     }else {
-
+                        Fragment fragment = FragmentTransaksiAdmin.newInstance(dataTransaksi,datapegawai,datauser);
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.framelayoutAdmin,fragment)
+                                .commit();
                     }
                 }catch (Exception e){
                     Log.e("HomeAdmin",e.getMessage());
@@ -106,7 +112,32 @@ public class HomeAdmin extends AppCompatActivity {
             }
         });
     }
+    public void loadUser(){
+        root.child("Users").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    datauser.add(new User(
+                            Integer.parseInt(String.valueOf(dataSnapshot.child("id").getValue())),
+                            String.valueOf(dataSnapshot.child("email").getValue()),
+                            String.valueOf(dataSnapshot.child("nama").getValue()),
+                            String.valueOf(dataSnapshot.child("telepon").getValue()),
+                            String.valueOf(dataSnapshot.child("alamat").getValue()),
+                            String.valueOf(dataSnapshot.child("password").getValue()),
+                            String.valueOf(dataSnapshot.child("jenis_kelamin").getValue()),
+                            String.valueOf(dataSnapshot.child("url").getValue()),
+                            Integer.parseInt(String.valueOf(dataSnapshot.child("saldo").getValue()))
+                    ));
+                }
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+
+        });
+    }
     public void loadTransaksi(){
         dataTransaksi = new ArrayList<>();
         root.child("Transaksi").addValueEventListener(new ValueEventListener() {

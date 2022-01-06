@@ -1,7 +1,5 @@
 package id.ac.projekmdp;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -22,9 +20,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-import id.ac.projekmdp.admin.AddEditPegawai;
-import id.ac.projekmdp.admin.HomeAdmin;
-import id.ac.projekmdp.databinding.ActivityMainBinding;
 import id.ac.projekmdp.databinding.ActivityUserPageBinding;
 import id.ac.projekmdp.kelas.Pegawai;
 import id.ac.projekmdp.kelas.Transaksi;
@@ -213,7 +208,7 @@ public class User_page extends AppCompatActivity {
         startActivity(callIntent);
     }
     public void chat(int tujuan){
-        Intent chatIntent = new Intent(User_page.this,ChatUser.class);
+        Intent chatIntent = new Intent(User_page.this, ChatUser.class);
         chatIntent.putExtra("nik_peg",tujuan);
         chatIntent.putExtra("id_user",id);
         chatIntent.putExtra("dari",1);

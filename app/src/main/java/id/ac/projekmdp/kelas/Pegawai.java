@@ -3,10 +3,24 @@ package id.ac.projekmdp.kelas;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Pegawai implements Parcelable {
+public class Pegawai implements Parcelable{
     //private int id;
-    private String email,nama,telepon,alamat,password,jasa,deskripsi;
+    private String email,nama,telepon,alamat,password,jasa,deskripsi,url;
     private int saldo,harga,nik;
+
+    public Pegawai(String email, String nama, String telepon, String alamat, String password, String jasa, String deskripsi, String url, int saldo, int harga, int nik) {
+        this.email = email;
+        this.nama = nama;
+        this.telepon = telepon;
+        this.alamat = alamat;
+        this.password = password;
+        this.jasa = jasa;
+        this.deskripsi = deskripsi;
+        this.url = url;
+        this.saldo = saldo;
+        this.harga = harga;
+        this.nik = nik;
+    }
 
     public Pegawai(Integer nik, String email, String nama, String telepon, String alamat, String password, String jasa, String deskripsi) {
         this.nik = nik;
@@ -18,6 +32,7 @@ public class Pegawai implements Parcelable {
         this.jasa = jasa;
         this.harga = 50000;
         this.deskripsi = deskripsi;
+        this.url = "";
         this.saldo = 0;
     }
 
@@ -31,6 +46,7 @@ public class Pegawai implements Parcelable {
         this.jasa = jasa;
         this.harga = harga;
         this.deskripsi = deskripsi;
+        this.url = "";
         this.saldo = saldo;
     }
 
@@ -46,6 +62,7 @@ public class Pegawai implements Parcelable {
         harga = in.readInt();
         nik = in.readInt();
     }
+
 
     public static final Creator<Pegawai> CREATOR = new Creator<Pegawai>() {
         @Override
@@ -148,6 +165,15 @@ public class Pegawai implements Parcelable {
         this.saldo = saldo;
     }
 
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -162,6 +188,7 @@ public class Pegawai implements Parcelable {
         parcel.writeString(password);
         parcel.writeString(jasa);
         parcel.writeString(deskripsi);
+        parcel.writeString(url);
         parcel.writeInt(saldo);
         parcel.writeInt(harga);
         parcel.writeInt(nik);

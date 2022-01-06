@@ -17,6 +17,13 @@
         <item>Electrical</item>
         <item>Repair</item>
     </string-array>
+    <string-array name="list_status">
+        <item>Status</item>
+        <item>Declined</item>
+        <item>Ongoing</item>
+        <item>Pending</item>
+        <item>Finished</item>
+    </string-array>
 
     <string name="title_activity_admin_home">AdminHome</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>

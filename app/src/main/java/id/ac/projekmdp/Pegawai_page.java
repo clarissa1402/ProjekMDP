@@ -46,8 +46,8 @@ public class Pegawai_page extends AppCompatActivity {
         loadUser();
         loadPegawai();
         loadTransaksi();
-
-
+/*
+        System.out.println(sedang_login.getNama());*/
         navPegawai = findViewById(R.id.navigation_peg);
         navPegawai.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
@@ -66,12 +66,13 @@ public class Pegawai_page extends AppCompatActivity {
 //                                .replace(R.id.container_peg, fragment)
 //                                .commit();
 //                        return true;
-//                    case R.id.menuprofilepeg:
-//                        fragment = Fragment_profile_pegawai.newInstance(Pegawai_page.this, datauser);
-//                        getSupportFragmentManager().beginTransaction()
-//                                .replace(R.id.container_peg, fragment)
-//                                .commit();
-//                        return true;
+                    case R.id.menuprofilepeg:
+                        set_sedang_login();
+                        fragment = FragmentProfilePegawai.newInstance(sedang_login);
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.container_peg, fragment)
+                                .commit();
+                        return true;
                 }
                 return false;
             }
@@ -195,7 +196,7 @@ public class Pegawai_page extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
     public void chat(int tujuan){
-        Intent chatIntent = new Intent(Pegawai_page.this,ChatUser.class);
+        Intent chatIntent = new Intent(Pegawai_page.this, ChatUser.class);
         chatIntent.putExtra("nik_peg",nik);
         chatIntent.putExtra("id_user",tujuan);
         chatIntent.putExtra("dari",2);
