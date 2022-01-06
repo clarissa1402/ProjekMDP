@@ -56,8 +56,11 @@
         <entry key="..\:/My Document/Gigi/semester5/projekMDP/ProjekMDP/app/src/main/res/layout/fragment_master.xml" value="0.25416666666666665" />
         <entry key="..\:/My Document/Gigi/semester5/projekMDP/ProjekMDP/app/src/main/res/layout/fragment_transaksi.xml" value="0.13020833333333334" />
         <entry key="..\:/My Document/Gigi/semester5/projekMDP/ProjekMDP/app/src/main/res/layout/recyclerview_home_user.xml" value="0.264" />
+        <entry key="..\:/My Document/Gigi/semester5/projekMDP/ProjekMDP/app/src/main/res/layout/recyclerview_transaksi_pegawai.xml" value="0.264" />
+        <entry key="..\:/My Document/Gigi/semester5/projekMDP/ProjekMDP/app/src/main/res/layout/recyclerview_transaksi_user.xml" value="0.16" />
         <entry key="..\:/My Document/Gigi/semester5/projekMDP/ProjekMDP/app/src/main/res/layout/rvlistkategori.xml" value="0.13020833333333334" />
-        <entry key="..\:/My Document/Gigi/semester5/projekMDP/ProjekMDP/app/src/main/res/layout/rvlistpegawai.xml" value="0.2403846153846154" />
+        <entry key="..\:/My Document/Gigi/semester5/projekMDP/ProjekMDP/app/src/main/res/layout/rvlistpegawai.xml" value="0.15450643776824036" />
+        <entry key="..\:/My Document/Gigi/semester5/projekMDP/ProjekMDP/app/src/main/res/layout/rvlisttransaksi.xml" value="0.2" />
         <entry key="..\:/My Document/Gigi/semester5/projekMDP/ProjekMDP/app/src/main/res/menu/bottomnav_admin.xml" value="0.1" />
         <entry key="..\:/My Document/Gigi/semester5/projekMDP/ProjekMDP/app/src/main/res/menu/optionmenuadmin.xml" value="0.1" />
       </map>
