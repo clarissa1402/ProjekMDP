@@ -40,7 +40,7 @@ public class transaksiPegawaiAdapter extends RecyclerView.Adapter<transaksiPegaw
     private ArrayList<Transaksi> arrTransaksiAll = new ArrayList<Transaksi>();
     private Context context;
     private DatabaseReference root;
-    String telp = "";
+//    String telp = "";
     int id_terpilih=-1;
 
     public transaksiPegawaiAdapter(Context context, ArrayList<Transaksi> arrTransaksiAll, ArrayList<User> arrUser, int nik, String selectedStatus, String searchText, String startDate, String endDate) {
@@ -127,7 +127,7 @@ public class transaksiPegawaiAdapter extends RecyclerView.Adapter<transaksiPegaw
             Date startD = new SimpleDateFormat("dd/MM/yyyy").parse(start);
             Date endD = new SimpleDateFormat("dd/MM/yyyy").parse(end);
 
-            if((tglTransD.before(endD) || tglTrans.equals(end)) && (tglTransD.after(startD) || tglTrans.equals(start))){
+            if((tglTransD.before(endD) || tglTransD.toString().equals(endD.toString())) && (tglTransD.after(startD) || tglTransD.toString().equals(startD.toString()))){
                 return true;
             }
             else{
@@ -191,6 +191,7 @@ public class transaksiPegawaiAdapter extends RecyclerView.Adapter<transaksiPegaw
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     updateStatusTransaksi(t.getId(),0);
+                                    returnsaldo(t.getIdUser(), t.getHarga());
                                 }
                             });
                     builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
@@ -212,7 +213,7 @@ public class transaksiPegawaiAdapter extends RecyclerView.Adapter<transaksiPegaw
         for(int i=0; i<arrUser.size(); i++){
             if(arrUser.get(i).getId() == t.getIdUser()){
                 holder.txtNama.setText(arrUser.get(i).getNama());
-                telp = arrUser.get(i).getTelepon().replaceAll("\\D+","");
+//                telp = arrUser.get(i).getTelepon().replaceAll("\\D+","");
                 id_terpilih=arrUser.get(i).getId();
             }
         }
@@ -221,6 +222,14 @@ public class transaksiPegawaiAdapter extends RecyclerView.Adapter<transaksiPegaw
             @Override
             public void onClick(View view) {
                 Pegawai_page pegawai_page = (Pegawai_page) context;
+
+                String telp = "";
+                for(int i=0; i<arrUser.size(); i++){
+                    if(arrUser.get(i).getId() == t.getIdUser()){
+                        telp = arrUser.get(i).getTelepon().replaceAll("\\D+","");
+                    }
+                }
+
                 pegawai_page.call(telp);
             }
         });
@@ -279,6 +288,38 @@ public class transaksiPegawaiAdapter extends RecyclerView.Adapter<transaksiPegaw
 
                 pegawai_page.loadTransaksi();
                 pegawai_page.gototransaksi();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Pegawai_page pegawai_page = (Pegawai_page) context;
+                Toast.makeText(pegawai_page, "Oops.. Try again later", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void returnsaldo(int userID, int harga){
+        Pegawai_page pegawai_page = (Pegawai_page) context;
+        root= FirebaseDatabase.getInstance().getReference();
+        root.child("Users").orderByChild("id").equalTo(userID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot childSnapshot: snapshot.getChildren()) {
+                    int oldSaldo = 0;
+
+                    for (int i = 0; i < pegawai_page.datauser.size(); i++){
+                        if(pegawai_page.datauser.get(i).getId() == userID){
+                            oldSaldo = pegawai_page.datauser.get(i).getSaldo();
+                        }
+                    }
+                    int newSaldo = oldSaldo + harga;
+
+                    String key = childSnapshot.getKey();
+                    root.child("Users").child(key).child("saldo").setValue(newSaldo);
+                }
+
+                pegawai_page.loadUser();
+
             }
 
             @Override

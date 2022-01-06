@@ -1,7 +1,5 @@
 package id.ac.projekmdp;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -22,9 +20,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-import id.ac.projekmdp.admin.AddEditPegawai;
-import id.ac.projekmdp.admin.HomeAdmin;
-import id.ac.projekmdp.databinding.ActivityMainBinding;
 import id.ac.projekmdp.databinding.ActivityUserPageBinding;
 import id.ac.projekmdp.kelas.Pegawai;
 import id.ac.projekmdp.kelas.Transaksi;
@@ -35,9 +30,9 @@ public class User_page extends AppCompatActivity {
     BottomNavigationView navUser;
     int id=-1;
     DatabaseReference root;
-    ArrayList<User>datauser=new ArrayList<>();
-    ArrayList<Pegawai>datapegawai=new ArrayList<>();
-    ArrayList<Transaksi>dataTransaksi=new ArrayList<>();
+    public ArrayList<User>datauser=new ArrayList<>();
+    public ArrayList<Pegawai>datapegawai=new ArrayList<>();
+    public ArrayList<Transaksi>dataTransaksi=new ArrayList<>();
     User sedang_login;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,6 +99,7 @@ public class User_page extends AppCompatActivity {
                             String.valueOf(dataSnapshot.child("alamat").getValue()),
                             String.valueOf(dataSnapshot.child("password").getValue()),
                             String.valueOf(dataSnapshot.child("jenis_kelamin").getValue()),
+                            String.valueOf(dataSnapshot.child("url").getValue()),
                             Integer.parseInt(String.valueOf(dataSnapshot.child("saldo").getValue()))
                         ));
                 }
@@ -212,10 +208,12 @@ public class User_page extends AppCompatActivity {
         startActivity(callIntent);
     }
     public void chat(int tujuan){
-        Intent chatIntent = new Intent(User_page.this,ChatUser.class);
+        Intent chatIntent = new Intent(User_page.this, ChatUser.class);
         chatIntent.putExtra("nik_peg",tujuan);
         chatIntent.putExtra("id_user",id);
         chatIntent.putExtra("dari",1);
+        //chatIntent.putExtra("sedang_login",sedang_login);
+        chatIntent.putParcelableArrayListExtra("datauser",datauser);
         startActivity(chatIntent);
     }
 }

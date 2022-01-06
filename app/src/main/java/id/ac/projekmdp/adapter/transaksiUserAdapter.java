@@ -41,10 +41,10 @@ public class transaksiUserAdapter extends RecyclerView.Adapter<transaksiUserAdap
     private ArrayList<Transaksi> arrTransaksiAll = new ArrayList<Transaksi>();
     private Context context;
     private DatabaseReference root;
-    String telp = "";
+//    String telp = "";
     int nik_peg=-1;
     int idTrans = 0;
-    int saldoPegawai = 0;
+//    int saldoPegawai = 0;
 
     public transaksiUserAdapter(Context context, ArrayList<Transaksi> arrTransaksiAll, ArrayList<Pegawai> arrPegawai, int idUser, String selectedStatus, String searchText, String startDate, String endDate) {
         this.arrPegawai = arrPegawai;
@@ -139,7 +139,8 @@ public class transaksiUserAdapter extends RecyclerView.Adapter<transaksiUserAdap
             Date startD = new SimpleDateFormat("dd/MM/yyyy").parse(start);
             Date endD = new SimpleDateFormat("dd/MM/yyyy").parse(end);
 
-            if((tglTransD.before(endD) || tglTrans.equals(end)) && (tglTransD.after(startD) || tglTrans.equals(start))){
+
+            if((tglTransD.before(endD) || tglTransD.toString().equals(endD.toString())) && (tglTransD.after(startD) || tglTransD.toString().equals(startD.toString()))){
                 return true;
             }
             else{
@@ -179,9 +180,9 @@ public class transaksiUserAdapter extends RecyclerView.Adapter<transaksiUserAdap
                 holder.txtJenis.setText(arrPegawai.get(i).getJasa());
                 holder.txtNama.setText(arrPegawai.get(i).getNama());
 
-                telp = arrPegawai.get(i).getTelepon().replaceAll("\\D+","");
+//                telp = arrPegawai.get(i).getTelepon().replaceAll("\\D+","");
                 nik_peg=arrPegawai.get(i).getNik();
-                saldoPegawai = arrPegawai.get(i).getSaldo();
+//                saldoPegawai = arrPegawai.get(i).getSaldo();
             }
         }
 
@@ -196,6 +197,12 @@ public class transaksiUserAdapter extends RecyclerView.Adapter<transaksiUserAdap
                 @Override
                 public void onClick(View view) {
                     //FINISH TRANSAKSI
+                    int saldoPegawai = 0;
+                    for(int i=0; i<arrPegawai.size(); i++){
+                        if(arrPegawai.get(i).getNik() == t.getNikPegawai()){
+                            saldoPegawai = arrPegawai.get(i).getSaldo();
+                        }
+                    }
                     finishTransaksi(t.getId(), t.getNikPegawai(), saldoPegawai, t.getHarga());
                 }
             });
@@ -211,6 +218,14 @@ public class transaksiUserAdapter extends RecyclerView.Adapter<transaksiUserAdap
             @Override
             public void onClick(View view) {
                 User_page user_page = (User_page) context;
+
+                String telp = "";
+                for(int i=0; i<arrPegawai.size(); i++){
+                    if(arrPegawai.get(i).getNik() == t.getNikPegawai()){
+                        telp = arrPegawai.get(i).getTelepon().replaceAll("\\D+","");
+                    }
+                }
+
                 user_page.call(telp);
             }
         });

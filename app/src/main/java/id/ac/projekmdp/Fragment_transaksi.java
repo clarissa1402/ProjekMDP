@@ -53,7 +53,7 @@ public class Fragment_transaksi extends Fragment {
 
 //    Spinner spinnerJasa;
     Spinner spinnerStatus;
-    Button daterangepicker;
+    Button daterangepicker, btnClearRange;
     RecyclerView rvTransaksi;
     TextView txtSearch;
 
@@ -102,6 +102,17 @@ public class Fragment_transaksi extends Fragment {
         daterangepicker = view.findViewById(R.id.daterangepicker);
         txtSearch = view.findViewById(R.id.editTextTextPersonName5);
         rvTransaksi = view.findViewById(R.id.rvTransaksiUser);
+        btnClearRange = view.findViewById(R.id.button11);
+
+        //CLEAR RANGE
+        btnClearRange.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startDate = "";
+                endDate = "";
+                loadRV();
+            }
+        });
 
         //SET SPINNER
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),

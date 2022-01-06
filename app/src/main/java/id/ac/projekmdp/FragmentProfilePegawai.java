@@ -17,10 +17,6 @@ import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -42,46 +38,31 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
+import id.ac.projekmdp.databinding.FragmentProfilePegawaiBinding;
+import id.ac.projekmdp.kelas.Pegawai;
 import id.ac.projekmdp.kelas.User;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link Fragment_profile_user#newInstance} factory method to
+ * Use the {@link FragmentProfilePegawai#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Fragment_profile_user extends Fragment {
+public class FragmentProfilePegawai extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-    EditText edtnama,edtalamat,edttelepon,edtpassword;
-    TextView txtemail,txtjeniskelamin;
-    Button btnedit,btnsave,btntes;
-    ImageView img;
-    User_page u;
+
+    FragmentProfilePegawaiBinding binding;
     DatabaseReference root;
-    ArrayList<User>datauser=new ArrayList<>();
-    // TODO: Rename and change types of parameters
-
-    public Fragment_profile_user() {
+    Pegawai pegawai;
+    ArrayList<Pegawai> datapegawai = new ArrayList<>();
+    public FragmentProfilePegawai() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @return A new instance of fragment Fragment_profile_user.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static Fragment_profile_user newInstance(User_page u, ArrayList<User>datauser) {
-        Fragment_profile_user fragment = new Fragment_profile_user();
+    public static FragmentProfilePegawai newInstance(Pegawai pegawai) {
+        FragmentProfilePegawai fragment = new FragmentProfilePegawai();
         Bundle args = new Bundle();
-        fragment.u=u;
+        fragment.pegawai = pegawai;
         fragment.setArguments(args);
-        args.putParcelableArrayList(ARG_PARAM1, datauser);
-//        args.putString(ARG_PARAM2, param2);
         return fragment;
     }
 
@@ -89,8 +70,6 @@ public class Fragment_profile_user extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            datauser = getArguments().getParcelableArrayList(ARG_PARAM1);
-//            mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
 
@@ -98,87 +77,93 @@ public class Fragment_profile_user extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile_user, container, false);
+        binding = FragmentProfilePegawaiBinding.inflate(inflater,container,false);
+        return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        root= FirebaseDatabase.getInstance().getReference();
-        txtemail=view.findViewById(R.id.textView8);
-        txtjeniskelamin=view.findViewById(R.id.textView9);
-        img=view.findViewById(R.id.imageView5);
-        edtnama=view.findViewById(R.id.etNama1);
-        edtalamat=view.findViewById(R.id.etAlamat1);
-        edttelepon=view.findViewById(R.id.etTelp1);
-        edtpassword=view.findViewById(R.id.etPass1);
-        btnedit=view.findViewById(R.id.button4);
-        btnsave=view.findViewById(R.id.button5);
-        //btntes=view.findViewById(R.id.button10);
-        load_data();
-        //System.out.println(u.id+"");
-        btnedit.setOnClickListener(new View.OnClickListener() {
+        root = FirebaseDatabase.getInstance().getReference();
+
+        binding.tvNikPegProfile.setText(pegawai.getNik()+"");
+        binding.tvEmailPegProfile.setText(pegawai.getEmail());
+        binding.tvSaldoPegProfile.setText("Saldo : "+pegawai.getSaldo()+"");
+        binding.textView28.setText(pegawai.getJasa());
+        binding.etHargaPegProfile.setText(pegawai.getHarga()+"");
+        binding.etDeskripsiPegProfile.setText(pegawai.getDeskripsi());
+        binding.etAlamatPegProfile.setText(pegawai.getAlamat());
+        binding.etTelpPegProfile.setText(pegawai.getTelepon());
+        binding.etNama.setText(pegawai.getNama());
+        binding.etPasswordProfilePeg.setText(pegawai.getPassword());
+        if(pegawai.getUrl().equals("")){
+
+        }else{
+            Glide.with(getContext()).load(pegawai.getUrl()).into(binding.imageView13);
+        }
+        binding.etAlamatPegProfile.setEnabled(false);
+        binding.etDeskripsiPegProfile.setEnabled(false);
+        binding.etNama.setEnabled(false);
+        binding.etTelpPegProfile.setEnabled(false);
+        binding.etPasswordProfilePeg.setEnabled(false);
+        binding.etHargaPegProfile.setEnabled(false);
+        binding.btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!edtnama.isEnabled()){
-                    //load_data();
-                    edtnama.setEnabled(true);
-                    edtalamat.setEnabled(true);
-                    edttelepon.setEnabled(true);
-                    edtpassword.setEnabled(true);
+                if(!binding.etNama.isEnabled()){
+                    binding.etAlamatPegProfile.setEnabled(true);
+                    binding.etDeskripsiPegProfile.setEnabled(true);
+                    binding.etNama.setEnabled(true);
+                    binding.etTelpPegProfile.setEnabled(true);
+                    binding.etPasswordProfilePeg.setEnabled(true);
+                    binding.etHargaPegProfile.setEnabled(true);
                 }
             }
         });
-        btnsave.setOnClickListener(new View.OnClickListener() {
+
+        binding.btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                root.child("Users").orderByChild("id").equalTo(u.id).addListenerForSingleValueEvent(new ValueEventListener() {
+                root.child("Pegawai").orderByChild("nik").equalTo(pegawai.getNik()).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        for (DataSnapshot childSnapshot: snapshot.getChildren()) {
+                        for (DataSnapshot childSnapshot: snapshot.getChildren()){
                             String key = childSnapshot.getKey();
-                            root.child("Users").child(key).child("nama").setValue(edtnama.getText().toString());
-                            root.child("Users").child(key).child("alamat").setValue(edtalamat.getText().toString());
-                            root.child("Users").child(key).child("telepon").setValue(edttelepon.getText().toString());
-                            root.child("Users").child(key).child("password").setValue(edtpassword.getText().toString());
-                            //Toast.makeText(getContext(),String.valueOf(childSnapshot.child("id").getValue()) , Toast.LENGTH_SHORT).show();
+                            root.child("Pegawai").child(key).child("nama").setValue(binding.etNama.getText().toString());
+                            root.child("Pegawai").child(key).child("telepon").setValue(binding.etTelpPegProfile.getText().toString());
+                            root.child("Pegawai").child(key).child("alamat").setValue(binding.etAlamatPegProfile.getText().toString());
+                            root.child("Pegawai").child(key).child("deskripsi").setValue(binding.etDeskripsiPegProfile.getText().toString());
+                            root.child("Pegawai").child(key).child("harga").setValue(Integer.parseInt(binding.etHargaPegProfile.getText().toString()));
+                            root.child("Pegawai").child(key).child("password").setValue(binding.etPasswordProfilePeg.getText().toString());
                         }
-                        Toast.makeText(getContext(), "Update Success", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(),"Edited",Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
-                        Toast.makeText(getContext(), "Update Failed", Toast.LENGTH_SHORT).show();
+
                     }
                 });
                 upload();
             }
         });
-        img.setOnClickListener(new View.OnClickListener() {
+        binding.imageView13.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 select_image();
-                //upload();
             }
         });
-//        btntes.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//            }
-//        });
     }
-
     public void upload(){
-        img.setDrawingCacheEnabled(true);
-        img.buildDrawingCache();
-        Bitmap bitmap=((BitmapDrawable) img.getDrawable()).getBitmap();
+        binding.imageView13.setDrawingCacheEnabled(true);
+        binding.imageView13.buildDrawingCache();
+        Bitmap bitmap=((BitmapDrawable) binding.imageView13.getDrawable()).getBitmap();
         ByteArrayOutputStream baos=new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos);
         byte[] data=baos.toByteArray();
 
         FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference reference = storage.getReference("images").child("U"+u.id+".jpeg");
+        StorageReference reference = storage.getReference("images").child("P"+pegawai.getNik()+".jpeg");
         UploadTask uploadTask=reference.putBytes(data);
         uploadTask.addOnFailureListener(new OnFailureListener() {
             @Override
@@ -217,17 +202,12 @@ public class Fragment_profile_user extends Fragment {
 
     void saveData(String link_url){
 
-        root.child("Users").orderByChild("id").equalTo(u.id).addListenerForSingleValueEvent(new ValueEventListener() {
+        root.child("Pegawai").orderByChild("nik").equalTo(pegawai.getNik()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot childSnapshot: snapshot.getChildren()) {
                     String key = childSnapshot.getKey();
-//                    root.child("Users").child(key).child("nama").setValue(edtnama.getText().toString());
-//                    root.child("Users").child(key).child("alamat").setValue(edtalamat.getText().toString());
-//                    root.child("Users").child(key).child("telepon").setValue(edttelepon.getText().toString());
-//                    root.child("Users").child(key).child("password").setValue(edtpassword.getText().toString());
-                    root.child("Users").child(key).child("url").setValue(link_url);
-                    //Toast.makeText(getContext(),String.valueOf(childSnapshot.child("id").getValue()) , Toast.LENGTH_SHORT).show();
+                    root.child("Pegawai").child(key).child("url").setValue(link_url);
                 }
                 Toast.makeText(getContext(), "Update Success", Toast.LENGTH_SHORT).show();
             }
@@ -242,14 +222,14 @@ public class Fragment_profile_user extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==20&&data!=null&&resultCode==Activity.RESULT_OK){
+        if(requestCode==20&&data!=null&&resultCode== Activity.RESULT_OK){
             final Uri path=data.getData();
             Thread thread=new Thread(()->{
                 try {
                     InputStream inputStream= getActivity().getContentResolver().openInputStream(path);
                     Bitmap bitmap= BitmapFactory.decodeStream(inputStream);
-                    img.post(()->{
-                       img.setImageBitmap(bitmap);
+                    binding.imageView13.post(()->{
+                        binding.imageView13.setImageBitmap(bitmap);
                     });
                 }catch (IOException e){
                     e.printStackTrace();
@@ -260,10 +240,10 @@ public class Fragment_profile_user extends Fragment {
         if(requestCode==10 && resultCode== Activity.RESULT_OK){
             final Bundle extras=data.getExtras();
             Thread thread=new Thread(()->{
-               Bitmap bitmap=(Bitmap) extras.get("data");
-               img.post(()->{
-                   img.setImageBitmap(bitmap);
-               });
+                Bitmap bitmap=(Bitmap) extras.get("data");
+                binding.imageView13.post(()->{
+                    binding.imageView13.setImageBitmap(bitmap);
+                });
 
             });
             thread.start();
@@ -291,42 +271,5 @@ public class Fragment_profile_user extends Fragment {
             }
         }));
         builder.show();
-    }
-    public void load_data(){
-//        root= FirebaseDatabase.getInstance().getReference();
-        root.child("Users").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
-                    datauser.add(new User(Integer.parseInt(String.valueOf(dataSnapshot.child("id").getValue())),  String.valueOf(dataSnapshot.child("email").getValue()),String.valueOf(dataSnapshot.child("nama").getValue()),String.valueOf(dataSnapshot.child("telepon").getValue()),String.valueOf(dataSnapshot.child("alamat").getValue()),String.valueOf(dataSnapshot.child("password").getValue()),String.valueOf(dataSnapshot.child("jenis_kelamin").getValue())));
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-        for (int i = 0; i < datauser.size(); i++) {
-            if(datauser.get(i).getId()==u.id){
-                txtemail.setText(datauser.get(i).getEmail());
-                txtjeniskelamin.setText(datauser.get(i).getJenis_kelamin());
-                edtnama.setText(datauser.get(i).getNama());
-                edtalamat.setText(datauser.get(i).getAlamat());
-                edttelepon.setText(datauser.get(i).getTelepon());
-                edtpassword.setText(datauser.get(i).getPassword());
-                if(datauser.get(i).getUrl().equals("")){
-
-                }else{
-                    Glide.with(getContext()).load(datauser.get(i).getUrl()).into(img);
-                }
-            }
-        }
-//            txtemail.setText(u.sedang_login.getEmail());
-//            txtjeniskelamin.setText(u.sedang_login.getJenis_kelamin());
-//            edtnama.setText(u.sedang_login.getNama());
-//            edtalamat.setText(u.sedang_login.getAlamat());
-//            edttelepon.setText(u.sedang_login.getTelepon());
-//            edtpassword.setText(u.sedang_login.getPassword());
     }
 }
